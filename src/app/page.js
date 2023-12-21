@@ -15,6 +15,7 @@ export default function Home() {
   const [name, setName] = useState('Dylan');
 
 let movieId = 11;
+let searchQuery = 'Star Wars';
 
   return (
     <main className={styles.main}>
@@ -28,6 +29,9 @@ let movieId = 11;
       <hr />
       <h3>Recommendations based on Star Wars</h3>
       <Results resultsLength={15} resultsRoute={`/movies/movie/${movieId}/recommendations`}/>
+      <hr /> 
+      <h3>Search results for 'Star Wars'</h3>
+      <Results resultsLength={15} resultsRoute={`/movies/search/${searchQuery}`}/>
       
     </main>
   );
