@@ -10,14 +10,16 @@
 .box {
     display: flex;
     flex-direction: row;
-    width: 200px;
+    width: 175px;
     transition: all 0.3s ease-in-out;
     position: relative;
     border-radius: 25px;
 }
 
 .expandedBox {
-    width: 425px;
+    display: flex;
+    flex-direction: row;
+    width: 370px;
     transition: width 0.3s ease-in-out;
     border-radius: 25px;
     background-color: rgb(41, 40, 40);
@@ -25,17 +27,18 @@
 .expandedBox:hover {
     cursor: pointer;
 }
-
-.body {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: row;
-}
-
-.image {
-    width: 200px;
+.imageContainer {
+    display:contents;
+    
+    flex-direction: column;
+    width: 175px;
     border-radius: 25px;
-    flex-shrink: 0;
+    background-color: rgb(41, 40, 40);
+    transition: background-color 0.3s ease-in-out;
+}
+.image {
+    width: 175px;
+    border-radius: 25px;
     transition: filter 0.3s ease-in-out;
 }
 
@@ -45,14 +48,15 @@
 }
 
 .details {
+    position: relative;
     display: flex;
+    width: 50%;
+    height: 262.5px;
     flex-direction: column;
     box-sizing: border-box;
+    
 }
-
 .infoOverlay {
-    position: absolute;
-    bottom: 10px;
     left: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
@@ -60,27 +64,54 @@
     padding: 5px;
     text-align: center;
 }
-
+.titleContainer {
+    display: flex;
+    flex-direction: row;
+    min-height: 7%;
+    max-height: 15%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    padding: 5px 0 0 0;
+}
 .title {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
     padding: 0 10px;
-}
-
-.summary {
-    position: relative;
-    font-size: 12px;
-    height: 300px;
+    white-space: nowrap;
     overflow: hidden;
-    padding: 10px;
+    text-overflow: ellipsis;
 }
 
-.info {
-    position:absolute;
-    bottom: 0;
+
+.summaryContainer {
+    font-size: 12px;
+    max-height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 0 7px;
+    margin-bottom: 18px;
+    background-color: rgb(66, 64, 64);
+}
+.summaryContainer::-webkit-scrollbar {
+    width: 7px;
+}
+.summaryContainer::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 25px;
+}
+.infoContainer {
+    position: absolute;
+    bottom: 5px;  
+    width: 100%;
+    max-height: fill-available;
     display: flex;
-    flex-direction: column;
-    margin: 10px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
+.stat {
+    font-size: 10px;
+    margin: auto;
+}
