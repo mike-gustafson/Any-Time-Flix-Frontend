@@ -14,16 +14,21 @@ export default function Home() {
   const [age, setAge] = useState(null);
   const [name, setName] = useState('Dylan');
 
+let movieId = 11;
 
   return (
     <main className={styles.main}>
+      <NavBar/>
       <h1 className={styles.title}>Welcome to Any Time Flix</h1>
       <h3>Popular</h3>
       <Results resultsLength={14} resultsRoute={`/movies/popular`}/>
       <hr />
       <h3>Now Playing</h3>
       <Results resultsLength={14} resultsRoute={`/movies/now-playing`}/>
-      <NavBar/>
+      <hr />
+      <h3>Recommendations based on Star Wars</h3>
+      <Results resultsLength={15} resultsRoute={`/movies/movie/${movieId}/recommendations`}/>
+      
     </main>
   );
 }

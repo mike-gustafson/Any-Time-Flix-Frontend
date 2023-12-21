@@ -11,8 +11,8 @@
     display: flex;
     flex-direction: row;
     width: 175px;
-    transition: all 0.3s ease-in-out;
     position: relative;
+    transition: width 0.3s ease-in-out;
     border-radius: 25px;
 }
 
