@@ -2,12 +2,12 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import style from '../styles/results.module.css';
 
-export default function Results() {
+export default function Results({resultsLength, resultsRoute}) {
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/popular`)
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
             .then((data) => setData(data));
     }, []);
@@ -23,7 +23,7 @@ export default function Results() {
     if (!data) return <p>Loading or no data available...</p>;
     return (
         <div className={style.container}>
-            {data.results.map((movie) => {
+            {data.results.slice(0, resultsLength).map((movie) => {
                 const rating = movie.vote_average.toFixed(1);
                 const releaseDate = new Date(movie.release_date);
                 const formattedReleaseDate = `${(releaseDate.getMonth() + 1).toString().padStart(2, '0')}/${releaseDate.getDate().toString().padStart(2, '0')}/${releaseDate.getFullYear()}`;
