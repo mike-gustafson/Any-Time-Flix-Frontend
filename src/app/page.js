@@ -15,23 +15,23 @@ export default function Home() {
   const [name, setName] = useState('Dylan');
 
 let movieId = 11;
-let searchQuery = 'Star Wars';
+let searchQuery = 'hacker';
 
   return (
     <main className={styles.main}>
       <NavBar/>
       <h1 className={styles.title}>Welcome to Any Time Flix</h1>
-      <h3>Popular</h3>
+      <h3 className={styles.sectionTitle}>Popular</h3>
       <Results resultsLength={14} resultsRoute={`/movies/popular`}/>
       <hr />
-      <h3>Now Playing</h3>
+      <h3 className={styles.sectionTitle}>Now Playing</h3>
       <Results resultsLength={14} resultsRoute={`/movies/now-playing`}/>
       <hr />
-      <h3>Recommendations based on Star Wars</h3>
+      <h3 className={styles.sectionTitle}>Recommendations based on Star Wars</h3>
       <Results resultsLength={15} resultsRoute={`/movies/movie/${movieId}/recommendations`}/>
       <hr /> 
-      <h3>Search results for 'Star Wars'</h3>
-      <Results resultsLength={15} resultsRoute={`/movies/search/${searchQuery}`}/>
+      <h3 className={styles.sectionTitle}>Search results for 'Hacker'</h3>
+      <Results resultsLength={20} resultsRoute={`/movies/search/${searchQuery}`}/>
       
     </main>
   );
