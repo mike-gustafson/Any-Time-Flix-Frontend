@@ -18,8 +18,11 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Welcome to Any Time Flix</h1>
-     
-      {/* <Results /> */}
+      <h3>Popular</h3>
+      <Results resultsLength={14} resultsRoute={`/movies/popular`}/>
+      <hr />
+      <h3>Now Playing</h3>
+      <Results resultsLength={14} resultsRoute={`/movies/now-playing`}/>
       <NavBar/>
     </main>
   );
