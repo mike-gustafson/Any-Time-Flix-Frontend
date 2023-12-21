@@ -10,17 +10,26 @@ import NavBar from './components/NavBar';
 // the page
 
 export default function Home() {
-  // state is what the data is representing in realtime
-  const [age, setAge] = useState(null);
-  const [name, setName] = useState('Dylan');
 
-let movieId = 11;
-let searchQuery = 'hacker';
+    let movieId = 11;
+  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [resultsKey, setResultsKey] = useState(1);
+
+    
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setResultsKey(resultsKey + 1);
+  };
 
   return (
     <main className={styles.main}>
-      <NavBar/>
+      <NavBar onSearch={handleSearch}/>
       <h1 className={styles.title}>Welcome to Any Time Flix</h1>
+      <hr /> 
+      <h3 className={styles.sectionTitle}>Search results for &apos;{searchQuery}&apos;</h3>
+      <Results key={resultsKey} resultsLength={20} resultsRoute={`/movies/search/${searchQuery}`}/>
+      <hr /> 
       <h3 className={styles.sectionTitle}>Popular</h3>
       <Results resultsLength={14} resultsRoute={`/movies/popular`}/>
       <hr />
@@ -29,9 +38,6 @@ let searchQuery = 'hacker';
       <hr />
       <h3 className={styles.sectionTitle}>Recommendations based on Star Wars</h3>
       <Results resultsLength={15} resultsRoute={`/movies/movie/${movieId}/recommendations`}/>
-      <hr /> 
-      <h3 className={styles.sectionTitle}>Search results for 'Hacker'</h3>
-      <Results resultsLength={20} resultsRoute={`/movies/search/${searchQuery}`}/>
       
     </main>
   );
