@@ -18,13 +18,15 @@ export default function EditUser() {
 	// TODO - Add state for email, number, streetAddress, city
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
+	const [userName, setUserName] = useState('');
+
 	const [email, setEmail] = useState('');
-	const [jobTitle, setJobTitle] = useState('');
-	const [number, setNumber] = useState('');
-	const [streetAddress, setStreetAddress] = useState('');
+	const [password, setPassword] = useState('');
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('');
-	const [zipCode, setZipCode] = useState('');
+	const [country, setCountry] = useState('');
+	const [bio, setBio] = useState('');
+
 
 	setAuthToken(localStorage.getItem('jwtToken'));
 
@@ -54,20 +56,17 @@ export default function EditUser() {
 		setEmail(e.target.value);
 	};
 
-	const handleJobTitle = (e) => {
+	const handlePassword = (e) => {
 		// fill in code
-		setJobTitle(e.target.value);
+		setPassword(e.target.value);
 	};
 
-	const handleNumber = (e) => {
+
+	const handleUserName = (e) => {
 		// fill in code
-		setNumber(e.target.value);
+		setUserName(e.target.value);
 	};
 
-	const handleStreetAddress = (e) => {
-		// fill in code
-		setStreetAddress(e.target.value);
-	};
 
 	const handleCity = (e) => {
 		// fill in code
@@ -79,10 +78,16 @@ export default function EditUser() {
 		setState(e.target.value);
 	};
 
-	const handleZipCode = (e) => {
+	const handleCountry = (e) => {
 		// fill in code
-		setZipCode(e.target.value);
+		setCountry(e.target.value);
 	};
+	const handleBio = (e) => {
+		// fill in code
+		setBio(e.target.value);
+	};
+
+
 
 	const handleSubmit = (e) => {
 		// fill in code
@@ -94,12 +99,12 @@ export default function EditUser() {
 			firstName,
 			lastName,
 			email,
-			number,
-			jobTitle,
-			streetAddress,
+			password,
+			userName,
 			city,
 			state,
-			zipCode
+			country,
+			bio
 		};
 		axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/${data._id}`, updateUserObject)
 			.then(response => {
