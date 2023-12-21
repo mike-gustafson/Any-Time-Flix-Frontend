@@ -1,0 +1,86 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: white;
+    justify-content: left;
+    width: 90vw;
+}
+
+.box {
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    border-radius: 25px;
+}
+
+.expandedBox {
+    width: 425px;
+    transition: width 0.3s ease-in-out;
+    border-radius: 25px;
+    background-color: rgb(41, 40, 40);
+}
+.expandedBox:hover {
+    cursor: pointer;
+}
+
+.body {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.image {
+    width: 200px;
+    border-radius: 25px;
+    flex-shrink: 0;
+    transition: filter 0.3s ease-in-out;
+}
+
+.box:hover .image {
+    filter: brightness(0.7);
+    cursor: pointer;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.infoOverlay {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.summary {
+    position: relative;
+    font-size: 12px;
+    height: 300px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.info {
+    position:absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
