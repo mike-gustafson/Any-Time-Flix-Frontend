@@ -5,7 +5,7 @@ import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import setAuthToken from './utils/setAuthToken';
 import Results from './components/Results';
-
+import NavBar from './components/NavBar';
 // we are going to be fetching data from our API and displaying it on
 // the page
 
@@ -18,7 +18,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Welcome to Any Time Flix</h1>
-      <Results />
+     
+      {/* <Results /> */}
+      <NavBar/>
     </main>
   );
 }
