@@ -1,5 +1,4 @@
-.input_wrapper{
-    /* position: fixed; */
+.search-input {
     background-color: white;
     width: 100%;
     border-radius: 10px;
@@ -9,16 +8,19 @@
     display: flex;
     align-items: center;
 }
-.input{
-    background-color: transparent;
+
+/* .input {
+    background-color: white;
     border: none;
-    height: 100%;
     font-size: 1.25rem;
     width: 100%;
-    margin-left: 5px;
-}
+    height: 100%; /* Ensure the input takes up the full height */
+    /* margin-left: 5px;
+    outline: none;
+} */ 
 
-.input:focus{
+
+/* .input:focus{
     outline: none;
 
-}
+} */
