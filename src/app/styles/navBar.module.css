@@ -1,0 +1,9 @@
+.main-wrapper{
+    background: linear-gradient(to right, rgb(143,17,32), rgb(214,79,90));
+}
+
+.main-wrapper header h2 {
+    font-family: 'montserrat','sans-serif';
+    font-weight: 700;
+    font-size: 40px;
+}
