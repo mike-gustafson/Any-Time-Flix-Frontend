@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import setAuthToken from './utils/setAuthToken';
 import Results from './components/Results';
 import NavBar from './components/NavBar';
-
+import Tabs from './components/Tabs';
 export default function Home() {
 
   let movieId = 11;
@@ -32,9 +32,11 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <NavBar handleSearch={handleSearch} />
+      
       <h1 className={styles.title}>Welcome to Any Time Flix</h1>
       <hr /> 
+      <NavBar handleSearch={handleSearch} />
+      <Tabs/>
       <h3 className={styles.sectionTitle}>Search results for &apos;{searchQuery}&apos;</h3>
       <Results key={resultsKey} resultsLength={20} resultsRoute={`/movies/search/${searchQuery}`}/>
       <hr /> 
