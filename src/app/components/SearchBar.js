@@ -1,18 +1,29 @@
-import React from 'react';
-import '../styles/searchBar.module.css'
+import React, { useState } from 'react';
+import style from '../styles/SearchBar.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchBar({handleInput, SearchResult}){
-    return(
-        <div className='search-input mt-3 mb-5'>
-            
-            <SearchIcon id='search-icon'/>
-            <input type= 'text' name="movie" className='w-50 p-2' placeholder='find movies' onChange={handleInput}
-            onKeyDown={SearchResult}>
-                
-            </input>
-            
+export default function SearchBar({ handleSearch }) {
+    const [search, setSearch] = useState('');
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the form submission
+            handleSearch(search);
+        }
+    };
+
+    return (
+        <div className={style.container}>
+            <SearchIcon className={style.icon} />
+            <input
+                type="text"
+                name="movie"
+                className={style.input + " w-50 p-2"}
+                placeholder="find movies"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+            />
         </div>
-        
-    )
+    );
 }

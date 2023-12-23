@@ -2,7 +2,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    color: white;
     justify-content: left;
     width: 90vw;
 }
@@ -14,6 +13,7 @@
     position: relative;
     transition: width 0.3s ease-in-out;
     border-radius: 25px;
+    border: 1px solid black;
 }
 
 .expandedBox {
@@ -22,7 +22,9 @@
     width: 370px;
     transition: width 0.3s ease-in-out;
     border-radius: 25px;
-    background-color: rgb(41, 40, 40);
+    background-color: rgb(192, 189, 189);
+    
+    border: 1px solid black;
 }
 .expandedBox:hover {
     cursor: pointer;
@@ -38,6 +40,7 @@
 }
 .image {
     width: 175px;
+    height: auto;
     border-radius: 25px;
     transition: filter 0.3s ease-in-out;
 }
@@ -59,8 +62,7 @@
 .infoOverlay {
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    background-color: rgba(162, 162, 162, 0.5);
     padding: 5px;
     text-align: center;
 }
@@ -92,7 +94,7 @@
     overflow-y: scroll;
     padding: 0 7px;
     margin-bottom: 18px;
-    background-color: rgb(66, 64, 64);
+    background-color: rgb(192, 189, 189);
 }
 .summaryContainer::-webkit-scrollbar {
     width: 7px;
@@ -105,7 +107,7 @@
     position: absolute;
     bottom: 5px;  
     width: 100%;
-    max-height: fill-available;
+    max-height: stretch;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

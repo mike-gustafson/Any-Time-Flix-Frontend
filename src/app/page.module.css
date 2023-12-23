@@ -5,13 +5,24 @@
   align-items: left;
   padding: 2rem;
   min-height: 100vh;
+  background-color: white;;
+}
+.title {
+  display: flex;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: black;
+  width: stretch;
+  align-items: center;
+  justify-content: center;
 }
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
   width: 100%;
-  color: red;
+  color: black;
   text-decoration: underline;
 }
 .description {
@@ -31,7 +42,6 @@
   align-items: center;
   gap: 0.5rem;
 }
-
 .description p {
   position: relative;
   margin: 0;
@@ -40,19 +50,16 @@
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
 }
-
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(25%, auto));
   width: var(--max-width);
   max-width: 100%;
 }
-
 .card {
   padding: 1rem 1.2rem;
   border-radius: var(--border-radius);
