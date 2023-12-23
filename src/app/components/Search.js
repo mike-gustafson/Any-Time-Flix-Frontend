@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import style from '../styles/SearchBar.module.css';
+import style from '../styles/Search.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchBar({ handleSearch }) {
+export default function Search({ handleSearch }) {
     const [search, setSearch] = useState('');
 
     const handleKeyDown = (event) => {

@@ -1,48 +1,92 @@
 'use client'
-import 'bulma/css/bulma.min.css'; // What is this CSS file? Where is it used?
-import Image from 'next/image';
-import styles from './page.module.css';
-import { useEffect, useState } from 'react';
+import 'bulma/css/bulma.min.css';
+import style from './page.module.css';
+import { useState } from 'react';
 import setAuthToken from './utils/setAuthToken';
 import Results from './components/Results';
-import NavBar from './components/NavBar';
-import Tabs from './components/Tabs';
-export default function Home() {
+import Nav from './components/Nav';
 
+export default function Home() {
   let movieId = 11;
-  
+
+  // tabs item click handler
+  const [activeView, setActiveView] = useState('Now Playing');
   const [searchQuery, setSearchQuery] = useState('');
   const [resultsKey, setResultsKey] = useState(1);
 
-    
+  const handleTabChange = (selectedTab) => {
+    setActiveView(selectedTab);
+    setResultsKey(resultsKey + 1);
+    clearSearchQuery();
+  };
+
   const handleSearch = (query) => {
     setSearchQuery(query);
     setResultsKey(resultsKey + 1);
   };
 
-  function renderResultsSection(title, length, route) {
-    return (
-      <>
-        <h3 className={styles.sectionTitle}>{title}</h3>
-        <Results resultsLength={length} resultsRoute={route} />
-        <hr />
-      </>
-    );
-  }
+  const clearSearchQuery = () => {
+    setSearchQuery('');
+  };
+
+  // render content based on active tab or search
+  const renderContent = () => {
+    if (searchQuery) {
+      return (
+        <Results
+          key={resultsKey}
+          resultsLength={20}
+          resultsRoute={`/movies/search/${searchQuery}`}
+        />
+      );
+    } else {
+      if (activeView === 'Now Playing') {
+        return (
+          <Results
+            key={resultsKey}
+            resultsLength={14}
+            resultsRoute="/movies/now-playing"
+          />
+        );
+      } else if (activeView === 'Popular') {
+        return (
+          <Results
+            key={resultsKey}
+            resultsLength={10}
+            resultsRoute="/movies/popular"
+          />
+        );
+      } else if (activeView === 'Recommended') {
+        return (
+          <Results
+            key={resultsKey}
+            resultsLength={7}
+            resultsRoute={`/movies/movie/${movieId}/recommendations`}
+          />
+        );
+      }
+    }
+  };
 
   return (
-    <main className={styles.main}>
-      
-      <h1 className={styles.title}>Welcome to Any Time Flix</h1>
-      <hr /> 
-      <NavBar handleSearch={handleSearch} />
-      <Tabs/>
-      <h3 className={styles.sectionTitle}>Search results for &apos;{searchQuery}&apos;</h3>
-      <Results key={resultsKey} resultsLength={20} resultsRoute={`/movies/search/${searchQuery}`}/>
-      <hr /> 
-      {renderResultsSection('Popular', 14, '/movies/popular')}
-      {renderResultsSection('Now Playing', 14, '/movies/now-playing')}
-      {renderResultsSection('Recommendations based on Star Wars', 15, `/movies/movie/${movieId}/recommendations`)}
+    <main className={style.wrapper}>
+      <div className={style.navBar}>
+        <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
+      </div>
+      <div className={style.main}>
+        <h3 className={style.sectionTitle}>
+          {searchQuery
+            ? `Search results for '${searchQuery}'`
+            : activeView === 'Now Playing'
+            ? 'Now Playing'
+            : activeView === 'Popular'
+            ? 'Popular'
+            : activeView === 'Recommended'
+            ? 'Recommended'
+            : ''}
+        </h3>
+        {renderContent()}
+      </div>
     </main>
   );
 }

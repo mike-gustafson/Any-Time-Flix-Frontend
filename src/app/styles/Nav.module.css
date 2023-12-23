@@ -1,0 +1,42 @@
+/* THIS IS UNUSED.  DO WE NEED IT? */
+/*---------------------------------*/
+    /* .main-wrapper{
+        background: linear-gradient(to right, rgb(143,17,32), rgb(214,79,90));
+    }
+    .main-wrapper header h2 {
+        font-family: 'montserrat','sans-serif';
+        font-weight: 700;
+        font-size: 40px;
+    } */
+/*---------------------------------*/
+
+.container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    background-color: black;
+}
+.title {
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: 1rem;
+}
+.title > h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.tabs {
+    align-items: center;
+    justify-content: center;
+    width: stretch;
+}
+.search {
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
