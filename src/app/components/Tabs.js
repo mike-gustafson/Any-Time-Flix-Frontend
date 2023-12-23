@@ -24,6 +24,7 @@ export default function Tabs({ handleTabChange }) {
             <BottomNavigationAction label="Now Playing" icon={<LiveTvIcon />} value="Now Playing" className={style.icon} />
             <BottomNavigationAction label="Popular" icon={<AutoAwesomeIcon />} value="Popular" className={style.icon} />
             <BottomNavigationAction label="Recommended" icon={<SavedSearchIcon />} value="Recommended" className={style.icon} />
+            <BottomNavigationAction label="Movie Details" icon={<SavedSearchIcon />} value="MovieDetails" className={style.icon} />
         </BottomNavigation>
     );
 }
