@@ -30,7 +30,7 @@ export default function Results({resultsLength, resultsRoute}) {
                 return (
                     <div key={movie.id} className={selectedMovieId === movie.id ? style.expandedBox : style.box} onClick={() => handleMovieClick(movie.id)}>
                         <div className={style.imageContainer}>
-                            <Image src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} width={175} height={262.5} className={style.image} alt="" />
+                            <Image src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} width={175} height={262.5} className={style.image} alt={`${movie.title}`} />
                         </div>
                         {selectedMovieId === movie.id && (
                             <div className={style.details}>
