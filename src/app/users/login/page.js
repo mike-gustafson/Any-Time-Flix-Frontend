@@ -68,10 +68,6 @@ export default function Login() {
 
     return (
         <div className="container">
-            <br />
-            <br />
-            <br />
-            <br />
             <div className="row justify-content-center">
                 <div className="col-md-8">
                     <div className="card-group mb-0">
