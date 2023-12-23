@@ -13,7 +13,7 @@
     position: relative;
     transition: width 0.3s ease-in-out;
     border-radius: 25px;
-    border: 1px solid black;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
 .expandedBox {
@@ -23,8 +23,7 @@
     transition: width 0.3s ease-in-out;
     border-radius: 25px;
     background-color: rgb(192, 189, 189);
-    
-    border: 1px solid black;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
 }
 .expandedBox:hover {
     cursor: pointer;

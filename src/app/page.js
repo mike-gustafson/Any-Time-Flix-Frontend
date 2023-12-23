@@ -6,13 +6,14 @@ import setAuthToken from './utils/setAuthToken';
 import Results from './components/Results';
 import Nav from './components/Nav';
 import MovieDetails from './components/MovieDetails';
+import Homepage from './components/Homepage';
 import { Movie } from '@mui/icons-material';
 
 export default function Home() {
   let movieId = 11;
 
   // tabs item click handler
-  const [activeView, setActiveView] = useState('Now Playing');
+  const [activeView, setActiveView] = useState('Homepage');
   const [searchQuery, setSearchQuery] = useState(''); // Default value is empty string
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [resultsLength, setResultsLength] = useState(10); // Default value is 10
@@ -75,6 +76,10 @@ export default function Home() {
       } else if  (activeView === 'MovieDetails') {
         return (
           <MovieDetails />
+        );
+      } else if (activeView === 'Homepage') {
+        return (
+          <Homepage />
         );
       }
     }

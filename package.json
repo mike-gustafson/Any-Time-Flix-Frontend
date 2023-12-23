@@ -1,6 +1,6 @@
 {
-  "name": "baby-dylan-first-app",
-  "version": "0.1.0",
+  "name": "Any Time Flix",
+  "version": "0.6.9",
   "private": true,
   "scripts": {
     "dev": "next dev",
