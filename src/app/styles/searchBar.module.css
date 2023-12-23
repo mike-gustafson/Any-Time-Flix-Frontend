@@ -1,27 +1,31 @@
-.search-input {
+.container {
     background-color: white;
     width: 100%;
-    border-radius: 10px;
-    height: 2.5rem;
-    padding: 0 15px;
-    box-shadow: 0px 0px 8px #ddd;
+    height: 100%;
+    margin: 0;
+    padding: 0 0 0 10px;
+    border-radius: 25px;
     display: flex;
     align-items: center;
-/* .input {
-    background-color: white;
+    border: 1px solid black;
+}
 
-/* .input {
-    background-color: white;
+.input {
+    color: black;
     border: none;
-    font-size: 1.25rem;
-    width: 100%;
-    height: 100%; /* Ensure the input takes up the full height */
-    /* margin-left: 5px;
-    outline: none;
-} */ 
+    height: 2.5rem;
+    padding: 0 15px;
+    width:fill-available;
+    background: transparent;
+    font-size: 20px;
+} 
 
+.input:focus{
+    outline: none;  
+}
 
-/* .input:focus{
-    outline: none;
-
-} */
+.icon {
+    color: black;
+    font-size: 1.5rem;
+    margin: auto 0;
+}

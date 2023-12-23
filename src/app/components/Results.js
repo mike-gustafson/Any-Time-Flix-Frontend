@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import style from '../styles/results.module.css';
+import style from '../styles/Results.module.css';
 
 export default function Results({resultsLength, resultsRoute}) {
     const [data, setData] = useState(null);
