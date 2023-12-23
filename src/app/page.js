@@ -85,6 +85,7 @@ export default function Home() {
             ? 'Recommended'
             : ''}
         </h3>
+        <hr />
         {renderContent()}
       </div>
     </main>
