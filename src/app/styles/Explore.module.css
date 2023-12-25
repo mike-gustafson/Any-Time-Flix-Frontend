@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: stretch;
+}
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 20%;
+    background-color: white;
+}
+.main {
+    display: flex;
+    position:relative;
+    flex-direction: column;
+    width: stretch;
+    background-color: white;
+    overflow-y: auto;
+    padding: 20px;
+}
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 82%;
+    margin: 7px 0;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+.icon {
+    display: flex;
+    margin: 8px;
+    flex-direction: row;
+    align-items: center;
+    font-size: 32px;
+    color: goldenrod;
+    background-color: white;
+    height: 32px;
+    justify-content: center;
+    border-radius: 25px;
+    padding: 4px;
+}
+.link:hover {
+    background-color: #e0e0e0;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.link:hover > .icon {
+    background-color: rgb(85, 85, 85);
+}
+.activeLink {
+    background-color: rgb(154, 153, 153);
+    color: white;
+}
+.activeLink > .icon {
+    background-color: #f0f0f0;
+}
+.sidebarBody{
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    width: inherit;
+}

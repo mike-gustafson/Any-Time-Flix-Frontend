@@ -6,13 +6,15 @@ export default function Nav({ handleTabChange, handleSearch }) {
 
   return (
     <div className={style.container}>
-      <div  className={style.title}>
+      <div className={style.title}>
         <h1>Any Time Flix</h1>
       </div>
-      <div  className={style.tabs}>
+      <div className={style.tabsContainer}>
+      <div className={style.tabs}>
       <Tabs handleTabChange={handleTabChange} />
       </div>
-      <div  className={style.search}>
+      </div>
+      <div className={style.search}>
         <Search handleSearch={handleSearch} />
       </div>
     </div>

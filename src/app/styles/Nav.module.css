@@ -18,10 +18,19 @@
     font-weight: bold;
     white-space: nowrap;
 }
+.tabsContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: stretch;
+    margin-left: 1rem;
+}
 .tabs {
     align-items: center;
     justify-content: center;
-    width: stretch;
+    width: fit-content;
 }
 .search {
     align-items: center;
