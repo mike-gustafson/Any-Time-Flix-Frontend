@@ -1,19 +1,20 @@
 'use client'
-import 'bulma/css/bulma.min.css';
 import style from './page.module.css';
 import { useState } from 'react';
 import setAuthToken from './utils/setAuthToken';
+
+// Components
 import Results from './components/Results';
 import Nav from './components/Nav';
 import MovieDetails from './components/MovieDetails';
 import Homepage from './components/Homepage';
-import { Movie } from '@mui/icons-material';
+import Explore from './components/Explore';
 
 export default function Home() {
   let movieId = 11;
 
   // tabs item click handler
-  const [activeView, setActiveView] = useState('Homepage');
+  const [activeView, setActiveView] = useState('Home');
   const [searchQuery, setSearchQuery] = useState(''); // Default value is empty string
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [resultsLength, setResultsLength] = useState(10); // Default value is 10
@@ -77,9 +78,19 @@ export default function Home() {
         return (
           <MovieDetails />
         );
-      } else if (activeView === 'Homepage') {
+      } else if (activeView === 'Home') {
         return (
           <Homepage />
+        );
+      } else if (activeView === 'Account') {
+        return (
+          <div>
+            <h1>Account</h1>
+          </div>
+        );
+      } else if (activeView === 'Explore') {
+        return (
+          <Explore />
         );
       }
     }
@@ -91,34 +102,6 @@ export default function Home() {
         <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
       </div>
       <div className={style.main}>
-        <div className={style.banner}>
-          <h3 className={style.title}>
-            {searchQuery
-              ? `Search results for '${searchQuery}'`
-              : activeView === 'Now Playing'
-              ? 'Now Playing'
-              : activeView === 'Popular'
-              ? 'Popular'
-              : activeView === 'MovieDetails'
-              ? 'Movie Details'
-              : activeView === 'Recommended'
-              ? 'Recommended'
-              : ''}
-          </h3>
-          <div className={style.resultsLengthMenu}>
-            <span className={style.resultsLabel}>Results Length </span>
-            <select
-              value={resultsLength}
-              onChange={(e) => handleResultsLengthChange(parseInt(e.target.value))}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-            </select>
-          </div>
-        </div>
-          <hr />
         {renderContent()}
       </div>
     </main>
