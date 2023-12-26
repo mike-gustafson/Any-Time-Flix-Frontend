@@ -17,7 +17,6 @@
     flex-direction: column;
     width: stretch;
     background-color: white;
-    overflow-y: auto;
     padding: 20px;
 }
 .link {

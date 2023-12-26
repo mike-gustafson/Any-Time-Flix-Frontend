@@ -5,7 +5,6 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,6 +29,7 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
+    z-index: 99;
 }
 .closeIcon {
     color: #333;

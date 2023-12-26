@@ -3,7 +3,7 @@ import React from 'react';
 import style from '../styles/MovieDetailsModal.module.css'; // Create a CSS file for modal styles
 import MovieDetails from './MovieDetails';
 
-export default function MovieDetailsModal({ movieId, onClose }) {
+export default function MovieDetailsModal({ movieId, onClose, renderContent }) {
     return (
         <div className={style.modalOverlay}>
             <div className={style.modalContent}>
@@ -14,6 +14,7 @@ export default function MovieDetailsModal({ movieId, onClose }) {
                 <MovieDetails movie={movieId}/>
                 )}
             </div>
+                {renderContent && renderContent()}
         </div>
     );
 }

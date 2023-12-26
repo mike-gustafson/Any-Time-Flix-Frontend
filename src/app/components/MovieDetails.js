@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import style from '../styles/MovieDetails.module.css';
 import Results from './Results';
 import Image from 'next/image';
-import MovieDetailsDataBox from './explore/MovieDetailsDataBox';
 
 export default function Movie({ movie }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
@@ -17,37 +16,30 @@ export default function Movie({ movie }) {
       });
   }, []);
 
-  const handleGenreClick = (genreName) => {
-    // Logic for handling genre click
-    console.log(`Navigate to ${genreName} movies`);
+  const createCreditMap = (credits) => {
+    const creditMap = {};
+    if (fetchedMovie) {
+      credits.forEach((credit) => {
+        const { id, name, job, character } = credit;
+        if (!creditMap[id]) {
+          creditMap[id] = { name, jobs: [], characters: [] };
+        }
+        if (job) {
+          creditMap[id].jobs.push(job);
+        }
+        if (character) {
+          creditMap[id].characters.push(character);
+        }
+      });
+    }
+    return creditMap;
   };
 
-  // Create a mapping of crew and cast names to their combined characters or jobs
-  const crewCreditsMap = {};
-  const castCreditsMap = {};
+  const castCreditsMap = createCreditMap(fetchedMovie?.credits.cast);
+  const crewCreditsMap = createCreditMap(fetchedMovie?.credits.crew);
 
-  if (fetchedMovie) {
-    // Iterate through crew credits
-    fetchedMovie.credits.crew.forEach((crew) => {
-      const { id, name, job } = crew;
-      if (!crewCreditsMap[id]) {
-        crewCreditsMap[id] = { name, jobs: [] };
-      }
-      crewCreditsMap[id].jobs.push(job);
-    });
-  
-    // Iterate through cast credits
-    fetchedMovie.credits.cast.forEach((cast) => {
-      const { id, name, character } = cast;
-      if (!castCreditsMap[id]) {
-        castCreditsMap[id] = { name, characters: [] };
-      }
-      castCreditsMap[id].characters.push(character);
-    });
-  }
-
-  // Generate unique alphanumeric IDs for cast and crew members with undefined or fake IDs
   let nextFakeId = 1;
+
   Object.values(castCreditsMap).forEach((cast) => {
     if (!cast.id) {
       cast.id = `fakeid${nextFakeId.toString().padStart(8, '0')}`;
