@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 2.5rem;
+    width: stretch;
     margin: 0;
 }
 .icon {
@@ -16,4 +17,5 @@
 }
 .icon:hover {
     color: goldenrod;
+    cursor: pointer;
 }

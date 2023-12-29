@@ -75,13 +75,10 @@ export default function Home() {
   };
 
   return (
-    
     <main className={style.wrapper}>  
     <div className={{ visibility: isFilterVisible ? 'visible' : 'hidden', ...style.dimmingOverlay}}> 
-    </div>   
-      <div className={style.navBar}>
+    </div>
         <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
-      </div>
       <div className={style.main}>
         {renderContent()}
       </div>

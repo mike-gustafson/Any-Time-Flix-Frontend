@@ -7,7 +7,7 @@ export default function Search({ handleSearch }) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent the form submission
+            event.preventDefault();
             handleSearch(search);
         }
     };
