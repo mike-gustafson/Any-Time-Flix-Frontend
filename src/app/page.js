@@ -18,6 +18,11 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState(''); // Default value is empty string
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [resultsLength, setResultsLength] = useState(10); // Default value is 10
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+  const toggleFilter = () => {
+    setIsFilterVisible(!isFilterVisible);
+  }
 
   const handleTabChange = (selectedTab) => {
     setActiveView(selectedTab);
@@ -47,6 +52,7 @@ export default function Home() {
           key={resultsKey}
           resultsLength={resultsLength}
           resultsRoute={`/movies/search/${searchQuery}`}
+          toggleFilter={toggleFilter}
         />
       );
     } else {
@@ -56,6 +62,7 @@ export default function Home() {
             key={resultsKey}
             resultsLength={resultsLength}
             resultsRoute="/movies/now-playing"
+            toggleFilter={toggleFilter}
           />
         );
       } else if (activeView === 'Popular') {
@@ -64,6 +71,7 @@ export default function Home() {
             key={resultsKey}
             resultsLength={resultsLength}
             resultsRoute="/movies/popular"
+            toggleFilter={toggleFilter}
           />
         );
       } else if (activeView === 'Recommended') {
@@ -72,6 +80,7 @@ export default function Home() {
             key={resultsKey}
             resultsLength={resultsLength}
             resultsRoute={`/movies/movie/${movieId}/recommendations`}
+            toggleFilter={toggleFilter}
           />
         );
       } else if  (activeView === 'MovieDetails') {
@@ -97,7 +106,10 @@ export default function Home() {
   };
 
   return (
-    <main className={style.wrapper}>
+    
+    <main className={style.wrapper}>  
+    <div className={{ visibility: isFilterVisible ? 'visible' : 'hidden', ...style.dimmingOverlay}}> 
+    </div>   
       <div className={style.navBar}>
         <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
       </div>

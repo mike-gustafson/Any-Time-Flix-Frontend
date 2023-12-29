@@ -168,6 +168,9 @@
           flex-direction: column;
           justify-content: left;
           font-size: 12px;
+          
+          margin: 0 0 -2px 0 ;
+
         }
           .character {
             display: flex;
