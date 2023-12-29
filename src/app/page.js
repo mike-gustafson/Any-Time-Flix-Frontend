@@ -56,38 +56,7 @@ export default function Home() {
         />
       );
     } else {
-      if (activeView === 'Now Playing') {
-        return (
-          <Results
-            key={resultsKey}
-            resultsLength={resultsLength}
-            resultsRoute="/movies/now-playing"
-            toggleFilter={toggleFilter}
-          />
-        );
-      } else if (activeView === 'Popular') {
-        return (
-          <Results
-            key={resultsKey}
-            resultsLength={resultsLength}
-            resultsRoute="/movies/popular"
-            toggleFilter={toggleFilter}
-          />
-        );
-      } else if (activeView === 'Recommended') {
-        return (
-          <Results
-            key={resultsKey}
-            resultsLength={resultsLength}
-            resultsRoute={`/movies/movie/${movieId}/recommendations`}
-            toggleFilter={toggleFilter}
-          />
-        );
-      } else if  (activeView === 'MovieDetails') {
-        return (
-          <MovieDetails />
-        );
-      } else if (activeView === 'Home') {
+      if (activeView === 'Home') {
         return (
           <Homepage />
         );
