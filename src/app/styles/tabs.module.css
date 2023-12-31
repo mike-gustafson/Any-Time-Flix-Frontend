@@ -1,17 +1,21 @@
 .container {
-    background-color: black;
-    width: 100%;
-    height: 2.5rem;
-    margin: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: black;
+    height: 2.5rem;
+    width: stretch;
+    margin: 0;
 }
 .icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: cyan;
-    background-color: black;
+    height: 100%;
+    width: 100px;
 }
 .icon:hover {
     color: goldenrod;
-    background-color: black;
+    cursor: pointer;
 }

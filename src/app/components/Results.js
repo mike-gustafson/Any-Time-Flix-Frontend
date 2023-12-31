@@ -3,79 +3,81 @@ import Image from 'next/image';
 import style from '../styles/Results.module.css';
 import MovieDetailsModal from './MovieDetailsModal';
 
-export default function Results({ resultsLength, resultsRoute }) {
+export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [clickedLearnMore, setClickedLearnMore] = useState(null);
-    const [modalComponent, setModalComponent] = useState(null); // State for the modal component
-
+    const [modalContent, setModalContent] = useState(null);
+    
+    // Fetches movie data from server based on results route
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
             .then((data) => setData(data));
-    }, []);
+    }, [resultsRoute]);
 
-    const handleMovieClick = (id, isLearnMoreClick) => {
+
+    // Expands or Collapses movie box on click
+    const handleBoxClick = (id) => {
         if (selectedMovieId === id) {
-            if (!isLearnMoreClick) {
-                setSelectedMovieId(null);
-                setIsModalOpen(false);
-                setModalComponent(null); // Clear the modal component
-            } else {
-                setClickedLearnMore(id);
-                setIsModalOpen(true);
-                setModalComponent(
-                    <MovieDetailsModal
-                        movieId={id}
-                        onClose={() => {
-                            setIsModalOpen(false);
-                            setSelectedMovieId(null);
-                            setModalComponent(null);
-                        }}
-                    />
-                );
-            }
-        } else {
-            setSelectedMovieId(id);
-            setIsModalOpen(false);
-            setModalComponent(null); // Clear the modal component for other movies
+            setSelectedMovieId(null)
+        } else { 
+            setSelectedMovieId(id)
         }
-        setClickedLearnMore(null);
     };
 
+    const handleOnClose = () => {
+        setModalContent(null);
+        console.log('handleOnClose called at Results.js.  toggleFilter called, setModalContent(null) called')
+        toggleFilter();
+    };
+
+    // Opens movie details in modal when "Learn More" is clicked
+    const handleLearnMoreClick = (id) => {
+        toggleFilter();
+        setModalContent(
+            <MovieDetailsModal 
+                movieId={id} 
+                onClose={handleOnClose} 
+                toggleFilter={toggleFilter}
+            />);
+    };
+
+    // placeholder while data is loading
     if (!data) return <p>Loading or no data available...</p>;
 
+    // Renders results based on fetched data
     return (
         <div className={style.container}>
             {data.results.slice(0, resultsLength).map((movie) => (
                 <div
                     key={movie.id}
                     className={selectedMovieId === movie.id ? style.expandedBox : style.box}
-                    onClick={() => handleMovieClick(movie.id, false)}
+                    onClick={() => handleBoxClick(movie.id)}
                 >
                     <div className={style.imageContainer}>
-                        <Image
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            width={175}
-                            height={262.5}
-                            className={style.image}
-                            alt={`${movie.title}`}
+                        <Image 
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+                            width={175} 
+                            height={262.5} 
+                            className={style.image} 
+                            alt={`${movie.title}`} 
                         />
+                        
                         {selectedMovieId === movie.id ? (
                             <div
                                 className={style.detailsLink}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    handleMovieClick(movie.id, true);
+                                    handleLearnMoreClick(movie.id);
                                 }}
                             >
                                 Learn More
                             </div>
                         ) : null}
                     </div>
+                    
                     {selectedMovieId === movie.id ? (
-                        <div className={style.details} onClick={() => handleMovieClick(movie.id)}>
+                        <div className={style.details}>
                             <div className={style.titleContainer}>
                                 <span className={style.title} title={movie.title}>
                                     {movie.title}
@@ -96,7 +98,7 @@ export default function Results({ resultsLength, resultsRoute }) {
                     ) : null}
                 </div>
             ))}
-            {modalComponent}
+            {modalContent}
         </div>
     );
 }

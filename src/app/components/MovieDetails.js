@@ -1,70 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import style from '../styles/MovieDetails.module.css';
 import Results from './Results';
 import Image from 'next/image';
-import MovieDetailsDataBox from './explore/MovieDetailsDataBox';
 
-export default function Movie({ movie }) {
+export default function MovieDetails({ movie, toggleFilter }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
+  const [isRecommendationsExpanded, setIsRecommendationsExpanded] = useState(false);
+
+  const fakeToggleFilter = () => {}
 
   useEffect(() => {
-    // Fetch additional movie data
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/movie/${movie}`)
       .then((res) => res.json())
       .then((data) => {
         setFetchedMovie(data);
-        console.log(data, 'data');
+        console.log('Data fetched for', data.original_title);
+      })
+      .catch((error) => {
+        console.error('Error fetching movie data:', error);
       });
-  }, []);
+  }, [movie]);
 
-  const handleGenreClick = (genreName) => {
-    // Logic for handling genre click
-    console.log(`Navigate to ${genreName} movies`);
+  const createCreditMap = (credits) => {
+    const creditMap = {};
+    credits.forEach((credit) => {
+      const { id, name, job, character } = credit;
+      if (!creditMap[id]) {
+        creditMap[id] = { name, jobs: [], characters: [] };
+      }
+      if (job) {
+        creditMap[id].jobs.push(job);
+      }
+      if (character) {
+        creditMap[id].characters.push(character);
+      }
+    });
+    return creditMap;
   };
 
-  // Create a mapping of crew and cast names to their combined characters or jobs
-  const crewCreditsMap = {};
-  const castCreditsMap = {};
+  const castCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits.cast || []), [fetchedMovie]);
+  const crewCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits.crew || []), [fetchedMovie]);
 
-  if (fetchedMovie) {
-    // Iterate through crew credits
-    fetchedMovie.credits.crew.forEach((crew) => {
-      const { id, name, job } = crew;
-      if (!crewCreditsMap[id]) {
-        crewCreditsMap[id] = { name, jobs: [] };
-      }
-      crewCreditsMap[id].jobs.push(job);
-    });
-  
-    // Iterate through cast credits
-    fetchedMovie.credits.cast.forEach((cast) => {
-      const { id, name, character } = cast;
-      if (!castCreditsMap[id]) {
-        castCreditsMap[id] = { name, characters: [] };
-      }
-      castCreditsMap[id].characters.push(character);
-    });
-  }
-
-  // Generate unique alphanumeric IDs for cast and crew members with undefined or fake IDs
   let nextFakeId = 1;
-  Object.values(castCreditsMap).forEach((cast) => {
-    if (!cast.id) {
-      cast.id = `fakeid${nextFakeId.toString().padStart(8, '0')}`;
-      nextFakeId++;
-    }
-  });
+  const assignFakeId = (creditMap) => {
+    Object.values(creditMap).forEach((credit) => {
+      if (!credit.id) {
+        credit.id = `fakeid${nextFakeId.toString().padStart(8, '0')}`;
+        nextFakeId++;
+      }
+    });
+  };
 
-  Object.values(crewCreditsMap).forEach((crew) => {
-    if (!crew.id) {
-      crew.id = `fakeid${nextFakeId.toString().padStart(8, '0')}`;
-      nextFakeId++;
-    }
-  });
+  assignFakeId(castCreditsMap);
+  assignFakeId(crewCreditsMap);
+
+  const toggleRecommendations = () => {
+    setIsRecommendationsExpanded(!isRecommendationsExpanded);
+  };
 
   return (
     <div className={style.container}>
-      {fetchedMovie && (
+      {fetchedMovie ? (
         <>
           <div className={style.header}>
             <div className={style.title}>
@@ -84,53 +80,74 @@ export default function Movie({ movie }) {
               <Image src={`https://image.tmdb.org/t/p/w500${fetchedMovie.poster_path}`} width={400} height={300} alt={fetchedMovie.original_title} />
               <p className={style.tag}>{fetchedMovie.tagline}</p>
             </div>
+
             <div className={style.description}>
               <p className={style.overview}>{fetchedMovie.overview}</p>
+
               <ul className={style.genres}>
                 <li className={style.labelLi}>Genres</li>
                 {fetchedMovie.genres.map((genre, index) => (
-                  <li key={`genre_${genre.id}`} onClick={() => handleGenreClick(genre.name)}> {index === 0 ? genre.name : `|${genre.name}`}</li>
+                  <li key={`genre_${genre.id}`}>{genre.name}</li>
                 ))}
               </ul>
+
               <ul className={style.languages}>
                 <li className={style.labelLi}>Languages</li>
                 {fetchedMovie.spoken_languages.map((language, index) => (
-                  <li key={`language_${language.iso_639_1}`}> {index === 0 ? language.name : `|${language.name}`}</li>
+                  <li key={`language_${language.iso_639_1}`}>{language.name}</li>
                 ))}
               </ul>
+
               <ul className={style.productionCompanies}>
                 <li className={style.labelLi}>Production Companies</li>
                 {fetchedMovie.production_companies.map((company, index) => (
-                  <li key={`company_${company.id}`}> {index === 0 ? company.name : `|${company.name}`}</li>
+                  <li key={`company_${company.id}`}>{company.name}</li>
                 ))}
               </ul>
-              <div className={style.recommendations}>
-                Recommendations
-                <Results resultsLength={20} resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`} />
-              </div>
+
+              <div 
+              className={style.recommendationsTrigger} 
+              onClick={toggleRecommendations}
+            >
+              <h3>Recommendations (click to expand)</h3>
             </div>
+
+            <div className={isRecommendationsExpanded ? style.recommendationsExpanded : style.recommendationsCollapsed}>
+            <div 
+              className={style.recommendationsTriggerInner} 
+              onClick={toggleRecommendations}
+            >
+              <h3>Recommendations</h3>
+            </div>
+                         <Results 
+                resultsLength={20} 
+                resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`} 
+                toggleFilter={fakeToggleFilter} 
+              />
+
+            </div>
+            </div>
+
             <div className={style.credits}>
               <ul className={style.cast}>
                 <li className={style.creditsLabel}>Cast</li>
                 {Object.values(castCreditsMap).map((cast) => (
-                  <li key={`cast_${cast.id}`} className={style.credit}>
-                    {cast.id === `fakeid00000001` ? 'Unknown Actor' : cast.name}
-                    <span className={style.character}>{cast.characters.join(', ')}</span>
-                  </li>
+                  <li key={`cast_${cast.id}`}>{cast.name}</li>
                 ))}
+              </ul>
+
+              <ul className={style.crew}>
                 <li className={style.creditsLabel}>Crew</li>
                 {Object.values(crewCreditsMap).map((crew) => (
-                  <li key={`crew_${crew.id}`} className={style.credit}>
-                    {crew.id === `fakeid00000001` ? 'Unknown Crew' : crew.name}
-                    <span className={style.character}>{crew.jobs.join(', ')}</span>
-                  </li>
+                  <li key={`crew_${crew.id}`}>{crew.name}</li>
                 ))}
               </ul>
             </div>
           </div>
         </>
+      ) : (
+        <p>Loading...</p>
       )}
-      {!fetchedMovie && <p>Loading...</p>}
     </div>
   );
 }
