@@ -1,28 +1,35 @@
 'use client'
 import style from './page.module.css';
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import setAuthToken from './utils/setAuthToken';
 
 // Components
-import Results from './components/Results';
 import Nav from './components/Nav';
-import MovieDetails from './components/MovieDetails';
-import Homepage from './components/Homepage';
 import Explore from './components/Explore';
+import Results from './components/Results';
+import Homepage from './components/Homepage';
 
 export default function Home() {
-  let movieId = 11;
+
 
   // tabs item click handler
   const [activeView, setActiveView] = useState('Home');
   const [searchQuery, setSearchQuery] = useState(''); // Default value is empty string
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [resultsLength, setResultsLength] = useState(10); // Default value is 10
+  const [filterKey, setFilterKey] = useState(0);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
 
+
+
   const toggleFilter = () => {
-    setIsFilterVisible(!isFilterVisible);
-  }
+    setIsFilterVisible(prevVisible => !prevVisible);
+    setFilterKey(prevKey => prevKey + 1);
+  };
+
+  useEffect(() => {
+  }, [isFilterVisible]);
 
   const handleTabChange = (selectedTab) => {
     setActiveView(selectedTab);
@@ -37,11 +44,6 @@ export default function Home() {
 
   const clearSearchQuery = () => {
     setSearchQuery('');
-  };
-
-  const handleResultsLengthChange = (length) => {
-    setResultsLength(length);
-    setResultsKey(resultsKey + 1);
   };
 
   // render content based on active tab or search
@@ -68,17 +70,17 @@ export default function Home() {
         );
       } else if (activeView === 'Explore') {
         return (
-          <Explore />
+          <Explore toggleFilter={toggleFilter} />
         );
       }
     }
   };
 
   return (
-    <main className={style.wrapper}>  
-    <div className={{ visibility: isFilterVisible ? 'visible' : 'hidden', ...style.dimmingOverlay}}> 
-    </div>
-        <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
+    <main className={style.wrapper}>
+      <div key={filterKey} className={isFilterVisible ? style.dimmingOverlayVisible : style.dimmingOverlayHidden}>
+      </div>
+      <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
       <div className={style.main}>
         {renderContent()}
       </div>

@@ -3,7 +3,7 @@ import style from '../styles/MovieDetails.module.css';
 import Results from './Results';
 import Image from 'next/image';
 
-export default function Movie({ movie }) {
+export default function Movie({ movie, toggleFilter, isFilterVisible }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
 
   useEffect(() => {
@@ -12,9 +12,10 @@ export default function Movie({ movie }) {
       .then((res) => res.json())
       .then((data) => {
         setFetchedMovie(data);
-        console.log(data, 'data');
+        console.log('Data fetched for', data.original_title);
       });
   }, []);
+  
 
   const createCreditMap = (credits) => {
     const creditMap = {};
@@ -98,7 +99,7 @@ export default function Movie({ movie }) {
               </ul>
               <div className={style.recommendations}>
                 Recommendations
-                <Results resultsLength={20} resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`} />
+                <Results resultsLength={20} resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`}  toggleFilter={toggleFilter} isFilterVisible={isFilterVisible}/>
               </div>
             </div>
             <div className={style.credits}>

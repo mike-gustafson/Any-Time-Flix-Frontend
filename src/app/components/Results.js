@@ -3,7 +3,7 @@ import Image from 'next/image';
 import style from '../styles/Results.module.css';
 import MovieDetailsModal from './MovieDetailsModal';
 
-export default function Results({ resultsLength, resultsRoute }) {
+export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
@@ -15,6 +15,7 @@ export default function Results({ resultsLength, resultsRoute }) {
             .then((data) => setData(data));
     }, []);
 
+
     // Expands or Collapses movie box on click
     const handleBoxClick = (id) => {
         if (selectedMovieId === id) {
@@ -24,9 +25,21 @@ export default function Results({ resultsLength, resultsRoute }) {
         }
     };
 
-    // Opens movie details in modal whe "Learn More" is clicked
+    const handleOnClose = () => {
+        setModalContent(null);
+        console.log('handleOnClose called at Results.js.  toggleFilter called, setModalContent(null) called')
+        toggleFilter();
+    };
+
+    // Opens movie details in modal when "Learn More" is clicked
     const handleLearnMoreClick = (id) => {
-        setModalContent(<MovieDetailsModal movieId={id} onClose={() => { setModalContent(null) }}/>);
+        toggleFilter();
+        setModalContent(
+            <MovieDetailsModal 
+                movieId={id} 
+                onClose={handleOnClose} 
+                toggleFilter={toggleFilter}
+            />);
     };
 
     // placeholder while data is loading
