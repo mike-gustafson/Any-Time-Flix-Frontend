@@ -3,8 +3,11 @@ import style from '../styles/MovieDetails.module.css';
 import Results from './Results';
 import Image from 'next/image';
 
-export default function Movie({ movie, toggleFilter }) {
+export default function MovieDetails({ movie, toggleFilter }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
+  const [isRecommendationsExpanded, setIsRecommendationsExpanded] = useState(false);
+
+  const fakeToggleFilter = () => {}
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/movie/${movie}`)
@@ -15,7 +18,6 @@ export default function Movie({ movie, toggleFilter }) {
       })
       .catch((error) => {
         console.error('Error fetching movie data:', error);
-        // Handle the error appropriately in your application
       });
   }, [movie]);
 
@@ -39,10 +41,6 @@ export default function Movie({ movie, toggleFilter }) {
   const castCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits.cast || []), [fetchedMovie]);
   const crewCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits.crew || []), [fetchedMovie]);
 
-const fakeToggleFilter = () => {
-    console.log('fakeTogglefilter called');
-}
-
   let nextFakeId = 1;
   const assignFakeId = (creditMap) => {
     Object.values(creditMap).forEach((credit) => {
@@ -56,11 +54,14 @@ const fakeToggleFilter = () => {
   assignFakeId(castCreditsMap);
   assignFakeId(crewCreditsMap);
 
+  const toggleRecommendations = () => {
+    setIsRecommendationsExpanded(!isRecommendationsExpanded);
+  };
+
   return (
     <div className={style.container}>
       {fetchedMovie ? (
         <>
-          {/* Movie header */}
           <div className={style.header}>
             <div className={style.title}>
               {fetchedMovie.original_title}
@@ -74,74 +75,71 @@ const fakeToggleFilter = () => {
             </div>
           </div>
 
-          {/* Movie body */}
           <div className={style.body}>
-            {/* Movie image and tagline */}
             <div className={style.image}>
               <Image src={`https://image.tmdb.org/t/p/w500${fetchedMovie.poster_path}`} width={400} height={300} alt={fetchedMovie.original_title} />
               <p className={style.tag}>{fetchedMovie.tagline}</p>
             </div>
 
-            {/* Movie details */}
             <div className={style.description}>
-              {/* Movie overview */}
               <p className={style.overview}>{fetchedMovie.overview}</p>
 
-              {/* Genres */}
               <ul className={style.genres}>
                 <li className={style.labelLi}>Genres</li>
                 {fetchedMovie.genres.map((genre, index) => (
-                  <li key={`genre_${genre.id}`} onClick={() => handleGenreClick(genre.name)}>
-                    {index === 0 ? genre.name : `| ${genre.name}`}
-                  </li>
+                  <li key={`genre_${genre.id}`}>{genre.name}</li>
                 ))}
               </ul>
 
-              {/* Languages */}
               <ul className={style.languages}>
                 <li className={style.labelLi}>Languages</li>
                 {fetchedMovie.spoken_languages.map((language, index) => (
-                  <li key={`language_${language.iso_639_1}`}>
-                    {index === 0 ? language.name : `| ${language.name}`}
-                  </li>
+                  <li key={`language_${language.iso_639_1}`}>{language.name}</li>
                 ))}
               </ul>
 
-              {/* Production Companies */}
               <ul className={style.productionCompanies}>
                 <li className={style.labelLi}>Production Companies</li>
                 {fetchedMovie.production_companies.map((company, index) => (
-                  <li key={`company_${company.id}`}>
-                    {index === 0 ? company.name : `| ${company.name}`}
-                  </li>
+                  <li key={`company_${company.id}`}>{company.name}</li>
                 ))}
               </ul>
 
-              {/* Recommendations */}
-              <div className={style.recommendations}>
-                Recommendations
-                <Results resultsLength={20} resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`} toggleFilter={fakeToggleFilter} />
-              </div>
+              <div 
+              className={style.recommendationsTrigger} 
+              onClick={toggleRecommendations}
+            >
+              <h3>Recommendations (click to expand)</h3>
             </div>
 
-            {/* Credits */}
+            <div className={isRecommendationsExpanded ? style.recommendationsExpanded : style.recommendationsCollapsed}>
+            <div 
+              className={style.recommendationsTriggerInner} 
+              onClick={toggleRecommendations}
+            >
+              <h3>Recommendations</h3>
+            </div>
+                         <Results 
+                resultsLength={20} 
+                resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`} 
+                toggleFilter={fakeToggleFilter} 
+              />
+
+            </div>
+            </div>
+
             <div className={style.credits}>
               <ul className={style.cast}>
                 <li className={style.creditsLabel}>Cast</li>
                 {Object.values(castCreditsMap).map((cast) => (
-                  <li key={`cast_${cast.id}`} className={style.credit}>
-                    {cast.name}
-                    <span className={style.character}>{cast.characters.join(', ')}</span>
-                  </li>
+                  <li key={`cast_${cast.id}`}>{cast.name}</li>
                 ))}
               </ul>
+
               <ul className={style.crew}>
                 <li className={style.creditsLabel}>Crew</li>
                 {Object.values(crewCreditsMap).map((crew) => (
-                  <li key={`crew_${crew.id}`} className={style.credit}>
-                    {crew.name}
-                    <span className={style.job}>{crew.jobs.join(', ')}</span>
-                  </li>
+                  <li key={`crew_${crew.id}`}>{crew.name}</li>
                 ))}
               </ul>
             </div>

@@ -131,6 +131,54 @@
         min-height: 100%;
         overflow-y: scroll;
       }
+      .recommendationsTrigger {
+        position: absolute;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        bottom: 0;
+        cursor: pointer;
+      }
+      .recommendationsTrigger > h3, .recommendationsTriggerInner > h3 {
+        display: flex;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 0 20px;
+        width: fit-content;
+        word-wrap: no-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: 0 10px 0 0;
+        border: 1px solid black;
+        border-bottom: none;
+        border-left: none;
+      }
+      .recommendationsTriggerInner {
+        cursor: pointer;
+        /* Additional styling as needed */
+      }
+      .recommendationsTriggerInner > h3:hover, .recommendationsTrigger > h3:hover {
+        background-color: #e0e0e0;
+        color: black;
+      }
+      .recommendationsCollapsed {
+        max-height: 0;
+        overflow-y: hidden;
+      }
+      
+      .recommendationsExpanded {
+        position: absolute;
+        background-color: white;
+        border-left: 1px solid black;
+        border-top-left-radius: 10px;
+        padding: 0 0 0 10px;
+        bottom: 0;
+        max-height: 93%; /* Adjust this value based on your layout */
+        overflow-y: auto;
+        transition: max-height 0.5s ease-in;
+      }
+      
+      
     .credits {
       display: flex;
       flex-direction: column;
