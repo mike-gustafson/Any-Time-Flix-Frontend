@@ -13,7 +13,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
             .then((data) => setData(data));
-    }, []);
+    }, [resultsRoute]);
 
 
     // Expands or Collapses movie box on click
