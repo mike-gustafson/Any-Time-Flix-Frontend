@@ -2,12 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import style from '../styles/MovieDetails.module.css';
 import Results from './Results';
 import Image from 'next/image';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export default function MovieDetails({ movie, toggleFilter }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
   const [isRecommendationsExpanded, setIsRecommendationsExpanded] = useState(false);
 
-  const fakeToggleFilter = () => {}
+  const fakeToggleFilter = () => { }
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/movie/${movie}`)
@@ -105,27 +106,38 @@ export default function MovieDetails({ movie, toggleFilter }) {
                 ))}
               </ul>
 
-              <div 
-              className={style.recommendationsTrigger} 
-              onClick={toggleRecommendations}
-            >
-              <h3>Recommendations (click to expand)</h3>
-            </div>
+              <div className={style.recommendationsTrigger}>
+                <h3>
+                  Recommendations
+                  <span className={style.recommendationsIconContainer}>
+                  <KeyboardArrowUpIcon
+                    className={isRecommendationsExpanded ? style.iconRotated : style.iconNotRotated}
+                    onClick={toggleRecommendations}
+                  />
+                  </span>
+                </h3>
+              </div>
 
-            <div className={isRecommendationsExpanded ? style.recommendationsExpanded : style.recommendationsCollapsed}>
-            <div 
-              className={style.recommendationsTriggerInner} 
-              onClick={toggleRecommendations}
-            >
-              <h3>Recommendations</h3>
-            </div>
-                         <Results 
-                resultsLength={20} 
-                resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`} 
-                toggleFilter={fakeToggleFilter} 
-              />
-
-            </div>
+              <div className={isRecommendationsExpanded ? style.recommendationsExpanded : style.recommendationsCollapsed}>
+                <div className={style.recommendationsTriggerInner}>
+                  <h3>
+                    Recommendations
+                    <span className={style.recommendationsIconContainer}>
+                      <KeyboardArrowUpIcon
+                        className={isRecommendationsExpanded ? style.iconRotated : style.iconNotRotated}
+                        onClick={toggleRecommendations}
+                      />
+                    </span>
+                  </h3>
+                </div>
+                <div className={style.resultsContainer}>
+                  <Results
+                    resultsLength={20}
+                    resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`}
+                    toggleFilter={fakeToggleFilter}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className={style.credits}>

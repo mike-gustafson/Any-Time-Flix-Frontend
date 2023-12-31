@@ -6,6 +6,7 @@ import setAuthToken from './utils/setAuthToken';
 
 // Components
 import Nav from './components/Nav';
+import UserHome from './users/UserHome'
 import Explore from './components/Explore';
 import Results from './components/Results';
 import Homepage from './components/Homepage';
@@ -64,9 +65,7 @@ export default function Home() {
         );
       } else if (activeView === 'Account') {
         return (
-          <div>
-            <h1>Account</h1>
-          </div>
+          <UserHome />
         );
       } else if (activeView === 'Explore') {
         return (

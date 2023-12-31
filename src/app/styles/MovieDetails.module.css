@@ -4,6 +4,7 @@
     width: 100%;
     height: inherit;
     padding: 5px 20px 20px 20px;
+    border: 1px solid black;
   }
   .header {
     display: flex;
@@ -128,8 +129,8 @@
         border: 1px solid black;
         width: 100%;
         overflow: hidden;
-        min-height: 100%;
-        overflow-y: scroll;
+        min-height: inherit;
+        max-height: inherit;
       }
       .recommendationsTrigger {
         position: absolute;
@@ -138,46 +139,75 @@
         justify-content: center;
         bottom: 0;
         cursor: pointer;
+        border-left: 1px solid black;
       }
       .recommendationsTrigger > h3, .recommendationsTriggerInner > h3 {
         display: flex;
+        background-color: white;
         font-size: 24px;
         font-weight: bold;
         padding: 0 20px;
+        margin: 0;
         width: fit-content;
+        height: 100%;
         word-wrap: no-wrap;
         overflow: hidden;
         text-overflow: ellipsis;
         border-radius: 0 10px 0 0;
-        border: 1px solid black;
+        border: 2px solid black;
         border-bottom: none;
-        border-left: none;
+        align-items: center;
       }
       .recommendationsTriggerInner {
-        cursor: pointer;
-        /* Additional styling as needed */
-      }
-      .recommendationsTriggerInner > h3:hover, .recommendationsTrigger > h3:hover {
-        background-color: #e0e0e0;
-        color: black;
+        flex: 1;
+        display: flex;
+        align-items: center;
       }
       .recommendationsCollapsed {
-        max-height: 0;
+        height: 0;
         overflow-y: hidden;
       }
-      
-      .recommendationsExpanded {
-        position: absolute;
-        background-color: white;
-        border-left: 1px solid black;
-        border-top-left-radius: 10px;
-        padding: 0 0 0 10px;
-        bottom: 0;
-        max-height: 93%; /* Adjust this value based on your layout */
-        overflow-y: auto;
-        transition: max-height 0.5s ease-in;
+      .recommendationsIconContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        border: 1px solid black;
+        border-radius: 25px;
+        margin: auto 10px;
       }
-      
+      .recommendationsIconContainer:hover {
+        background-color: #e0e0e0;
+        cursor: pointer;
+      }
+      .iconRotated {
+        transform: rotate(180deg);
+        transition: transform 0.3s ease-in-out;
+      }
+      .iconNotRotated {
+        transform: rotate(0deg);
+        transition: transform 0.3s ease-in-out;
+      }
+      .recommendationsExpanded {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        background: transparent;
+        border-left: 1px solid black;
+        bottom: 0;
+        height: 90%;
+        overflow-y: hidden;
+        transition: height 0.5s ease-in;
+      }
+      .resultsContainer {
+        display: flex;
+        padding: 10px;
+        margin: 0;
+        border: 1px solid black;
+        background-color: white;
+        overflow-y: scroll;
+        height: calc(100% - 50px);
+      }
       
     .credits {
       display: flex;
@@ -188,10 +218,10 @@
       min-width: 200px;
       overflow-y: scroll;
     }
-    .credits::-webkit-scrollbar, .recommendations::-webkit-scrollbar {
+    .credits::-webkit-scrollbar, .recommendations::-webkit-scrollbar, .resultsContainer::-webkit-scrollbar {
       width: 7px;
     }
-    .credits::-webkit-scrollbar-thumb, .recommendations::-webkit-scrollbar-thumb {
+    .credits::-webkit-scrollbar-thumb, .recommendations::-webkit-scrollbar-thumb, .resultsContainer::-webkit-scrollbar-thumb {
       background-color: darkgrey;
       border-radius: 25px;
     }
