@@ -196,6 +196,7 @@
         border-left: 1px solid black;
         bottom: 0;
         height: 90%;
+        min-width: 400px;
         overflow-y: hidden;
         transition: height 0.5s ease-in;
       }
@@ -209,29 +210,30 @@
         height: calc(100% - 50px);
       }
       
-    .credits {
+    .creditsContainer {
       display: flex;
       flex-direction: column;
-      background-color: #f0f0f0; /* Set background color */
-      border: 1px solid #ddd; /* Add border or other styles */
+      background-color: white; /* Set background color */
+      border: 1px solid #e0e0e0; /* Add border or other styles */
       width: 20%;
       min-width: 200px;
       overflow-y: scroll;
     }
-    .credits::-webkit-scrollbar, .recommendations::-webkit-scrollbar, .resultsContainer::-webkit-scrollbar {
+    .creditsContainer::-webkit-scrollbar, .recommendations::-webkit-scrollbar, .resultsContainer::-webkit-scrollbar {
       width: 7px;
     }
-    .credits::-webkit-scrollbar-thumb, .recommendations::-webkit-scrollbar-thumb, .resultsContainer::-webkit-scrollbar-thumb {
+    .creditsContainer::-webkit-scrollbar-thumb, .recommendations::-webkit-scrollbar-thumb, .resultsContainer::-webkit-scrollbar-thumb {
       background-color: darkgrey;
       border-radius: 25px;
     }
-      .cast {
+      .creditsList {
         display: flex;
         flex-direction: column;
         justify-content: right;
         font-size: 12px;
+        padding: 0;
         width: 100%;
-        padding: 0 7px 0 0;
+        gap: 5px;
       }
         .creditsLabel {
           display: flex;
@@ -243,21 +245,34 @@
         }
         .credit {
           display: flex;
-          flex-direction: column;
-          justify-content: left;
-          font-size: 12px;
-          
-          margin: 0 0 -2px 0 ;
-
+          flex-direction: row;
+          align-items: center;
+          width: stretch;
+          background-color: #e0e0e0;
         }
-          .character {
-            display: flex;
-            justify-content: right;
-            font-size: 10px;
-            font-weight: bold;
-            width: 100%; 
-          } 
-      .detailBoxWrapper {
+        .creditName {
+          text-align: right;
+          font-size: 12px;
+          width: 50%;
+          height: 100%;
+          padding: 0 5px 0 0;
+        }
+        .creditJob {
+          justify-content: right;
+          font-size: 10px;
+          font-weight: bold;
+          padding: 0 0 0 5px;
+          width: 50%;
+        } 
+
+
+
+
+
+
+
+
+          .detailBoxWrapper {
         display: flex;
         align-items: center;
         flex-direction: row;
@@ -266,27 +281,8 @@
     .hidden {
       display: none;
     }
-    .scrollLeftButton, .scrollRightButton {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 30px;
-      width: 30px;
-      height: 30px;
-      padding: auto;
-      background-color: #787676;
-      color: goldenrod;
-      font-size: 20px;
-      cursor: pointer;
-      border-radius: 50%;
-      z-index: 1;
-    }
-    .scrollLeftButton {
-      margin-right: -5px;
-    }
-    .scrollRightButton {
-      margin-left: -15px;
-    }
+
+
     .detailBox > li {
       display: flex;
       flex-direction: column;
