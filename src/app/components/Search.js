@@ -7,7 +7,7 @@ export default function Search({ handleSearch }) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent the form submission
+            event.preventDefault();
             handleSearch(search);
         }
     };
@@ -18,7 +18,7 @@ export default function Search({ handleSearch }) {
             <input
                 type="text"
                 name="movie"
-                className={style.input + " w-50 p-2"}
+                className={style.input}
                 placeholder="find movies"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

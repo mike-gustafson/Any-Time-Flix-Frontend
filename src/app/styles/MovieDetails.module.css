@@ -1,0 +1,314 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: inherit;
+    padding: 5px 20px 20px 20px;
+    border: 1px solid black;
+  }
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-height: 50px;
+  }
+    .header > .title {
+      display: flex;
+      font-size: 36px;
+      font-weight: bold;
+      padding: 0 20px;
+      width: stretch;
+      word-wrap: no-wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+      .header > .title> .date {
+      display: flex;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 0 20px;
+      height: 100%;
+      align-items:flex-end;
+      }
+    .voteDetails {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap ;
+      height: inherit;
+      width: ;
+    }
+      .popular {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      color: goldenrod; 
+      border-radius: 25px;
+      padding: 0 5px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      background-color: #e0e0e0;
+      height: 30%;
+      }
+
+  .body {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow: hidden;
+  }
+    .image {
+      width: 30%;
+      max-width: 400px;
+      min-width: 200px;
+    }
+    .tag {
+      display: flex;
+      font-size: 18px;
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      font-weight: bold;
+      padding: 5px 10px;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }  
+    
+    .description {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 20px;
+    }
+      .overview {
+        font-size: 16px;
+        line-height: 1.5;
+        width: stretch;
+      }
+      .genres, .languages, .productionCompanies {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+        .labelLi {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          margin-right: 10px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .genres > li, .languages > li, .productionCompanies > li {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+        }
+      .detailBox {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: no-wrap;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 60%;
+        overflow: hidden;
+      }
+      .detailBox > strong {
+        margin-right: 10px;
+      }
+      .recommendations {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        flex: 0 0 20%;
+        border: 1px solid black;
+        width: 100%;
+        overflow: hidden;
+        min-height: inherit;
+        max-height: inherit;
+      }
+      .recommendationsTrigger {
+        position: absolute;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        bottom: 0;
+        cursor: pointer;
+        border-left: 1px solid black;
+      }
+      .recommendationsTrigger > h3, .recommendationsTriggerInner > h3 {
+        display: flex;
+        background-color: white;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 0 20px;
+        margin: 0;
+        width: fit-content;
+        height: 100%;
+        word-wrap: no-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: 0 10px 0 0;
+        border: 2px solid black;
+        border-bottom: none;
+        align-items: center;
+      }
+      .recommendationsTriggerInner {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      .recommendationsCollapsed {
+        height: 0;
+        overflow-y: hidden;
+      }
+      .recommendationsIconContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        border: 1px solid black;
+        border-radius: 25px;
+        margin: auto 10px;
+      }
+      .recommendationsIconContainer:hover {
+        background-color: #e0e0e0;
+        cursor: pointer;
+      }
+      .iconRotated {
+        transform: rotate(180deg);
+        transition: transform 0.3s ease-in-out;
+      }
+      .iconNotRotated {
+        transform: rotate(0deg);
+        transition: transform 0.3s ease-in-out;
+      }
+      .recommendationsExpanded {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        background: transparent;
+        border-left: 1px solid black;
+        bottom: 0;
+        height: 90%;
+        overflow-y: hidden;
+        transition: height 0.5s ease-in;
+      }
+      .resultsContainer {
+        display: flex;
+        padding: 10px;
+        margin: 0;
+        border: 1px solid black;
+        background-color: white;
+        overflow-y: scroll;
+        height: calc(100% - 50px);
+      }
+      
+    .credits {
+      display: flex;
+      flex-direction: column;
+      background-color: #f0f0f0; /* Set background color */
+      border: 1px solid #ddd; /* Add border or other styles */
+      width: 20%;
+      min-width: 200px;
+      overflow-y: scroll;
+    }
+    .credits::-webkit-scrollbar, .recommendations::-webkit-scrollbar, .resultsContainer::-webkit-scrollbar {
+      width: 7px;
+    }
+    .credits::-webkit-scrollbar-thumb, .recommendations::-webkit-scrollbar-thumb, .resultsContainer::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      border-radius: 25px;
+    }
+      .cast {
+        display: flex;
+        flex-direction: column;
+        justify-content: right;
+        font-size: 12px;
+        width: 100%;
+        padding: 0 7px 0 0;
+      }
+        .creditsLabel {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          font-weight: bold;
+          width: 100%;
+        }
+        .credit {
+          display: flex;
+          flex-direction: column;
+          justify-content: left;
+          font-size: 12px;
+          
+          margin: 0 0 -2px 0 ;
+
+        }
+          .character {
+            display: flex;
+            justify-content: right;
+            font-size: 10px;
+            font-weight: bold;
+            width: 100%; 
+          } 
+      .detailBoxWrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        width: stretch;
+      }
+    .hidden {
+      display: none;
+    }
+    .scrollLeftButton, .scrollRightButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 30px;
+      width: 30px;
+      height: 30px;
+      padding: auto;
+      background-color: #787676;
+      color: goldenrod;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .scrollLeftButton {
+      margin-right: -5px;
+    }
+    .scrollRightButton {
+      margin-left: -15px;
+    }
+    .detailBox > li {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+      font-size: 14px;
+      background-color: #f0f0f0;
+      border: 1px solid #363636;
+      border-radius: 10px;
+      cursor: pointer;
+      min-width: 150px;
+      width: 150px;
+      height: 50px;
+    }
+
+    .detailBox > li:hover {
+      background-color: #e0e0e0;
+      color: black;
+    }
+    .details {
+      display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+  }
