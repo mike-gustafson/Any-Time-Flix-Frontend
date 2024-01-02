@@ -72,7 +72,7 @@ export default function MovieDetails({ movie, toggleFilter }) {
             </div>
 
             <div className={style.voteDetails}>
-              <div className={style.popular}>Vote Avg: {fetchedMovie.vote_average.toFixed(1)}/10</div>
+              <div className={style.popular}>Average Rating  {fetchedMovie.vote_average.toFixed(1)}/10</div>
             </div>
           </div>
 
