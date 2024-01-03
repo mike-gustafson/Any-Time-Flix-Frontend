@@ -6,7 +6,7 @@ import setAuthToken from './utils/setAuthToken';
 
 // Components
 import Nav from './components/Nav';
-import UserHome from './users/UserHome'
+import UserHome from './users/profile/page'
 import Explore from './components/Explore';
 import Results from './components/Results';
 import Homepage from './components/Homepage';
