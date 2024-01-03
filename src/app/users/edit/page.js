@@ -121,7 +121,7 @@ export default function EditUser() {
 
 	useEffect(() => {
 		if (localStorage.getItem('jwtToken')) {
-			axois.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
+			axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
 				.then((response) => {
 					// data is an object
 					let userData = jwtDecode(localStorage.getItem('jwtToken'));
