@@ -1,29 +1,34 @@
-'use client'
 import { useEffect, useState } from 'react';
 import UserTable from './UserTable';
 
 export default function UserHome() {
-    // state is what the data is representing in realtime
-    const [data, setData] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/users`)
-      .then((res) => res.json())
-      .then((data) => {
-        // data is an object
-        
-        console.log(data)
+  const [data, setData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/users`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
         setData(data);
         setLoading(false);
-      })
-    }, []);
-    if (isLoading) return <p>Loading...</p>
-    if (!data) return <p>No data shown...</p>
-  
-    return (
-      <main>
-        <UserTable users={data.users}/>
-      </main>
-    )
-  }
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data || !data.users || data.users.length === 0) return <p>No data to display.</p>;
+
+  return (
+    <main>
+      <UserTable users={data.users}/>
+    </main>
+  );
+}

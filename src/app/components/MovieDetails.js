@@ -72,7 +72,7 @@ export default function MovieDetails({ movie, toggleFilter }) {
             </div>
 
             <div className={style.voteDetails}>
-              <div className={style.popular}>Vote Avg: {fetchedMovie.vote_average.toFixed(1)}/10</div>
+              <div className={style.popular}>Average Rating  {fetchedMovie.vote_average.toFixed(1)}/10</div>
             </div>
           </div>
 
@@ -140,18 +140,28 @@ export default function MovieDetails({ movie, toggleFilter }) {
               </div>
             </div>
 
-            <div className={style.credits}>
-              <ul className={style.cast}>
+            <div className={style.creditsContainer}>
+              <ul className={style.creditsList}>
                 <li className={style.creditsLabel}>Cast</li>
                 {Object.values(castCreditsMap).map((cast) => (
-                  <li key={`cast_${cast.id}`}>{cast.name}</li>
+                  <li key={`cast_${cast.id}`}>
+                    <div className={style.credit}>
+                      <div className={style.creditName}>{cast.name}</div>
+                      <div className={style.creditJob}>{cast.characters.join(', ')}</div>
+                    </div>
+                  </li>
                 ))}
               </ul>
 
-              <ul className={style.crew}>
+              <ul className={style.creditsList}>
                 <li className={style.creditsLabel}>Crew</li>
                 {Object.values(crewCreditsMap).map((crew) => (
-                  <li key={`crew_${crew.id}`}>{crew.name}</li>
+                  <li key={`crew_${crew.id}`}>
+                    <div className={style.credit}>
+                      <div className={style.creditName}>{crew.name}</div>
+                      <div className={style.creditJob}>{crew.jobs.join(', ')}</div>
+                    </div>
+                  </li>
                 ))}
               </ul>
             </div>
