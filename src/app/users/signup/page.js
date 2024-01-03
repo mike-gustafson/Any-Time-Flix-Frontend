@@ -13,12 +13,12 @@ const Signup = () => {
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [jobTitle, setJobTitle] = useState('');
-	const [number, setNumber] = useState('');
-	const [streetAddress, setStreetAddress] = useState('');
 	const [city, setCity] = useState('');
+	const [profilePicture, setProfilePicture] = useState('');
+	const [userName, setUserName] = useState('');
+	const [bio, setBio] = useState('');
 	const [state, setState] = useState('');
-	const [zipCode, setZipCode] = useState('');
+	const [country, setCountry] = useState('');
 	const [error, setError] = useState(false);
 
 	// create the 
@@ -32,29 +32,9 @@ const Signup = () => {
 		setLastName(e.target.value);
 	};
 
-	const handleEmail = (e) => {
+	const handleUserName = (e) => {
 		// fill in code
-		setEmail(e.target.value);
-	};
-
-	const handlePassword = (e) => {
-		// fill in code
-		setPassword(e.target.value);
-	};
-
-	const handleJobTitle = (e) => {
-		// fill in code
-		setJobTitle(e.target.value);
-	};
-
-	const handleNumber = (e) => {
-		// fill in code
-		setNumber(e.target.value);
-	};
-
-	const handleStreetAddress = (e) => {
-		// fill in code
-		setStreetAddress(e.target.value);
+		setUserName(e.target.value);
 	};
 
 	const handleCity = (e) => {
@@ -67,9 +47,29 @@ const Signup = () => {
 		setState(e.target.value);
 	};
 
-	const handleZipCode = (e) => {
+	const handleCountry = (e) => {
 		// fill in code
-		setZipCode(e.target.value);
+		setCountry(e.target.value);
+	};
+
+	const handleEmail = (e) => {
+		// fill in code
+		setEmail(e.target.value);
+	};
+
+	const handlePassword = (e) => {
+		// fill in code
+		setPassword(e.target.value);
+	};
+
+	const handleBio = (e) => {
+		// fill in code
+		setBio(e.target.value);
+	};
+
+	const handleProfilePicture = (e) => {
+		// fill in code
+		setProfilePicture(e.target.value);
 	};
 
 	const handleSubmit = (e) => {
@@ -145,6 +145,22 @@ const Signup = () => {
 										<input type="text" className="form-control" placeholder="Last Name" value={lastName} onChange={handleLastName} required/>
 									</div>
 									<div className="input-group mb-3">
+										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
+										<input type="text" className="form-control" placeholder="User Name" value={userName} onChange={handleUserName} />
+									</div>
+									<div className="input-group mb-3">
+										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
+										<input type="text" className="form-control" placeholder="city" value={city} onChange={handleCity} />
+									</div>
+									<div className="input-group mb-3">
+										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
+										<input type="text" className="form-control" placeholder="State" value={state} onChange={handleState} />
+									</div>
+									<div className="input-group mb-3">
+										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
+										<input type="text" className="form-control" placeholder="Country" value={country} onChange={handleCountry} />
+									</div>
+									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-mail-forward" aria-hidden="true"></i></span>
 										<input type="email" className="form-control" placeholder="Email" value={email} onChange={handleEmail} required/>
 									</div>
@@ -154,27 +170,11 @@ const Signup = () => {
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="city" value={city} onChange={handleJobTitle} />
+										<input type="text" className="form-control" placeholder="Bio" value={bio} onChange={handleBio} />
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="State" value={state} onChange={handleNumber} />
-									</div>
-									<div className="input-group mb-3">
-										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="User Name" value={userName} onChange={handleStreetAddress} />
-									</div>
-									<div className="input-group mb-3">
-										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Bio" value={bio} onChange={handleCity} />
-									</div>
-									<div className="input-group mb-3">
-										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Profile Picture" value={profilePicture} onChange={handleState} />
-									</div>
-									<div className="input-group mb-3">
-										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Country" value={country} onChange={handleState} />
+										<input type="text" className="form-control" placeholder="Profile Picture" value={profilePicture} onChange={handleProfilePicture} />
 									</div>
 									<div className="row">
 										<div className="col-6">
