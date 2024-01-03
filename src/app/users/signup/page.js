@@ -78,14 +78,14 @@ const Signup = () => {
 		const newUser = {
 			firstName,
 			lastName,
-			email,
-			jobTitle,
-			number,
-			password,
-			streetAddress,
+			userName,
 			city,
 			state,
-			zipCode
+			country,
+			email,
+			password,
+			bio,
+			profilePicture
 		};
 		axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/signup`, newUser)
 			.then(response => {
@@ -154,27 +154,27 @@ const Signup = () => {
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Job Title" value={jobTitle} onChange={handleJobTitle} />
+										<input type="text" className="form-control" placeholder="city" value={city} onChange={handleJobTitle} />
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Phone Number" value={number} onChange={handleNumber} />
+										<input type="text" className="form-control" placeholder="State" value={state} onChange={handleNumber} />
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Street Address" value={streetAddress} onChange={handleStreetAddress} />
+										<input type="text" className="form-control" placeholder="User Name" value={userName} onChange={handleStreetAddress} />
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="City" value={city} onChange={handleCity} />
+										<input type="text" className="form-control" placeholder="Bio" value={bio} onChange={handleCity} />
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="State" value={state} onChange={handleState} />
+										<input type="text" className="form-control" placeholder="Profile Picture" value={profilePicture} onChange={handleState} />
 									</div>
 									<div className="input-group mb-3">
 										<span className="input-group-addon"><i className="fa fa-address-book"></i></span>
-										<input type="text" className="form-control" placeholder="Zip Code" value={zipCode} onChange={handleZipCode} />
+										<input type="text" className="form-control" placeholder="Country" value={country} onChange={handleState} />
 									</div>
 									<div className="row">
 										<div className="col-6">
