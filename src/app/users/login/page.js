@@ -24,12 +24,12 @@ export default function Login() {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // at the beginning of a submit function
 
-        axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password })
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password })
             .then(response => {
-
+                console.log(response)
                 localStorage.setItem('jwtToken', response.data.token);
                 localStorage.setItem('email', response.data.userData.email);
                 localStorage.setItem('expiration', response.data.userData.exp);
@@ -45,7 +45,7 @@ export default function Login() {
             });
 
     };
-
+console.log('sending user to profile: ', redirect)
     if (redirect) { router.push('/users/profile'); }
     if (error) {
         return (
