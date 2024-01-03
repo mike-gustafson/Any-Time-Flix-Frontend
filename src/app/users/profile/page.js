@@ -31,7 +31,9 @@ export default function Profile() {
                     // data is an object
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
-                        setData(response.data.user[0]);
+                        console.log('response', response.data);
+                        setData(response.data.userData);
+                        console.log(data)
                         setLoading(false);
                     } else {
                         router.push('/users/login');
@@ -39,7 +41,7 @@ export default function Profile() {
 
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log('error', error);
                     router.push('/users/login');
                 });
         } else {
@@ -78,8 +80,7 @@ export default function Profile() {
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
                                     <div className="mt-3">
                                         <h4>{data.firstName} {data.lastName}</h4>
-                                        <p className="text-secondary mb-1">{data.jobTitle}</p>
-                                        <p className="text-muted font-size-sm">{data.address.city}, {data.address.state}</p>
+                                        <p className="text-muted font-size-sm">{data.city}, {data.state}</p>
                                         <button className="btn btn-primary">Follow</button>
                                         <button className="btn btn-outline-primary">Message</button>
                                     </div>
@@ -153,11 +154,6 @@ export default function Profile() {
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <h6 className="mb-0">Address</h6>
-                                    </div>
-                                    <div className="col-sm-9 text-secondary">
-                                        {data.address.streetAddress}
-                                        <br />
-                                        {data.address.city}, {data.address.state} {data.address.zipCode}
                                     </div>
                                 </div>
                                 <hr />
