@@ -10,7 +10,7 @@ import setAuthToken from '@/app/utils/setAuthToken';
 export default function Profile() {
     // state is what the data is representing in realtime
     const router = useRouter();
-    const [data, setData] = useState(null);
+    const [data, setData] = useState({});
     const [isLoading, setLoading] = useState(true);
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
@@ -32,8 +32,9 @@ export default function Profile() {
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
                         console.log('response', response.data);
-                        setData(response.data.userData);
-                        console.log(data)
+                        const { data } = response;
+                        console.log('Data', data)
+                        setData(data);
                         setLoading(false);
                     } else {
                         router.push('/users/login');
