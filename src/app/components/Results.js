@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import jwtDecode from 'jwt-decode';
 import style from '../styles/Results.module.css';
 import MovieDetailsModal from './MovieDetailsModal';
 
-export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
+export default function Results({ resultsLength, resultsRoute, toggleFilter }) {
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
-    
-    // Fetches movie data from server based on results route
+
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
             .then((data) => setData(data));
     }, [resultsRoute]);
 
-
-    // Expands or Collapses movie box on click
     const handleBoxClick = (id) => {
-        if (selectedMovieId === id) {
-            setSelectedMovieId(null)
-        } else { 
-            setSelectedMovieId(id)
-        }
+        setSelectedMovieId(selectedMovieId === id ? null : id);
     };
 
     const handleOnClose = () => {
         setModalContent(null);
-        console.log('handleOnClose called at Results.js.  toggleFilter called, setModalContent(null) called')
         toggleFilter();
     };
 
-    // Opens movie details in modal when "Learn More" is clicked
     const handleLearnMoreClick = (id) => {
         toggleFilter();
         setModalContent(
@@ -39,13 +31,23 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
                 movieId={id} 
                 onClose={handleOnClose} 
                 toggleFilter={toggleFilter}
-            />);
+            />
+        );
     };
 
-    // placeholder while data is loading
+    const handleAddToWatchListClick = (movieId) => {
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (jwtToken) {
+            const userData = jwtDecode(jwtToken);
+            console.log(userData)
+            alert(`Movie ${movieId} added to ${userData.firstName} ${userData.lastName}'s account`);
+        } else {
+            window.location.href = '/users/login';
+        }
+    };
+
     if (!data) return <p>Loading or no data available...</p>;
 
-    // Renders results based on fetched data
     return (
         <div className={style.container}>
             {data.results.slice(0, resultsLength).map((movie) => (
@@ -62,21 +64,23 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
                             className={style.image} 
                             alt={`${movie.title}`} 
                         />
-                        
-                        {selectedMovieId === movie.id ? (
-                            <div
+                        <div 
+                            className={style.addToWatchList} 
+                            onClick={() => handleAddToWatchListClick(movie.id)}
+                            title="Add to Watchlist"
+                        >
+                            +
+                        </div>
+                        {selectedMovieId === movie.id && (
+                            <button
                                 className={style.detailsLink}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleLearnMoreClick(movie.id);
-                                }}
+                                onClick={() => handleLearnMoreClick(movie.id)}
                             >
                                 Learn More
-                            </div>
-                        ) : null}
+                            </button>
+                        )}
                     </div>
-                    
-                    {selectedMovieId === movie.id ? (
+                    {selectedMovieId === movie.id && (
                         <div className={style.details}>
                             <div className={style.titleContainer}>
                                 <span className={style.title} title={movie.title}>
@@ -95,7 +99,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter}) {
                                 </span>
                             </div>
                         </div>
-                    ) : null}
+                    )}
                 </div>
             ))}
             {modalContent}
