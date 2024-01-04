@@ -77,13 +77,7 @@ export default function Profile() {
                                     width="150"
                                     height={"150"}
                                     /> */}
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
-                                    <div className="mt-3">
-                                        <h4>{data.firstName} {data.lastName}</h4>
-                                        <p className="text-muted font-size-sm">{data.city}, {data.state}</p>
-                                        <button className="btn btn-primary">Follow</button>
-                                        <button className="btn btn-outline-primary">Message</button>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>

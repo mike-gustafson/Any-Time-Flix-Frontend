@@ -7,6 +7,7 @@ import handleLogout from '@/app/utils/handleLogout';
 import axios from 'axios';
 import setAuthToken from '@/app/utils/setAuthToken';
 import ProfileSidebar from './profileSidebar'
+import Profile from './profile';
 
 
 export default function Page({handleMain}) {
@@ -62,6 +63,7 @@ export default function Page({handleMain}) {
                             </div>
                             <div className={style.main}>
                                 {/* {renderContent()} */}
+                                <Profile/>
                             </div>
                         </div>
                 
