@@ -13,7 +13,7 @@ import Profile from './profile';
 export default function Page({handleMain}) {
     // state is what the data is representing in realtime
     const router = useRouter();
-    const [data, setData] = useState({});
+    const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
@@ -34,10 +34,9 @@ export default function Page({handleMain}) {
                     // data is an object
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
-                        console.log('response from page.js', response.data);
-                        const { data } = response;
-                        console.log('Data', data)
-                        setData(data);
+                        console.log('response', response.data);
+                        setData(response.data.userData);
+                        console.log(data)
                         setLoading(false);
                     } else {
                         router.push('/users/login');
