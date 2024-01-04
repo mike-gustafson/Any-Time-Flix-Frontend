@@ -13,7 +13,7 @@ export default function ProfileSidebar({ handleMain , dataProp }) {
     const [activeLink, setActiveLink] = useState("Watch List");
     
 
-    console.log(dataProp, 'props')
+    const data = dataProp;
     
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
@@ -22,10 +22,10 @@ export default function ProfileSidebar({ handleMain , dataProp }) {
     return (
         <div className={style.sidebarBody}>
             <div className={style.header}>
-                <Avatar>D</Avatar>
+                <Avatar>{data.firstName[0]}</Avatar>
                 <div className="mt-3">
-                    <h4>data.firstName data.lastName</h4>
-                    <p className="text-muted font-size-sm">data.city,data.state</p>
+                    <h4>{data.firstName} {data.lastName}</h4>
+                    <p className="text-muted font-size-sm">{data.city},{data.state}</p>
                     <button>Follow</button>
                     <button>Message</button>
                 </div>

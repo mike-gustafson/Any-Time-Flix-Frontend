@@ -11,9 +11,10 @@ export default function Profile(dataProp) {
     // state is what the data is representing in realtime
     const router = useRouter();
     const [isLoading, setLoading] = useState(true);
-
+console.log('dataProp in profile.js', dataProp)
     let data = dataProp.dataProp;
-    
+    console.log('data in profile.js', data)
+
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     let currentTime = Date.now();
 
