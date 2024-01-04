@@ -1,16 +1,16 @@
 "use client";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState, useEffect } from 'react';
-import style from '../styles/Explore.module.css'
+import style from '../../styles/Explore.module.css'
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import handleLogout from '@/app/utils/handleLogout';
 import axios from 'axios';
 import setAuthToken from '@/app/utils/setAuthToken';
-import ProfileSidebar from '../profile/profileSidebar'
+import ProfileSidebar from './profileSidebar'
 
 
-export default function Profile() {
+export default function Profile({handleMain}) {
     // state is what the data is representing in realtime
     const router = useRouter();
     const [data, setData] = useState(null);
