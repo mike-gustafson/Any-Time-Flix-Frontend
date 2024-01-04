@@ -7,12 +7,13 @@ import handleLogout from '@/app/utils/handleLogout';
 import axios from 'axios';
 import setAuthToken from '@/app/utils/setAuthToken';
 
-export default function Profile() {
+export default function Profile(dataProp) {
     // state is what the data is representing in realtime
     const router = useRouter();
-    const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
+    let data = dataProp.dataProp;
+    
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     let currentTime = Date.now();
 
@@ -23,36 +24,6 @@ export default function Profile() {
         router.push('/users/login');
     }
 
-    useEffect(() => {
-        setAuthToken(localStorage.getItem('jwtToken'));
-        if (localStorage.getItem('jwtToken')) {
-            axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
-                .then((response) => {
-                    // data is an object
-                    let userData = jwtDecode(localStorage.getItem('jwtToken'));
-                    if (userData.email === localStorage.getItem('email')) {
-                        console.log('response', response.data);
-                        setData(response.data.userData);
-                        console.log(data)
-                        setLoading(false);
-                    } else {
-                        router.push('/users/login');
-                    }
-
-                })
-                .catch((error) => {
-                    console.log('error', error);
-                    router.push('/users/login');
-                });
-        } else {
-            router.push('/users/login');
-        }
-
-
-    }, []);
-
-    if (isLoading) return <p>Loading...</p>;
-    if (!data) return <p>No data shown...</p>;
     return (
         <div className="container">
             <div className="main-body">

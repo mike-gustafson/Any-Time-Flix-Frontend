@@ -34,7 +34,7 @@ export default function Page({handleMain}) {
                     // data is an object
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
-                        console.log('response', response.data);
+                        console.log('response from page.js', response.data);
                         const { data } = response;
                         console.log('Data', data)
                         setData(data);
@@ -60,11 +60,11 @@ export default function Page({handleMain}) {
     return (
                         <div className={style.container}>
                             <div className={style.sidebar}>
-                                <ProfileSidebar handleMain={handleMain} />
+                                <ProfileSidebar handleMain={handleMain} dataProp={data.userData}/>
                             </div>
                             <div className={style.main}>
                                 {/* {renderContent()} */}
-                                <Profile/>
+                                <Profile dataProp={data.userData}/>
                             </div>
                         </div>
                 

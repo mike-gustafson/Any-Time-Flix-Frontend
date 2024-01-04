@@ -8,9 +8,11 @@ import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import ReplayIcon from '@mui/icons-material/Replay';
 
 
-export default function ProfileSidebar({ handleMain }) {
+export default function ProfileSidebar({ handleMain , dataProp }) {
     const [activeLink, setActiveLink] = useState("Watch List");
 
+    console.log(dataProp, 'props')
+    
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
         handleMain(newValue);
