@@ -34,9 +34,7 @@ export default function Page({handleMain}) {
                     // data is an object
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
-                        console.log('response', response.data);
-                        setData(response.data.userData);
-                        console.log(data)
+                        setData(response.data);
                         setLoading(false);
                     } else {
                         router.push('/users/login');
