@@ -39,7 +39,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter }) {
         const jwtToken = localStorage.getItem('jwtToken');
         if (jwtToken) {
             const userData = jwtDecode(jwtToken);
-            console.log(userData)
+            console.log(data)
             alert(`Movie ${movieId} added to ${userData.firstName} ${userData.lastName}'s account`);
         } else {
             window.location.href = '/users/login';

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import UserTable from './UserTable';
+import Profile from './profile/page'
 
 export default function UserHome() {
   const [data, setData] = useState(null);
@@ -28,7 +29,7 @@ export default function UserHome() {
 
   return (
     <main>
-      <UserTable users={data.users}/>
+      <Profile />
     </main>
   );
 }

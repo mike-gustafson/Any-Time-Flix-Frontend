@@ -14,6 +14,9 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
 
+
+
+
     const handleEmail = (e) => {
         // fill in code
         setEmail(e.target.value);
@@ -29,7 +32,6 @@ export default function Login() {
 
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password })
             .then(response => {
-                console.log(response)
                 localStorage.setItem('jwtToken', response.data.token);
                 localStorage.setItem('email', response.data.userData.email);
                 localStorage.setItem('expiration', response.data.userData.exp);
