@@ -59,11 +59,11 @@ export default function Page({handleMain}) {
     return (
                         <div className={style.container}>
                             <div className={style.sidebar}>
-                                <ProfileSidebar handleMain={handleMain} />
+                                <ProfileSidebar handleMain={handleMain} dataProp={data.userData}/>
                             </div>
                             <div className={style.main}>
                                 {/* {renderContent()} */}
-                                <Profile/>
+                                <Profile dataProp={data.userData}/>
                             </div>
                         </div>
                 
