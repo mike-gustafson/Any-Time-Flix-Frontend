@@ -13,7 +13,7 @@ import Profile from './profile';
 export default function Page({handleMain}) {
     // state is what the data is representing in realtime
     const router = useRouter();
-    const [data, setData] = useState({});
+    const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
@@ -34,10 +34,7 @@ export default function Page({handleMain}) {
                     // data is an object
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
-                        console.log('response', response.data);
-                        const { data } = response;
-                        console.log('Data', data)
-                        setData(data);
+                        setData(response.data);
                         setLoading(false);
                     } else {
                         router.push('/users/login');
@@ -60,11 +57,11 @@ export default function Page({handleMain}) {
     return (
                         <div className={style.container}>
                             <div className={style.sidebar}>
-                                <ProfileSidebar handleMain={handleMain} />
+                                <ProfileSidebar handleMain={handleMain} dataProp={data.userData}/>
                             </div>
                             <div className={style.main}>
                                 {/* {renderContent()} */}
-                                <Profile/>
+                                <Profile dataProp={data.userData}/>
                             </div>
                         </div>
                 
