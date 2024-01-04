@@ -9,12 +9,12 @@ import ReplayIcon from '@mui/icons-material/Replay';
 
 
 export default function ProfileSidebar({ handleMain }) {
-    // const [activeLink, setActiveLink] = useState("Watch List");
+    const [activeLink, setActiveLink] = useState("Watch List");
 
-    // const handleLinkClick = (newValue) => {
-    //     setActiveLink(newValue);
-    //     handleMain(newValue);
-    // };
+    const handleLinkClick = (newValue) => {
+        setActiveLink(newValue);
+        handleMain(newValue);
+    };
     return (
         <div className={style.sidebarBody}>
             <div className={style.header}>
