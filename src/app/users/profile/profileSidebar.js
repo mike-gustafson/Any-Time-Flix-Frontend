@@ -10,7 +10,7 @@ import { Avatar } from '@mui/material';
 
 
 export default function ProfileSidebar({ handleMain , dataProp }) {
-    const [activeLink, setActiveLink] = useState("Watch List");
+    const [activeLink, setActiveLink] = useState(" ");
     
 
     const data = dataProp;

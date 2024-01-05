@@ -17,7 +17,7 @@ export default function Page() {
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
-    const [activeView, setActiveView] = useState('Watch List');
+    const [activeView, setActiveView] = useState('');
     const resultsLength = 20;
 
     const handleMain = (selectedView) => {
