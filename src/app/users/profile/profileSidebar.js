@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,6 +16,7 @@ import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
+import Divider from '@mui/material/Divider'
 
 
 export default function ProfileSidebar({ handleMain, dataProp }) {
@@ -33,7 +34,7 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
             <div className={style.header}>
 
                 <Box sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper', paddingTop: 4, paddingLeft: 4 }}>
-                    <list>
+                    
                         <ListItem disablePadding>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <ListItemIcon>
@@ -74,16 +75,16 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                             />
                         </ListItem>
 
-                    </list>
+                
                 </Box>
-
+                <Divider/>
                 <div
                     className={`${style.link} ${activeLink === 'Profile' ? style.activeLink : ''}`}
                     onClick={() => handleLinkClick("Profile")}>
                     <AccountCircleIcon className={style.icon} />Profile
                 </div>
 
-                <h3>Your Theater</h3>
+                <h3>Your Theater<LocalMoviesIcon/></h3>
                 <div
                     className={`${style.link} ${activeLink === 'Watch List' ? style.activeLink : ''}`}
                     onClick={() => handleLinkClick("Watch List")}>
