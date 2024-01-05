@@ -2,7 +2,7 @@ import React from "react";
 import style from "../styles/Homepage.module.css";
 import Login from "../users/login/page";
 
-export default function Homepage() {
+export default function Homepage({handleTabChange}) {
     return (
         <div className={style.container}>
             <section className={style.infoBlock}>
@@ -38,11 +38,9 @@ export default function Homepage() {
                     Ready to get started? Join our community and enjoy the world of
                     movies!
                 </p>
-                <button className="cta-button">Sign Up</button>
-                <button className="cta-button">Log In</button>
             </section>
             <section className={style.infoBlock}>
-                <Login />
+                <Login  handleTabChange={handleTabChange}/>
             </section>
         </div>
     );

@@ -61,7 +61,7 @@ export default function Home() {
     } else {
       if (activeView === 'Home') {
         return (
-          <Homepage />
+          <Homepage  handleTabChange={handleTabChange}/>
         );
       } else if (activeView === 'Account') {
         return (
