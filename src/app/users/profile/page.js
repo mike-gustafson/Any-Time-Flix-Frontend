@@ -8,13 +8,23 @@ import axios from 'axios';
 import setAuthToken from '@/app/utils/setAuthToken';
 import ProfileSidebar from './profileSidebar'
 import Profile from './profile';
+import Results from '@/app/components/Results';
 
 
-export default function Page({handleMain}) {
+export default function Page() {
     // state is what the data is representing in realtime
     const router = useRouter();
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
+    const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
+    const [activeView, setActiveView] = useState('Watch List');
+    const resultsLength = 20;
+
+    const handleMain = (selectedView) => {
+        setActiveView(selectedView);
+        setResultsKey(resultsKey + 1);
+      };
+    
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     let currentTime = Date.now();
@@ -54,16 +64,50 @@ export default function Page({handleMain}) {
 
     if (isLoading) return <p>Loading...</p>;
     if (!data) return <p>No data shown...</p>;
+    const renderContent = () => {
+        if (activeView === 'Watch List') {
+            return (
+              <div>watchlist</div>
+            );
+        } else if (activeView === 'Popular') {
+            return (
+                <Results
+                    key={resultsKey}
+                    resultsLength={resultsLength}
+                    resultsRoute="/movies/popular"
+                    toggleFilter={toggleFilter}
+                />
+            );
+        } else if (activeView === 'Top Rated') {
+            return (
+                <Results
+                    key={resultsKey}
+                    resultsLength={resultsLength}
+                    resultsRoute="/movies/top-rated"
+                    toggleFilter={toggleFilter}
+                />
+            );
+        } else if (activeView === 'Upcoming') {
+            return (
+                <Results
+                    key={resultsKey}
+                    resultsLength={resultsLength}
+                    resultsRoute="/movies/upcoming"
+                    toggleFilter={toggleFilter}
+                />
+            );
+        }
+    };
     return (
-                        <div className={style.container}>
-                            <div className={style.sidebar}>
-                                <ProfileSidebar handleMain={handleMain} dataProp={data.userData}/>
-                            </div>
-                            <div className={style.main}>
-                                {/* {renderContent()} */}
-                                <Profile dataProp={data.userData}/>
-                            </div>
-                        </div>
-                
+        <div className={style.container}>
+            <div className={style.sidebar}>
+                <ProfileSidebar handleMain={handleMain} dataProp={data.userData} />
+            </div>
+            <div className={style.main}>
+                {renderContent()}
+                <Profile dataProp={data.userData} />
+            </div>
+        </div>
+
     )
 }
