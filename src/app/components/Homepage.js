@@ -38,8 +38,6 @@ export default function Homepage({handleTabChange}) {
                     Ready to get started? Join our community and enjoy the world of
                     movies!
                 </p>
-                <button className="cta-button">Sign Up</button>
-                <button className="cta-button">Log In</button>
             </section>
             <section className={style.infoBlock}>
                 <Login  handleTabChange={handleTabChange}/>
