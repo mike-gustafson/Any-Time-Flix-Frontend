@@ -23,7 +23,7 @@ export default function Page({handleMain}) {
     if (currentTime >= expirationTime) {
         handleLogout();
         alert('Session has ended. Please login to continue.');
-        router.push('/users/login');
+        router.push('/');
     }
 
     useEffect(() => {
@@ -48,8 +48,6 @@ export default function Page({handleMain}) {
         } else {
             router.push('/users/login');
         }
-
-
     }, []);
 
     if (isLoading) return <p>Loading...</p>;

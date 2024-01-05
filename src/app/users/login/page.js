@@ -7,7 +7,7 @@ import setAuthToken from '@/app/utils/setAuthToken';
 import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
 
-export default function Login() {
+export default function Login({ handleTabChange }) {
     const router = useRouter();
     const [redirect, setRedirect] = useState(false);
     const [email, setEmail] = useState('');
@@ -47,8 +47,9 @@ export default function Login() {
             });
 
     };
-console.log('sending user to profile: ', redirect)
-    if (redirect) { router.push('/users/profile'); }
+    if (redirect) { 
+        console.log('sending to profile page')
+        handleTabChange('Account')}
     if (error) {
         return (
             <div className={style.container}>
