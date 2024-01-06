@@ -1,0 +1,40 @@
+/* Toast.module.css */
+.toast {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: cyan;
+    color: black;
+    font-weight: bolder;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    animation-fill-mode: forwards;
+}
+
+.slideIn {
+    animation: slideIn 0.5s ease-out;
+}
+
+.slideOut {
+    animation: slideOut 0.5s ease-in;
+}
+
+@keyframes slideIn {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        top: 0;
+    }
+    to {
+        top: -50px;
+    }
+}

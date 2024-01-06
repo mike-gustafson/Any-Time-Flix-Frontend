@@ -8,17 +8,28 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
+import Toast from './Toast';
 
 export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData }) {
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
+    const [toastMessage, setToastMessage] = useState(''); // State for toast message
+
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
             .then((data) => setData(data));
     }, [resultsRoute]);
+
+    const showToast = (message) => {
+        setToastMessage(message);
+    };
+
+    const hideToast = () => {
+        setToastMessage('');
+    };
 
     const handleBoxClick = (id) => {
         setSelectedMovieId(selectedMovieId === id ? null : id);
@@ -36,6 +47,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 movieId={id} 
                 onClose={handleOnClose} 
                 toggleFilter={toggleFilter}
+                userData={data}
             />
         );
     };
@@ -58,7 +70,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             watchList: [...userData.userData.watchList, movieToAdd]
                         }
                     });
-                    alert(`Movie ${movieId} added to ${userData.userData.firstName} ${userData.userData.lastName}'s account`);
+                    showToast(`Movie ${movieToAdd.original_title} added to your Watchlist`);
                 }).catch(error => {
                     console.error('Error updating watchlist', error);
                 });
@@ -85,7 +97,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             watched: [...userData.userData.watched, movieToAdd]
                         }
                     });
-                    alert(`Movie ${movieId} added to ${userData.userData.firstName} ${userData.userData.lastName}'s account`);
+                    showToast(`Movie ${movieToAdd.original_title} added to your Watched Movies`);
                 }).catch(error => {
                     console.error('Error updating watched movies', error);
                 });
@@ -112,7 +124,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             liked: [...userData.userData.liked, movieToAdd]
                         }
                     });
-                    alert(`Movie ${movieId} added to ${userData.userData.firstName} ${userData.userData.lastName}'s account`);
+                    showToast(`Movie ${movieToAdd.original_title} added to your Liked Movies`);
                 }).catch(error => {
                     console.error('Error updating liked movies', error);
                 });
@@ -139,7 +151,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             disliked: [...userData.userData.disliked, movieToAdd]
                         }
                     });
-                    alert(`Movie ${movieId} added to ${userData.userData.firstName} ${userData.userData.lastName}'s account`);
+                    showToast(`Movie ${movieToAdd.original_title} added to your Disliked Movies`);
                 }).catch(error => {
                     console.error('Error updating disliked movies', error);
                 });
@@ -226,6 +238,8 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 </div>
             ))}
             {modalContent}
+            {toastMessage && <Toast message={toastMessage} onDismiss={hideToast} />}
+
         </div>
     );
 }

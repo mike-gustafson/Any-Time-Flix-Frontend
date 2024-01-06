@@ -4,7 +4,7 @@ import Results from './Results';
 import Image from 'next/image';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-export default function MovieDetails({ movie, toggleFilter }) {
+export default function MovieDetails({ movie, toggleFilter, userData }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
   const [isRecommendationsExpanded, setIsRecommendationsExpanded] = useState(false);
 
@@ -135,6 +135,7 @@ export default function MovieDetails({ movie, toggleFilter }) {
                     resultsLength={20}
                     resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`}
                     toggleFilter={fakeToggleFilter}
+                    userData={userData}
                   />
                 </div>
               </div>

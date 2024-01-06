@@ -64,6 +64,7 @@ export default function Home() {
           resultsLength={resultsLength}
           resultsRoute={`/movies/search/${searchQuery}`}
           toggleFilter={toggleFilter}
+          userData={userData}
         />
       );
     } else {
@@ -81,7 +82,7 @@ export default function Home() {
           <Account
             handleUserData={handleUserData} // pass handleUserData function to Account component
             setUserData={setUserData}
-            handleMain={handleMain}
+            handleTabChange={handleTabChange} // pass handleTabChange function to Account component
           />
         );
       } else if (activeView === 'Explore') { // if Explore is clicked in Nav, render Explore component
