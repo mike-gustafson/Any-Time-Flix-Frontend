@@ -4,7 +4,7 @@ import style from '../styles/Explore.module.css';
 import Sidebar from './explore/Sidebar';
 import Results from './Results';
 
-export default function Explore({ toggleFilter }) {
+export default function Explore({ toggleFilter, userData, setUserData }) {
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [activeView, setActiveView] = useState('Top Rated');
   const resultsLength = 20;
@@ -22,6 +22,8 @@ export default function Explore({ toggleFilter }) {
           resultsLength={resultsLength}
           resultsRoute="/movies/now-playing"
           toggleFilter={toggleFilter}
+          userData={userData}
+          setUserData={setUserData}
         />
       );
     } else if (activeView === 'Popular') {
@@ -31,6 +33,8 @@ export default function Explore({ toggleFilter }) {
           resultsLength={resultsLength}
           resultsRoute="/movies/popular"
           toggleFilter={toggleFilter}
+          userData={userData}
+          setUserData={setUserData}
         />
       );
     } else if (activeView === 'Top Rated') {
@@ -40,6 +44,8 @@ export default function Explore({ toggleFilter }) {
           resultsLength={resultsLength}
           resultsRoute="/movies/top-rated"
           toggleFilter={toggleFilter}
+          userData={userData}
+          setUserData={setUserData}
         />
       );
     } else if (activeView === 'Upcoming') {
@@ -49,6 +55,8 @@ export default function Explore({ toggleFilter }) {
           resultsLength={resultsLength}
           resultsRoute="/movies/upcoming"
           toggleFilter={toggleFilter}
+          userData={userData}
+          setUserData={setUserData}
         />
       );
     }

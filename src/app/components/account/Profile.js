@@ -26,11 +26,8 @@ export default function Profile(dataProp) {
     return (
         <div className="container">
             <div className="main-body">
-
                 <nav aria-label="breadcrumb" className="main-breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="/">Home</a></li>
-                        <li className="breadcrumb-item"><a href="/users/profile">Profile</a></li>
                         <li className="breadcrumb-item" onClick={handleLogout}><a href="">Logout</a></li>
                     </ol>
                 </nav>
@@ -40,14 +37,7 @@ export default function Profile(dataProp) {
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    {/* <Image 
-                                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                    alt="Admin"
-                                    className="rounded-circle"
-                                    width="150"
-                                    height={"150"}
-                                    /> */}
-                                   
+                                    We should put something interesting here
                                 </div>
                             </div>
                         </div>
@@ -185,9 +175,6 @@ export default function Profile(dataProp) {
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
 

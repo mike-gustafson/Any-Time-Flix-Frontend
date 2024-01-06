@@ -18,7 +18,6 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import Divider from '@mui/material/Divider'
 
-
 export default function ProfileSidebar({ handleMain, dataProp }) {
     const [activeLink, setActiveLink] = useState(" ");
 
