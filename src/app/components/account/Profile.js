@@ -1,11 +1,8 @@
 "use client";
 import 'bootstrap/dist/css/bootstrap.css';
-import { useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import handleLogout from '@/app/utils/handleLogout';
-import axios from 'axios';
-import setAuthToken from '@/app/utils/setAuthToken';
 
 export default function Profile(dataProp) {
     // state is what the data is representing in realtime

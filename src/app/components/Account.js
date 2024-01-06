@@ -23,7 +23,7 @@ export default function Page({ handleUserData, handleTabChange }) {
             if (Date.now() >= expirationTime) {
                 handleLogout();
                 alert('Session has ended. Please login to continue.');
-                handleMain('Homepage');
+                handleMain('Home');
             }
         };
 

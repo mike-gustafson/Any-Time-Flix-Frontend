@@ -80,7 +80,7 @@ export default function Home() {
         return (
           <Account
             handleUserData={handleUserData} // pass handleUserData function to Account component
-            setUserData={setUserData}
+            
             handleTabChange={handleTabChange} // pass handleTabChange function to Account component
           />
         );

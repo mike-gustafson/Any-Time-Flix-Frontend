@@ -5,6 +5,7 @@ import Sidebar from './explore/Sidebar';
 import Results from './Results';
 
 export default function Explore({ toggleFilter, userData, setUserData }) {
+  console.log('userData', userData)
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [activeView, setActiveView] = useState('Top Rated');
   const resultsLength = 20;
