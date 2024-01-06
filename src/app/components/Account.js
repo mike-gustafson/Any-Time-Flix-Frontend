@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { useRouter } from 'next/router'; // Corrected import from 'next/router'
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 import handleLogout from '@/app/utils/handleLogout';
@@ -11,10 +11,10 @@ import UserList from './account/UserList';
 import ProfileSidebar from './account/ProfileSidebar';
 import style from '../styles/Explore.module.css';
 
-export default function Page({ handleUserData }) {
+export default function Page({ handleUserData, handleTabChange }) {
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
-    const [error, setError] = useState(null); // Added for error handling
+    const [error, setError] = useState(null);
     const [activeView, setActiveView] = useState('Profile');
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function Page({ handleUserData }) {
             if (Date.now() >= expirationTime) {
                 handleLogout();
                 alert('Session has ended. Please login to continue.');
-                router.push('/');
+                handleMain('Homepage');
             }
         };
 
@@ -48,7 +48,8 @@ export default function Page({ handleUserData }) {
                     setLoading(false);
                 });
         } else {
-            router.push('/users/login');
+            alert('Session has ended. Please login to continue.');
+            handleTabChange('Home');
         }
     }, []);
 
@@ -63,7 +64,7 @@ export default function Page({ handleUserData }) {
     };
 
     if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error loading data: {error.message}</p>; // Error handling
+    if (error) return <p>Error loading data: {error.message}</p>;
     if (!data) return <p>No data shown...</p>;
 
     const renderContent = () => {
