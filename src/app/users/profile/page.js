@@ -17,7 +17,7 @@ export default function Page() {
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
-    const [activeView, setActiveView] = useState('Watch List');
+    const [activeView, setActiveView] = useState('Profile');
     const resultsLength = 20;
 
     const handleMain = (selectedView) => {
@@ -63,36 +63,25 @@ export default function Page() {
     if (isLoading) return <p>Loading...</p>;
     if (!data) return <p>No data shown...</p>;
     const renderContent = () => {
-        if (activeView === 'Watch List') {
+        if (activeView === 'Profile') {
             return (
-              <div>watchlist</div>
+             <Profile dataProp={data.userData} />
             );
-        } else if (activeView === 'Popular') {
+        } else if (activeView === 'Watch List') {
             return (
-                <Results
-                    key={resultsKey}
-                    resultsLength={resultsLength}
-                    resultsRoute="/movies/popular"
-                    toggleFilter={toggleFilter}
-                />
+                <div>Watch List</div>
             );
-        } else if (activeView === 'Top Rated') {
+        } else if (activeView === 'Watched') {
             return (
-                <Results
-                    key={resultsKey}
-                    resultsLength={resultsLength}
-                    resultsRoute="/movies/top-rated"
-                    toggleFilter={toggleFilter}
-                />
+               <div>Watched</div>
             );
-        } else if (activeView === 'Upcoming') {
+        } else if (activeView === 'Liked') {
             return (
-                <Results
-                    key={resultsKey}
-                    resultsLength={resultsLength}
-                    resultsRoute="/movies/upcoming"
-                    toggleFilter={toggleFilter}
-                />
+               <div>Liked</div>
+            );
+        }else if (activeView === 'Playlist') {
+            return (
+               <div>Playlist</div>
             );
         }
     };
@@ -103,7 +92,7 @@ export default function Page() {
             </div>
             <div className={style.main}>
                 {renderContent()}
-                <Profile dataProp={data.userData} />
+                
             </div>
         </div>
 
