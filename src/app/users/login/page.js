@@ -8,7 +8,7 @@ import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
 
 
-export default function Login({ handleTabChange }) {
+export default function Login({ handleTabChange,  }) {
     const router = useRouter();
     const [redirect, setRedirect] = useState(false);
     const [email, setEmail] = useState('');
@@ -27,7 +27,6 @@ export default function Login({ handleTabChange }) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password });
     
@@ -51,8 +50,11 @@ export default function Login({ handleTabChange }) {
 
     if (redirect) { 
         console.log('sending to profile page')
-        handleTabChange('Account')}
+        
+        handleTabChange('Account')
+    }
     if (error) {
+        setError(false);
         return (
             <div className={style.container}>
                 <div className={style.singleCard} >

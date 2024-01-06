@@ -15,8 +15,6 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
     const [toastMessage, setToastMessage] = useState(''); // State for toast message
-
-
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
@@ -61,13 +59,14 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 console.error('Movie not found');
                 return;
             }
-            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.userData._id}`, { movie: movieToAdd })
+            console.log('movieToAdd', movieToAdd);
+            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.id}`, { movie: movieToAdd })
                 .then(response => {
                     setUserData({
                         ...userData,
                         userData: {
-                            ...userData.userData,
-                            watchList: [...userData.userData.watchList, movieToAdd]
+                            ...userData,
+                            watchList: [...userData.watchList, movieToAdd]
                         }
                     });
                     showToast(`Movie ${movieToAdd.original_title} added to your Watchlist`);

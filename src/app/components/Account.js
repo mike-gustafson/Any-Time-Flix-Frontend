@@ -29,29 +29,29 @@ export default function Page({ handleUserData, handleTabChange }) {
 
         checkSession();
         setAuthToken(localStorage.getItem('jwtToken'));
-
         if (localStorage.getItem('jwtToken')) {
             axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
                 .then((response) => {
-                    const userData = jwtDecode(localStorage.getItem('jwtToken'));
+                    // data is an object
+                    let userData = jwtDecode(localStorage.getItem('jwtToken'));
+                    handleUserData(userData);
                     if (userData.email === localStorage.getItem('email')) {
                         setData(response.data);
-                        handleUserData(response.data);
                         setLoading(false);
                     } else {
-                        router.push('/users/login');
+                        console.log('/users/login');
                     }
                 })
                 .catch((error) => {
-                    console.error('error', error);
-                    setError(error);
-                    setLoading(false);
+                    console.log('error2', error);
+                    handleLogout();
+                    handleTabChange('Home');
                 });
         } else {
-            alert('Session has ended. Please login to continue.');
-            handleTabChange('Home');
+            console.log('/users/login');
         }
     }, []);
+
 
     const handleUpdateList = (listName, removedMovieId) => {
         setData(prevData => ({

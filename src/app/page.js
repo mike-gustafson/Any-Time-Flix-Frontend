@@ -28,7 +28,6 @@ export default function Home() {
 
   const handleUserData = (data) => {
     setUserData(data);
-    console.log('user data', data)
   }
 
   const handleMain = (setActiveView, setResultsKey, resultsKey, selectedView) => {
