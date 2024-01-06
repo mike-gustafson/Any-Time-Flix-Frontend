@@ -129,7 +129,58 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.addToWatchList:hover {
+.addToWatchedList {
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToLiked {
+    position: absolute;
+    bottom: 10px;
+    left: 70px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToDisliked {
+    position: absolute;
+    bottom: 10px;
+    left: 100px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToWatchList:hover, .addToWatchedList:hover, .addToLiked:hover, .addToDisliked:hover {
     background-color: rgba(255, 255, 255, 0.8);
     transition: background-color 0.3s ease-in-out;
 }

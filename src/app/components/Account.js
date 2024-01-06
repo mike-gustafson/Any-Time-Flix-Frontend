@@ -1,30 +1,37 @@
 'use client'
-import { useState, useEffect } from 'react';
-import style from '../../styles/Explore.module.css'
-import jwtDecode from 'jwt-decode';
-import { useRouter } from 'next/navigation';
-import handleLogout from '@/app/utils/handleLogout';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+
+// import different use hooks from react and next
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, useContext } from 'react';
+
+// import different functions from utils
+import handleLogout from '@/app/utils/handleLogout';
 import setAuthToken from '@/app/utils/setAuthToken';
-import ProfileSidebar from './profileSidebar'
-import Profile from './profile';
-import Results from '@/app/components/Results';
 
+// import different components
+import Profile from './account/Profile';
+import UserList from './account/UserList';
+import ProfileSidebar from './account/ProfileSidebar'
 
-export default function Page() {
-    // state is what the data is representing in realtime
-    const router = useRouter();
-    const [data, setData] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-    const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
-    const [activeView, setActiveView] = useState('Profile');
-    const resultsLength = 20;
+// import style from '../styles/Explore.module.css'
+import style from '../styles/Explore.module.css'
 
-    const handleMain = (selectedView) => {
-        setActiveView(selectedView);
-        setResultsKey(resultsKey + 1);
-      };
+export default function Page({handleUserData, handleMain}) {
     
+    // useRouter hook allows us to access the router object
+    const router = useRouter();
+
+    // useState hook allows us to use state in a functional component
+    const [data, setData] = useState(null); // data is the user data returned from the server
+    const [isLoading, setLoading] = useState(true); // isLoading is used to determine if data has been returned from the server
+    const [resultsKey, setResultsKey] = useState(1); // resultsKey is used to re-render the Results component
+    const [activeView, setActiveView] = useState('Profile'); // activeView is used to determine which content to render in the main section of the page
+
+    const customHandleMain = (selectedView) => {
+        handleMain(setActiveView, setResultsKey, resultsKey, selectedView);
+    };
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     let currentTime = Date.now();
@@ -45,6 +52,7 @@ export default function Page() {
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     if (userData.email === localStorage.getItem('email')) {
                         setData(response.data);
+                        handleUserData(response.data);
                         setLoading(false);
                     } else {
                         router.push('/users/login');
@@ -69,15 +77,15 @@ export default function Page() {
             );
         } else if (activeView === 'Watch List') {
             return (
-                <div>Watch List</div>
+                <UserList list={data.userData.watchList} />
             );
         } else if (activeView === 'Watched') {
             return (
-               <div>Watched</div>
+               <UserList list={data.userData.watched} />
             );
         } else if (activeView === 'Liked') {
             return (
-               <div>Liked</div>
+               <UserList list={data.userData.liked} />
             );
         }else if (activeView === 'Playlist') {
             return (
@@ -88,7 +96,7 @@ export default function Page() {
     return (
         <div className={style.container}>
             <div className={style.sidebar}>
-                <ProfileSidebar handleMain={handleMain} dataProp={data.userData} />
+                <ProfileSidebar handleMain={customHandleMain} dataProp={data.userData} />
             </div>
             <div className={style.main}>
                 {renderContent()}

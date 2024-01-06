@@ -7,6 +7,7 @@ import setAuthToken from '@/app/utils/setAuthToken';
 import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
 
+
 export default function Login({ handleTabChange }) {
     const router = useRouter();
     const [redirect, setRedirect] = useState(false);
@@ -14,9 +15,6 @@ export default function Login({ handleTabChange }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
-
-
 
     const handleEmail = (e) => {
         // fill in code

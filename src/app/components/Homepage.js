@@ -40,7 +40,9 @@ export default function Homepage({handleTabChange}) {
                 </p>
             </section>
             <section className={style.infoBlock}>
-                <Login  handleTabChange={handleTabChange}/>
+                <Login
+                    handleTabChange={handleTabChange}
+                />
             </section>
         </div>
     );
