@@ -31,3 +31,10 @@
     margin: 3rem 0 0 0;
     padding:  10px;
   }
+
+  @media (max-Width: 375px) {
+    .main {
+      margin: 0 0 0 0;
+    }
+    
+  }

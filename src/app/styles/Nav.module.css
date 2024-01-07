@@ -1,15 +1,47 @@
 .container {
-    align-items: center;
-    background-color: black;
-    width: stretch;
-    margin: 0;
-    position: fixed;
-    display: flex;
-    top: 0;
-    left: 0;
     height: 3rem;
     z-index: 3;
 }
+    .largeNavBar {
+        visibility: hidden;
+        align-items: center;
+        background-color: black;
+        width: stretch;
+        margin: 0;
+        position: fixed;
+        display: flex;
+        top: 0;
+        left: 0;
+    }
+    .mobileNavBar {
+        visibility: visible;
+        align-items: center;
+        background-color: black;
+        width: stretch;
+        height: 3rem;
+        margin: 0;
+        position: fixed;
+        display: flex;
+        bottom: 0;
+        left: 0;
+    }
+    .mobileHeader {
+        visibility: visible;
+        align-items: center;
+        background-color: black;
+        width: stretch;
+        height: 3rem;
+        margin: 0;
+        position: fixed;
+        display: flex;
+        top: 0;
+        left: 0;
+    }
+    .mobileHeader .title {
+        margin: 10px;
+        font-size: 30px;
+    }
+
     .title {
         display: flex;
         align-items: center;
@@ -23,4 +55,22 @@
     }
     .title:hover {
         cursor: pointer;
+    }
+
+    @media (max-width: 375px) {
+        .largeNavBar {
+            visibility: hidden;
+        }
+        .mobileNavBar, .mobileHeader {
+            visibility: visible;
+        }
+    }
+
+    @media (min-width: 376px) {
+        .largeNavBar {
+            visibility: visible;
+        }
+        .mobileNavBar, .mobileHeader {
+            visibility: hidden;
+        }
     }
