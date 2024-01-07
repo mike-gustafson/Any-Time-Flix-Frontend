@@ -1,67 +1,186 @@
 .container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: left;
+}
+
+.box, .expandedBox {
+    display: flex;
     flex-direction: row;
-    justify-content: center;
-    height: stretch;
-  }
-  .sidebar {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      width: 20%;
-      background-color: white;
-  }
-  .main {
-      display: flex;
-      position:relative;
-      flex-direction: column;
-      width: stretch;
-      background-color: white;
-      padding: 20px;
-  }
-  .link {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 82%;
-      margin: 7px 0;
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      font-weight: 600;
-      transition: all 0.2s ease-in-out;
-  }
-  .icon {
-      display: flex;
-      margin: 8px;
-      flex-direction: row;
-      align-items: center;
-      font-size: 32px;
-      color: goldenrod;
-      background-color: white;
-      height: 32px;
-      justify-content: center;
-      border-radius: 25px;
-      padding: 4px;
-  }
-  .link:hover {
-      background-color: #e0e0e0;
-      color: black;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-  }
-  .link:hover > .icon {
-      background-color: rgb(85, 85, 85);
-  }
-  .activeLink {
-      background-color: rgb(154, 153, 153);
-      color: white;
-  }
-  .activeLink > .icon {
-      background-color: #f0f0f0;
-  }
-  .sidebarBody{
-      margin: 0;
-      padding: 0;
-      position: fixed;
-      width: inherit;
-  }
+    position: relative;
+    border-radius: 25px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.5);
+    transition: width 0.3s ease-in-out;
+}
+
+.box {
+    width: 175px;
+    max-height: 262.5px;
+}
+
+.expandedBox {
+    width: 370px;
+    max-height: 262.5px;
+    background-color: rgb(192, 189, 189);
+}
+
+.imageContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    width: 175px;
+    max-height: 262.5px;
+    border-radius: 25px;
+}
+
+.image {
+    grid-area: 1 / 1 / 6 / 6;
+    border-radius: 25px;
+    transition: filter 0.3s ease-in-out;
+}
+
+.detailsLink {
+    grid-area: 1 / 1 / 2 / 2;
+    background-color: rgb(41, 40, 40);
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    width: inherit;
+    visibility: hidden; /* Initially hidden */
+    text-align: center;
+}
+
+.expandedBox .detailsLink {
+    visibility: visible;
+    border-top-left-radius: 25px;
+}
+
+.box:hover .image {
+    filter: brightness(0.7);
+}
+
+.details {
+    display: flex;
+    width: 50%;
+    height: 262.5px;
+    flex-direction: column;
+}
+
+.titleContainer, .summaryContainer, .infoContainer {
+    display: flex;
+    padding: 5px;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: inherit;
+}
+
+.summaryContainer {
+    font-size: 12px;
+    max-height: 200px;
+    overflow-y: scroll;
+    background-color: rgb(192, 189, 189);
+}
+
+.summaryContainer::-webkit-scrollbar {
+    width: 7px;
+}
+
+.summaryContainer::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 25px;
+}
+
+.infoContainer {
+    position: absolute;
+    bottom: 5px;  
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.stat {
+    font-size: 10px;
+}
+
+.addToWatchList {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToWatchedList {
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToLiked {
+    position: absolute;
+    bottom: 10px;
+    left: 70px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToDisliked {
+    position: absolute;
+    bottom: 10px;
+    left: 100px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.addToWatchList:hover, .addToWatchedList:hover, .addToLiked:hover, .addToDisliked:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s ease-in-out;
+}
