@@ -18,7 +18,7 @@
         align-items: center;
         background-color: black;
         width: stretch;
-        height: 3rem;
+        height: fit-content;
         margin: 0;
         position: fixed;
         display: flex;
