@@ -15,7 +15,7 @@ export default function Homepage({handleTabChange}) {
                     <li>React for the interactive user interface</li>
                     <li>Node.js and Express for robust server-side operations</li>
                     <li>MongoDB for secure and scalable data storage</li>
-                    <li>Authentication with JWT for your data's protection</li>
+                    <li>Authentication with JWT for your datas protection</li>
                     <li>Webpack for optimized asset management</li>
                     <li>Modern CSS/SASS for elegant styling</li>
                 </ul>

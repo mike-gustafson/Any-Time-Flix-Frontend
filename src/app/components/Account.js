@@ -64,7 +64,7 @@ export default function Page({ handleUserData, handleTabChange }) {
         } else {
             console.log('/users/login');
         }
-    }, []);
+    });
 
 
     const handleUpdateList = (listName, removedMovieId) => {
