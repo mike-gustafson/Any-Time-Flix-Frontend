@@ -2,7 +2,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
-import style from '../styles/Results.module.css';
+import { style } from '../styles/Results.module.css';
 
 import AddIcon from '@mui/icons-material/Add';
 import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
