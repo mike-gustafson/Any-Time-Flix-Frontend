@@ -1,4 +1,4 @@
-import style from '../styles/Tabs.module.css';
+import { style } from '../styles/Tabs.module.css';
 
 import HomeIcon from '@mui/icons-material/Home';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
