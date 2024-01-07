@@ -9,7 +9,7 @@
 }
     .card {
         width: 50%;
-        height: inherit;
+        height: 100%;
         overflow: hidden;
         color: black;
         border-radius: 0.5rem;
@@ -102,6 +102,9 @@
         justify-content: center;
         align-items: center;
         
+    }
+    .card {
+        height: 15rem;
     }
     .button {
         width: 75%;

@@ -18,7 +18,7 @@
         align-items: center;
         background-color: black;
         width: stretch;
-        height: fit-content;
+        height: inherit;
         margin: 0;
         position: fixed;
         display: flex;
@@ -30,7 +30,7 @@
         align-items: center;
         background-color: black;
         width: stretch;
-        height: 3rem;
+        height: inherit;
         margin: 0;
         position: fixed;
         display: flex;

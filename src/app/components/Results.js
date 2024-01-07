@@ -63,6 +63,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 return;
             }
             if (userData) {
+                console.log(userData, 'userData')
                 axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.id}`, { movie: movieToAdd })
                     .then(response => {
                         setUserData({

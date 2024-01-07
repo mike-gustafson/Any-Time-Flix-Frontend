@@ -20,7 +20,6 @@ export default function UserList({ list, listName, dataProp, onUpdateList }) {
 
   return (
     <div>
-      {console.log('list', list) }
       {list.map(movie => (
         <div key={movie._id} style={{ display: 'flex', marginBottom: '20px', border: '1px solid #ccc', padding: '10px', width: '50%'}}>
           <div style={{ width: '60%', height: '100%', backgroundColor: 'red', marginRight: '20px' }}>
