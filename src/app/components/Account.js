@@ -72,7 +72,7 @@ export default function Page({ handleUserData, handleTabChange }) {
             ...prevData,
             userData: {
                 ...prevData.userData,
-                [listName]: prevData.userData[listName].filter(movie => movie.id !== removedMovieId)
+                [listName]: prevData[listName].filter(movie => movie.id !== removedMovieId)
             }
         }));
     };
@@ -88,9 +88,8 @@ export default function Page({ handleUserData, handleTabChange }) {
             'Liked': 'liked'
         };
         const currentListName = listMapping[activeView];
-
         return currentListName ? (
-            <UserList list={data.userData[currentListName]} dataProp={data} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
+            <UserList list={data[currentListName]} dataProp={data} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
         ) : (
             <Profile dataProp={data.userData} />
         );
