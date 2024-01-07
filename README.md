@@ -10,7 +10,7 @@ ANY-TIME-FLIX IS A SOLUTION TO THIS ISSUE ALLOWING YOU TO VIEW NEW AND OLD MOVIE
 
 1. FORK and CLONE this repo
 2. Run npm install from your terminal while inside of the project's directory.
-3. Check make sure the backend sever is running. Use nodemon to start server. [backend]https://github.com/mike-gustafson/Any-Time-Flix/tree/main
+3. Check make sure the backend sever is running. Use nodemon to start server. [backend](https://github.com/mike-gustafson/Any-Time-Flix/tree/main)
 4. Once connected you should see the port # you are using 
 5. Create a .env file inside your front-end repo
 6. Inside .env file put NEXT_PUBLIC_SERVER_URL=http://localhost:8000 (assuming your running sever 8000)
