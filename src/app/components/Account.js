@@ -50,7 +50,6 @@ export default function Page({ handleUserData, handleTabChange }) {
                     if (userData.email === localStorage.getItem('email')) {
                         const combinedData = mergeObjects(response.data.userData, userData);
                         setData(combinedData);
-                        console.log('Combined Data:', combinedData);
                         setLoading(false);
                     } else {
                         console.log('/users/login');

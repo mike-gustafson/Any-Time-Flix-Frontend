@@ -17,6 +17,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
     const [toastMessage, setToastMessage] = useState(''); // State for toast message
+
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
@@ -64,7 +65,6 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
             if (userData) {
                 axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.id}`, { movie: movieToAdd })
                     .then(response => {
-                        console.log('userData', userData)
                         setUserData({
                             ...userData,
                             userData: {

@@ -20,7 +20,6 @@ import Divider from '@mui/material/Divider'
 
 export default function ProfileSidebar({ handleMain, dataProp }) {
     const [activeLink, setActiveLink] = useState(" ");
-console.log('dataProp', dataProp)
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
