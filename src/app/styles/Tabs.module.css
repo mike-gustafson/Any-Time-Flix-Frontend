@@ -6,16 +6,16 @@
     width: stretch;
     margin: 0;
 }
-.icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: cyan;
-    height: 100%;
-    width: 100px;
-}
-.icon:hover {
-    color: goldenrod;
-    cursor: pointer;
-}
+    .icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: cyan;
+        height: 100%;
+        width: 100px;
+    }
+    .icon:hover {
+        color: goldenrod;
+        cursor: pointer;
+    }

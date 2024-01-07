@@ -6,7 +6,7 @@ export default function Nav({ handleTabChange, handleSearch }) {
 
   return (
     <div className={style.container}>
-      <h1 className={style.title}>Any Time Flix</h1>
+      <h1 className={style.title} onClick={() => handleTabChange('Homepage')}>Any Time Flix</h1>
       <Tabs handleTabChange={handleTabChange} />
       <Search handleSearch={handleSearch} />
     </div>

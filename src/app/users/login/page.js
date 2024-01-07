@@ -69,11 +69,11 @@ export default function Login({ handleTabChange, handleUserData }) {
                         <p>Sign In to your account</p>
                         <div className="input-group mb-3">
                             <span className="input-group-addon"><i className="fa fa-user"></i></span>
-                            <input type="text" className="form-control" placeholder="Email" value={email} onChange={handleEmail} required />
+                            <input type="text" id="email" name="email" className="form-control" placeholder="Email" value={email} onChange={handleEmail} required />
                         </div>
                         <div className="input-group mb-4">
                             <span className="input-group-addon"><i className="fa fa-lock"></i></span>
-                            <input type="password" className="form-control" placeholder="Password" alue={password} onChange={handlePassword} required />
+                            <input type="password" id="password" name="password" className="form-control" placeholder="Password" alue={password} onChange={handlePassword} required />
                         </div>
                         <div className={style.loginButtons}>
                             <button type="submit" className={style.button}>Login</button>
@@ -96,11 +96,11 @@ export default function Login({ handleTabChange, handleUserData }) {
                         <p>Sign In to your account</p>
                         <div className="input-group mb-3">
                             <span className="input-group-addon"><i className="fa fa-user"></i></span>
-                            <input type="text" className="form-control" placeholder="Email" value={email} onChange={handleEmail} required />
+                            <input type="text" id="email" name="email" autoComplete="off" className="form-control" placeholder="Email" value={email} onChange={handleEmail} required />
                         </div>
                         <div className="input-group mb-4">
                             <span className="input-group-addon"><i className="fa fa-lock"></i></span>
-                            <input type="password" className="form-control" placeholder="Password" alue={password} onChange={handlePassword} required />
+                            <input type="password" id="password" name="password" autoComplete="off" className="form-control" placeholder="Password" alue={password} onChange={handlePassword} required />
                         </div>
                         <div className={style.loginButtons}>
                             <button type="submit" className={style.button}>Login</button>
