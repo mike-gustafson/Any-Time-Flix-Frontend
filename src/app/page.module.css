@@ -7,21 +7,22 @@
   height: 100%;
   background-color: white;
 }
-.dimmingOverlayHidden {
-  visibility: hidden;
-}
 
-.dimmingOverlayVisible {
-  visibility: visible;
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-}
+  .dimmingOverlayHidden {
+    visibility: hidden;
+  }
+
+  .dimmingOverlayVisible {
+    visibility: visible;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
 
   .main {
     display: flex;
@@ -30,43 +31,3 @@
     margin: 3rem 0 0 0;
     padding:  10px;
   }
-    .banner {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-      .title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 0;
-        width: 100%;
-      }
-      .resultsLengthMenu {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-      }
-        .resultsLabel {
-          font-size: 1rem;
-          font-weight: 600;
-          margin: 0;
-          height: 100%;
-        }
-        .resultsLengthMenu > select {
-          margin: 0 10px;
-          padding: 0;
-          background-color: white;
-          color: black;
-          border: none;
-          font-size: 1rem;
-          font-weight: 600;
-        }
-    .main > hr {
-      width: 100%;
-      margin: 5px 0;
-      border: 1px solid black;
-    }

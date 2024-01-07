@@ -1,6 +1,6 @@
 import React from "react";
 import style from "../styles/Homepage.module.css";
-import Login from "../users/login/page";
+import Login from "./Login";
 
 export default function Homepage({handleTabChange}) {
     return (
