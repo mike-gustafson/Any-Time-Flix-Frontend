@@ -3,8 +3,11 @@ import { useState } from 'react';
 import style from '../styles/Explore.module.css';
 import Sidebar from './explore/Sidebar';
 import Results from './Results';
+import Home from '../page';
+import { Movie } from '@mui/icons-material';
 
-export default function Explore({ toggleFilter, userData, setUserData }) {
+export default function Explore({ toggleFilter, userData, setUserData, handleTabChange }) {
+  console.log('userData', userData)
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [activeView, setActiveView] = useState('Top Rated');
   const resultsLength = 20;
@@ -24,6 +27,7 @@ export default function Explore({ toggleFilter, userData, setUserData }) {
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
+          handleTabChange={handleTabChange}
         />
       );
     } else if (activeView === 'Popular') {
@@ -35,6 +39,7 @@ export default function Explore({ toggleFilter, userData, setUserData }) {
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
+          handleTabChange={handleTabChange}
         />
       );
     } else if (activeView === 'Top Rated') {
@@ -46,6 +51,7 @@ export default function Explore({ toggleFilter, userData, setUserData }) {
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
+          handleTabChange={handleTabChange}
         />
       );
     } else if (activeView === 'Upcoming') {
@@ -57,6 +63,7 @@ export default function Explore({ toggleFilter, userData, setUserData }) {
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
+          handleTabChange={handleTabChange}
         />
       );
     }
@@ -73,3 +80,4 @@ export default function Explore({ toggleFilter, userData, setUserData }) {
     </div>
   );  
 }
+

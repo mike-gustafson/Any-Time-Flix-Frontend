@@ -17,41 +17,55 @@ export default function Page({ handleUserData, handleTabChange }) {
     const [error, setError] = useState(null);
     const [activeView, setActiveView] = useState('Profile');
 
+    function mergeObjects(obj1, obj2) {
+        const result = { ...obj1 };
+      
+        for (const key in obj2) {
+          if (!result.hasOwnProperty(key)) {
+            result[key] = obj2[key];
+          }
+        }
+      
+        return result;
+      }
+
     useEffect(() => {
         const checkSession = () => {
             const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
             if (Date.now() >= expirationTime) {
                 handleLogout();
                 alert('Session has ended. Please login to continue.');
-                handleMain('Homepage');
+                handleTabChange('Home');
             }
         };
 
         checkSession();
         setAuthToken(localStorage.getItem('jwtToken'));
-
         if (localStorage.getItem('jwtToken')) {
             axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
                 .then((response) => {
-                    const userData = jwtDecode(localStorage.getItem('jwtToken'));
+                    // data is an object
+                    let userData = jwtDecode(localStorage.getItem('jwtToken'));
+                    handleUserData(userData);
                     if (userData.email === localStorage.getItem('email')) {
-                        setData(response.data);
-                        handleUserData(response.data);
+                        const combinedData = mergeObjects(response.data.userData, userData);
+                        setData(combinedData);
+                        console.log('Combined Data:', combinedData);
                         setLoading(false);
                     } else {
-                        router.push('/users/login');
+                        console.log('/users/login');
                     }
                 })
                 .catch((error) => {
-                    console.error('error', error);
-                    setError(error);
-                    setLoading(false);
+                    console.log('error2', error);
+                    handleLogout();
+                    handleTabChange('Home');
                 });
         } else {
-            alert('Session has ended. Please login to continue.');
-            handleTabChange('Home');
+            console.log('/users/login');
         }
     }, []);
+
 
     const handleUpdateList = (listName, removedMovieId) => {
         setData(prevData => ({
@@ -76,7 +90,7 @@ export default function Page({ handleUserData, handleTabChange }) {
         const currentListName = listMapping[activeView];
 
         return currentListName ? (
-            <UserList list={data.userData[currentListName]} dataProp={data.userData} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
+            <UserList list={data.userData[currentListName]} dataProp={data} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
         ) : (
             <Profile dataProp={data.userData} />
         );
@@ -85,7 +99,7 @@ export default function Page({ handleUserData, handleTabChange }) {
     return (
         <div className={style.container}>
             <div className={style.sidebar}>
-                <ProfileSidebar handleMain={setActiveView} dataProp={data.userData} />
+                <ProfileSidebar handleMain={setActiveView} dataProp={data} />
             </div>
             <div className={style.main}>
                 {renderContent()}

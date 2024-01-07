@@ -8,7 +8,7 @@ import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
 
 
-export default function Login({ handleTabChange }) {
+export default function Login({ handleTabChange, handleUserData }) {
     const router = useRouter();
     const [redirect, setRedirect] = useState(false);
     const [email, setEmail] = useState('');
@@ -27,17 +27,20 @@ export default function Login({ handleTabChange }) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password });
     
             if (response.status === 200) {
                 console.log('success');
+                console.log(response.data)
                 localStorage.setItem('jwtToken', response.data.token);
-                localStorage.setItem('email', response.data.userData.email);
-                localStorage.setItem('expiration', response.data.userData.exp);
+                localStorage.setItem('email', response.data.loginData.email);
+                localStorage.setItem('expiration', response.data.loginData.exp);
                 setAuthToken(response.data.token);
                 let decoded = jwtDecode(response.data.token);
+                const userDataFetch = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${decoded.email}`);
+                const userData = userDataFetch.data.userData;
+                console.log('userData', userData)
                 setRedirect(true);
             } else {
                 console.log('Login failed, code:', response.status);
@@ -51,8 +54,11 @@ export default function Login({ handleTabChange }) {
 
     if (redirect) { 
         console.log('sending to profile page')
-        handleTabChange('Account')}
+        
+        handleTabChange('Account')
+    }
     if (error) {
+        setError(false);
         return (
             <div className={style.container}>
                 <div className={style.singleCard} >

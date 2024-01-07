@@ -28,7 +28,6 @@ export default function Home() {
 
   const handleUserData = (data) => {
     setUserData(data);
-    console.log('user data', data)
   }
 
   const handleMain = (setActiveView, setResultsKey, resultsKey, selectedView) => {
@@ -81,7 +80,7 @@ export default function Home() {
         return (
           <Account
             handleUserData={handleUserData} // pass handleUserData function to Account component
-            setUserData={setUserData}
+            
             handleTabChange={handleTabChange} // pass handleTabChange function to Account component
           />
         );
@@ -91,6 +90,7 @@ export default function Home() {
             toggleFilter={toggleFilter}  // pass toggleFilter function to Explore component
             userData={userData} // pass handleUserData function to Explore component
             setUserData={setUserData}
+            handleTabChange={handleTabChange} // pass handleTabChange function to Explore component
           />
           // Modal is triggered in Explore component so toggleFilter must be used there to dim background
         );

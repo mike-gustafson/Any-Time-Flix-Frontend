@@ -10,13 +10,11 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
 import Toast from './Toast';
 
-export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData }) {
+export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData, handleTabChange }) {
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
     const [toastMessage, setToastMessage] = useState(''); // State for toast message
-
-
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
@@ -61,21 +59,27 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 console.error('Movie not found');
                 return;
             }
-            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.userData._id}`, { movie: movieToAdd })
-                .then(response => {
-                    setUserData({
-                        ...userData,
-                        userData: {
-                            ...userData.userData,
-                            watchList: [...userData.userData.watchList, movieToAdd]
-                        }
+            if (userData) {
+                axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.id}`, { movie: movieToAdd })
+                    .then(response => {
+                        console.log('userData', userData)
+                        setUserData({
+                            ...userData,
+                            userData: {
+                                ...userData,
+                                watchList: [...userData.watchList, movieToAdd]
+                            }
+                        });
+                        showToast(`Movie ${movieToAdd.original_title} added to your Watchlist`);
+                    }).catch(error => {
+                        console.error('Error updating watchlist', error);
                     });
-                    showToast(`Movie ${movieToAdd.original_title} added to your Watchlist`);
-                }).catch(error => {
-                    console.error('Error updating watchlist', error);
-                });
+            } else {
+                alert('Please login to add to your watchlist');
+                handleTabChange('Home');
+            }
         } else {
-            window.location.href = '/users/login';
+            handleTabChange('Home');
         }
     };
 
