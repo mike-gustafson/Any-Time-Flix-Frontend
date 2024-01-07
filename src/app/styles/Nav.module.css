@@ -57,7 +57,7 @@
         cursor: pointer;
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 570px) {
         .largeNavBar {
             visibility: hidden;
         }
@@ -66,7 +66,7 @@
         }
     }
 
-    @media (min-width: 376px) {
+    @media (min-width: 571px) {
         .largeNavBar {
             visibility: visible;
         }
