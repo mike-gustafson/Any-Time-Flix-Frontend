@@ -1,14 +1,16 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import jwtDecode from 'jwt-decode';
-import style from '../styles/Results.module.css';
-import MovieDetailsModal from './MovieDetailsModal';
+import React, { useState, useEffect } from 'react';
+
+import style from '../styles/Explore.module.css';
+
 import AddIcon from '@mui/icons-material/Add';
+import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
+
 import Toast from './Toast';
+import MovieDetailsModal from './MovieDetailsModal';
 
 export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData, handleTabChange }) {
     const [data, setData] = useState(null);
