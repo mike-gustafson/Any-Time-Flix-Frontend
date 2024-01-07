@@ -17,13 +17,25 @@ export default function Page({ handleUserData, handleTabChange }) {
     const [error, setError] = useState(null);
     const [activeView, setActiveView] = useState('Profile');
 
+    function mergeObjects(obj1, obj2) {
+        const result = { ...obj1 };
+      
+        for (const key in obj2) {
+          if (!result.hasOwnProperty(key)) {
+            result[key] = obj2[key];
+          }
+        }
+      
+        return result;
+      }
+
     useEffect(() => {
         const checkSession = () => {
             const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
             if (Date.now() >= expirationTime) {
                 handleLogout();
                 alert('Session has ended. Please login to continue.');
-                handleMain('Home');
+                handleTabChange('Home');
             }
         };
 
@@ -36,7 +48,9 @@ export default function Page({ handleUserData, handleTabChange }) {
                     let userData = jwtDecode(localStorage.getItem('jwtToken'));
                     handleUserData(userData);
                     if (userData.email === localStorage.getItem('email')) {
-                        setData(response.data);
+                        const combinedData = mergeObjects(response.data.userData, userData);
+                        setData(combinedData);
+                        console.log('Combined Data:', combinedData);
                         setLoading(false);
                     } else {
                         console.log('/users/login');
@@ -76,7 +90,7 @@ export default function Page({ handleUserData, handleTabChange }) {
         const currentListName = listMapping[activeView];
 
         return currentListName ? (
-            <UserList list={data.userData[currentListName]} dataProp={data.userData} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
+            <UserList list={data.userData[currentListName]} dataProp={data} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
         ) : (
             <Profile dataProp={data.userData} />
         );
@@ -85,7 +99,7 @@ export default function Page({ handleUserData, handleTabChange }) {
     return (
         <div className={style.container}>
             <div className={style.sidebar}>
-                <ProfileSidebar handleMain={setActiveView} dataProp={data.userData} />
+                <ProfileSidebar handleMain={setActiveView} dataProp={data} />
             </div>
             <div className={style.main}>
                 {renderContent()}

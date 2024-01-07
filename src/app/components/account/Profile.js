@@ -8,7 +8,7 @@ export default function Profile(dataProp) {
     // state is what the data is representing in realtime
     const router = useRouter();
     const [isLoading, setLoading] = useState(true);
-    let data = dataProp.dataProp;
+    let data = dataProp;
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     let currentTime = Date.now();

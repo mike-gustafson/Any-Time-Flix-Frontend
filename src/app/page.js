@@ -90,6 +90,7 @@ export default function Home() {
             toggleFilter={toggleFilter}  // pass toggleFilter function to Explore component
             userData={userData} // pass handleUserData function to Explore component
             setUserData={setUserData}
+            handleTabChange={handleTabChange} // pass handleTabChange function to Explore component
           />
           // Modal is triggered in Explore component so toggleFilter must be used there to dim background
         );
