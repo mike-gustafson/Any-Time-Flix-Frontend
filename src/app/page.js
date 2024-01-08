@@ -93,7 +93,7 @@ export default function Home() {
     setResultsKey((prevKey) => prevKey + 1);
   };
 
-  const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}`};
+  const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}`, setUserData, handleTabChange};
   const exploreProps = { toggleFilter, userData, setUserData, handleTabChange };
   const homepageProps = { handleTabChange, handleUserData, setUserData, userData };
   const accountProps = { handleUserData, handleTabChange };

@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import axios from 'axios';
-
+import style from '../../styles/UserList.module.css';
 export default function UserList({ list, listName, dataProp, onUpdateList }) {
   
-  const handleRemoveFromListClick = async (event, movieId) => {
+  const handleRemoveFromListClick = async (event, movie) => {
     event.preventDefault();
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listName}/${dataProp._id}`, { movieId });
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listName}/${dataProp.id}`, { movie });
       if (response.status === 200) {
         // Call the callback function to update the list in the parent component
-        onUpdateList(movieId);
+        onUpdateList(movie);
       } else {
         console.log('Error removing movie, code:', response.status);
       }
@@ -19,21 +19,27 @@ export default function UserList({ list, listName, dataProp, onUpdateList }) {
   }
 
   return (
-    <div>
+    <div className={style.container}>
       {list.map(movie => (
-        <div key={movie._id} style={{ display: 'flex', marginBottom: '20px', border: '1px solid #ccc', padding: '10px', width: '50%'}}>
-          <div style={{ width: '60%', height: '100%', backgroundColor: 'red', marginRight: '20px' }}>
+        <div className={style.listItem} key={movie._id}>
+          <div className={style.imageContainer}>
             <Image
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              width={200}
-              height={200}
+              height={158}
+              width={100}
               alt={`${movie.title}`}
             />
           </div>
-          <div>
-            <h3>{movie.original_title}</h3>
-            <p>{movie.overview}</p>
-            <h6 onClick={(event) => handleRemoveFromListClick(event, movie.id)}>Remove from {listName}</h6>
+          <div className={style.detailsContainer}>
+            <div className={style.detailsHeader}>
+              <h3 className={style.title}>{movie.original_title}</h3>
+              <div className={`${style.removeButtonContainer} ${style.tooltip}`} onClick={(event) => handleRemoveFromListClick(event, movie)}>
+                X
+              </div>
+            </div>
+            <div className={style.detailsBody}>
+              <p className={style.overview}>{movie.overview}</p>
+            </div>
           </div>
         </div>
       ))}

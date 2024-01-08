@@ -86,10 +86,8 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
             if (isMovieInList(listType, movieId)) {
                 axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listEndpoint}`, { movie: movie})
                     .then((response) => {
-                        console.log('Route ran: ', `${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listEndpoint}`)
-                        console.log('Movie removed from list', response.data);
                         setUserData(response.data);
-                        const message = `${movieToAdd.original_title} removed from your ${listType} movies`;
+                        const message = `${movie.original_title} removed from your ${listType} movies`;
                         showToast(message);
                     })
                     .catch((error) => {
@@ -99,13 +97,11 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
             } else {
                 axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: movie})
                     .then((response) => {
-                        console.log('Route ran: ', `${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`)
-                        console.log('Movie added to list', response.data);
                         setUserData(response.data);
                         const isMovieAlreadyInList = response.data[listType].some((savedMovie) => savedMovie.id === movieId);
                         const message = isMovieAlreadyInList
-                            ? `${movieToAdd.title} removed from your ${listType} movies`
-                            : `${movieToAdd.title} added to your ${listType} movies`;
+                            ? `${movie.title} removed from your ${listType} movies`
+                            : `${movie.title} added to your ${listType} movies`;
                         showToast(message);
                     })
                     .catch((error) => {
