@@ -48,4 +48,4 @@ Home(Page.js)
 |      |--New User(New/Page.js)
 
 
-![image]("C:\Users\Douglas\OneDrive\Pictures\Screenshots\atf .png")
+![atf ](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/5463b1e1-3b1f-4f3f-a3eb-be55643ab5b1)
