@@ -33,7 +33,12 @@ export default function Home() {
     return result;
   }
 
-  if (!userData && window.localStorage) {
+  useEffect(() => {
+    // Check if localStorage is available and set isThereLocalStorage accordingly
+    setIsThereLocalStorage(!!window.localStorage);
+  }, []);
+
+  if (!userData && isThereLocalStorage) {
     if (localStorage.getItem('jwtToken')) {
 
       const checkSession = () => {
