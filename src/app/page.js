@@ -21,6 +21,8 @@ export default function Home() {
   const [filterKey, setFilterKey] = useState(0);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [isThereLocalStorage, setIsThereLocalStorage] = useState(null)
+
 
   function mergeObjects(obj1, obj2) {
     const result = { ...obj1 };
@@ -32,9 +34,9 @@ export default function Home() {
     return result;
   }
 
-  if (!userData) {
+  if (!userData && localStorage) {
     if (localStorage.getItem('jwtToken')) {
-      
+
       const checkSession = () => {
         const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
         if (Date.now() >= expirationTime) {
