@@ -33,7 +33,7 @@ export default function Home() {
     return result;
   }
 
-  if (!userData && localStorage) {
+  if (!userData && window.localStorage) {
     if (localStorage.getItem('jwtToken')) {
 
       const checkSession = () => {
