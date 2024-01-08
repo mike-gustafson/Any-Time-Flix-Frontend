@@ -16,13 +16,18 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     const [data, setData] = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
-    const [toastMessage, setToastMessage] = useState(''); // State for toast message
+    const [toastMessage, setToastMessage] = useState('');
 
     useEffect(() => {
+        fetchResultsData();
+    }, [resultsRoute]);
+    
+    const fetchResultsData = () => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
             .then((res) => res.json())
-            .then((data) => setData(data));
-    }, [resultsRoute]);
+            .then((data) => setData(data))
+            .catch((error) => console.error('Error fetching results data:', error));
+    };
 
     const showToast = (message) => {
         setToastMessage(message);
@@ -33,7 +38,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     };
 
     const handleBoxClick = (id) => {
-        setSelectedMovieId(selectedMovieId === id ? null : id);
+        setSelectedMovieId((prevId) => (prevId === id ? null : id));
     };
 
     const handleOnClose = () => {
@@ -48,124 +53,46 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 movieId={id} 
                 onClose={handleOnClose} 
                 toggleFilter={toggleFilter}
-                userData={data}
+                userData={userData}
             />
         );
     };
 
-    const handleAddToWatchListClick = (event, movieId) => {
-        event.stopPropagation();
-        const jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken) {
-            const movieToAdd = data.results.find(movie => movie.id === movieId);
-            if (!movieToAdd) {
-                console.error('Movie not found');
-                return;
-            }
-            if (userData) {
-                console.log(userData, 'userData')
-                axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watchList/${userData.id}`, { movie: movieToAdd })
-                    .then(response => {
-                        setUserData({
-                            ...userData,
-                            userData: {
-                                ...userData,
-                                watchList: [...userData.watchList, movieToAdd]
-                            }
-                        });
-                        showToast(`Movie ${movieToAdd.original_title} added to your Watchlist`);
-                    }).catch(error => {
-                        console.error('Error updating watchlist', error);
-                    });
-            } else {
-                alert('Please login to add to your watchlist');
-                handleTabChange('Home');
-            }
-        } else {
-            handleTabChange('Home');
+    const isMovieInList = (listType, movieId) => {
+        console.log('userData', userData);
+        console.log('listType', listType);
+        console.log('movieId', movieId);
+        console.log(userData[listType].some((m) => m.id === movieId))
+        if (userData && userData[listType]) {
+            return userData[listType].some((m) => m.id === movieId);
         }
+        return false;
     };
 
-    const handleAddToWatchedListClick = (event, movieId) => {
+    const handleAddToListClick = (event, listType, movieId) => {
         event.stopPropagation();
         const jwtToken = localStorage.getItem('jwtToken');
         if (jwtToken) {
-            const movieToAdd = data.results.find(movie => movie.id === movieId);
+            const movieToAdd = data.results.find((movie) => movie.id === movieId);
             if (!movieToAdd) {
                 console.error('Movie not found');
                 return;
             }
-            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/watched/${userData.userData._id}`, { movie: movieToAdd })
-                .then(response => {
-                    setUserData({
-                        ...userData,
-                        userData: {
-                            ...userData.userData,
-                            watched: [...userData.userData.watched, movieToAdd]
-                        }
-                    });
-                    showToast(`Movie ${movieToAdd.original_title} added to your Watched Movies`);
-                }).catch(error => {
-                    console.error('Error updating watched movies', error);
+            const listEndpoint = `${listType}/${userData._id}`;
+            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: movieToAdd })
+                .then((response) => {
+                    const updatedUserData = { ...userData };
+                    updatedUserData[listType] = [...updatedUserData[listType], movieToAdd];
+                    setUserData(updatedUserData);
+                    showToast(`Movie ${movieToAdd.original_title} added to your ${listType} movies`);
+                })
+                .catch((error) => {
+                    console.error(`Error updating ${listType} movies`, error);
                 });
         } else {
             window.location.href = '/users/login';
         }
     };
-
-    const handleAddToLikedClick = (event, movieId) => {
-        event.stopPropagation();
-        const jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken) {
-            const movieToAdd = data.results.find(movie => movie.id === movieId);
-            if (!movieToAdd) {
-                console.error('Movie not found');
-                return;
-            }
-            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/liked/${userData.userData._id}`, { movie: movieToAdd })
-                .then(response => {
-                    setUserData({
-                        ...userData,
-                        userData: {
-                            ...userData.userData,
-                            liked: [...userData.userData.liked, movieToAdd]
-                        }
-                    });
-                    showToast(`Movie ${movieToAdd.original_title} added to your Liked Movies`);
-                }).catch(error => {
-                    console.error('Error updating liked movies', error);
-                });
-        } else {
-            window.location.href = '/users/login';
-        }
-    }
-
-    const handleAddToDislikedClick = (event, movieId) => {
-        event.stopPropagation();
-        const jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken) {
-            const movieToAdd = data.results.find(movie => movie.id === movieId);
-            if (!movieToAdd) {
-                console.error('Movie not found');
-                return;
-            }
-            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/disliked/${userData.userData._id}`, { movie: movieToAdd })
-                .then(response => {
-                    setUserData({
-                        ...userData,
-                        userData: {
-                            ...userData.userData,
-                            disliked: [...userData.userData.disliked, movieToAdd]
-                        }
-                    });
-                    showToast(`Movie ${movieToAdd.original_title} added to your Disliked Movies`);
-                }).catch(error => {
-                    console.error('Error updating disliked movies', error);
-                });
-        } else {
-            window.location.href = '/users/login';
-        }
-    }
 
     if (!data) return <p>Loading or no data available...</p>;
 
@@ -187,31 +114,31 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                         />
                         <div 
                             className={style.addToWatchList} 
-                            onClick={(event) => handleAddToWatchListClick(event, movie.id)}
+                            onClick={(event) => handleAddToListClick(event, 'watchList', movie.id)}
                             title="Add to Watchlist"
                         >
-                            <AddIcon />
+                            <AddIcon className={isMovieInList('watchList', movie.id) ? style.redIcon : ''} />
                         </div>
                         <div
                             className={style.addToWatchedList}
-                            onClick={(event) => handleAddToWatchedListClick(event, movie.id)}
+                            onClick={(event) => handleAddToListClick(event, 'watched', movie.id)}
                             title="Add to Watched"
                         >
-                            <RemoveRedEyeOutlinedIcon />
+                            <RemoveRedEyeOutlinedIcon className={isMovieInList('watched', movie.id) ? style.redIcon : ''} />
                         </div>
-                        <div 
+                        <div
                             className={style.addToLiked} 
-                            onClick={(event) => handleAddToLikedClick(event, movie.id)}
+                            onClick={(event) => handleAddToListClick(event, 'liked', movie.id)}
                             title="Add to Liked"
                         >
-                            <FavoriteBorderOutlinedIcon />
+                            <FavoriteBorderOutlinedIcon className={isMovieInList('liked', movie.id) ? style.redIcon : ''} />
                         </div>
                         <div 
                             className={style.addToDisliked} 
-                            onClick={(event) => handleAddToDislikedClick(event, movie.id)}    
+                            onClick={(event) => handleAddToListClick(event, 'disliked', movie.id)}    
                             title="Add to Disliked"
                         >
-                            <HeartBrokenOutlinedIcon />
+                            <HeartBrokenOutlinedIcon className={isMovieInList('disliked', movie.id) ? style.redIcon : ''} />
                         </div>
                         {selectedMovieId === movie.id && (
                             <button
@@ -246,7 +173,6 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
             ))}
             {modalContent}
             {toastMessage && <Toast message={toastMessage} onDismiss={hideToast} />}
-
         </div>
     );
 }

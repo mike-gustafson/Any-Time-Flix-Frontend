@@ -36,6 +36,7 @@ export default function Login({ handleTabChange, handleUserData }) {
                 const userDataFetch = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${decoded.email}`);
                 const userData = userDataFetch.data.userData;
                 setRedirect(true);
+                handleUserData(userData);
             } else {
                 console.log('Login failed, code:', response.status);
             }
