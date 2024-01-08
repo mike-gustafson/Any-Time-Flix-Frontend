@@ -4,10 +4,14 @@ import React, { useState, useEffect } from 'react';
 
 import style from '../styles/Results.module.css';
 
-import AddIcon from '@mui/icons-material/Add';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Toast from './Toast';
 import MovieDetailsModal from './MovieDetailsModal';
@@ -77,12 +81,24 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 return;
             }
             const listEndpoint = `${listType}/${userData._id}`;
-            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: movieToAdd })
+            const updatedUserData = { ...userData };
+            const index = updatedUserData[listType].findIndex((savedMovie) => savedMovie.id === movieId);
+    
+            if (index !== -1) {
+                // Movie is already in the list, remove it
+                updatedUserData[listType].splice(index, 1); // Remove the movie from the list
+            } else {
+                // Movie is not in the list, add it
+                updatedUserData[listType] = [...updatedUserData[listType], movieToAdd];
+            }
+    
+            axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: updatedUserData[listType] })
                 .then((response) => {
-                    const updatedUserData = { ...userData };
-                    updatedUserData[listType] = [...updatedUserData[listType], movieToAdd];
                     setUserData(updatedUserData);
-                    showToast(`Movie ${movieToAdd.original_title} added to your ${listType} movies`);
+                    const message = index !== -1
+                        ? `${movieToAdd.original_title} removed from your ${listType} movies`
+                        : `${movieToAdd.original_title} added to your ${listType} movies`;
+                    showToast(message);
                 })
                 .catch((error) => {
                     console.error(`Error updating ${listType} movies`, error);
@@ -91,6 +107,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
             window.location.href = '/users/login';
         }
     };
+    
 
     if (!data) return <p>Loading or no data available...</p>;
 
@@ -115,28 +132,44 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             onClick={(event) => handleAddToListClick(event, 'watchList', movie.id)}
                             title="Add to Watchlist"
                         >
-                            <AddIcon className={isMovieInList('watchList', movie.id) ? style.redIcon : ''} />
+                            {isMovieInList('watchList', movie.id) ? (
+                                <BookmarkRemoveIcon className={style.redIcon} />
+                            ) : (
+                                <BookmarkAddOutlinedIcon />
+                            )}
                         </div>
                         <div
                             className={style.addToWatchedList}
                             onClick={(event) => handleAddToListClick(event, 'watched', movie.id)}
                             title="Add to Watched"
                         >
-                            <RemoveRedEyeOutlinedIcon className={isMovieInList('watched', movie.id) ? style.redIcon : ''} />
+                            {isMovieInList('watched', movie.id) ? (
+                                <RemoveRedEyeIcon className={style.redIcon} />
+                            ) : (
+                                <RemoveRedEyeOutlinedIcon />
+                            )}
                         </div>
                         <div
                             className={style.addToLiked} 
                             onClick={(event) => handleAddToListClick(event, 'liked', movie.id)}
                             title="Add to Liked"
                         >
-                            <FavoriteBorderOutlinedIcon className={isMovieInList('liked', movie.id) ? style.redIcon : ''} />
+                            {isMovieInList('liked', movie.id) ? (
+                                <FavoriteIcon className={style.redIcon} />
+                            ) : (
+                                <FavoriteBorderOutlinedIcon />
+                            )}
                         </div>
                         <div 
                             className={style.addToDisliked} 
                             onClick={(event) => handleAddToListClick(event, 'disliked', movie.id)}    
                             title="Add to Disliked"
                         >
-                            <HeartBrokenOutlinedIcon className={isMovieInList('disliked', movie.id) ? style.redIcon : ''} />
+                            {isMovieInList('disliked', movie.id) ? (
+                                <HeartBrokenIcon className={style.redIcon} />
+                            ) : (
+                                <HeartBrokenOutlinedIcon />
+                            )}
                         </div>
                         {selectedMovieId === movie.id && (
                             <button
