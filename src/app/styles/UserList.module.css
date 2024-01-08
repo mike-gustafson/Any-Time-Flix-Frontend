@@ -1,0 +1,106 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: stretch;
+    overflow: hidden;
+}
+.listItem {
+    display: flex; 
+    flex-direction: row;
+    border: 1px solid black;
+    width: 300px;
+    height: 160px;
+    font-size: 14px;
+    background-color: #e0e0e0;
+    border-top-right-radius: 10px;
+}
+.imageContainer {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+}
+.detailsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 200px;
+    overflow: hidden;
+}
+    .detailsHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 200px;
+    }
+    .title {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        width: 90%;
+    }
+    .removeButtonContainer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-top;
+        padding: 5px;
+        height: 20px;
+        width: 10%;
+    }
+    .removeButtonContainer:hover {
+        cursor: pointer;
+        al: "Remove from Watch List";
+    }
+    
+    /* Add this CSS to your UserList.module.css file or your global CSS file */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    
+    .tooltip::before {
+        content: "Remove from list"; /* Tooltip text */
+        visibility: hidden;
+        background-color: rgba(138, 26, 26, 0.5);
+        color: #fff; /* Tooltip text color */
+        text-align: center;
+        font-size: 10px;
+        border-radius: 4px;
+        padding: 5px 10px;
+        position: absolute;
+        z-index: 1;
+        top: 0; /* Position the tooltip above the button */
+        left: -10px;
+        width: 50px;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.7s;
+    }
+    
+    .tooltip:hover::before {
+        visibility: visible;
+        opacity: 1;
+    }
+  
+    
+.overview {
+    display: flex;
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 5px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.overview::-webkit-scrollbar {
+    width: 7px;
+}
+.overview::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 25px;
+}

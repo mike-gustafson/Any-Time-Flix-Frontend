@@ -18,12 +18,8 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import Divider from '@mui/material/Divider'
 
-
 export default function ProfileSidebar({ handleMain, dataProp }) {
     const [activeLink, setActiveLink] = useState(" ");
-
-
-    const data = dataProp;
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
@@ -38,10 +34,10 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                         <ListItem disablePadding>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <ListItemIcon>
-                                    <Avatar>{data.firstName[0]}</Avatar>
+                                    <Avatar>{dataProp.firstName[0]}</Avatar>
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={`${data.firstName} ${data.lastName}`}
+                                    primary={`${dataProp.firstName} ${dataProp.lastName}`}
                                     primaryTypographyProps={{ variant: 'h5' }}
                                 />
                             </div>
@@ -50,7 +46,7 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                             <ListItemIcon>
                                 <PersonPinCircleIcon />
                             </ListItemIcon>
-                            <ListItemText primary={`${data.city} ${data.state}`}
+                            <ListItemText primary={`${dataProp.city} ${dataProp.state}`}
                                 primaryTypographyProps={{ variant: 'caption' }}
                             />
                         </ListItem>

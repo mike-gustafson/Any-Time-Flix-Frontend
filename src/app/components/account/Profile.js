@@ -1,17 +1,14 @@
 "use client";
 import 'bootstrap/dist/css/bootstrap.css';
-import { useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import handleLogout from '@/app/utils/handleLogout';
-import axios from 'axios';
-import setAuthToken from '@/app/utils/setAuthToken';
 
 export default function Profile(dataProp) {
     // state is what the data is representing in realtime
     const router = useRouter();
     const [isLoading, setLoading] = useState(true);
-    let data = dataProp.dataProp;
+    let data = dataProp;
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     let currentTime = Date.now();
@@ -26,11 +23,8 @@ export default function Profile(dataProp) {
     return (
         <div className="container">
             <div className="main-body">
-
                 <nav aria-label="breadcrumb" className="main-breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="/">Home</a></li>
-                        <li className="breadcrumb-item"><a href="/users/profile">Profile</a></li>
                         <li className="breadcrumb-item" onClick={handleLogout}><a href="">Logout</a></li>
                     </ol>
                 </nav>
@@ -40,14 +34,7 @@ export default function Profile(dataProp) {
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    {/* <Image 
-                                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                    alt="Admin"
-                                    className="rounded-circle"
-                                    width="150"
-                                    height={"150"}
-                                    /> */}
-                                   
+                                    We should put something interesting here
                                 </div>
                             </div>
                         </div>
@@ -185,9 +172,6 @@ export default function Profile(dataProp) {
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
 

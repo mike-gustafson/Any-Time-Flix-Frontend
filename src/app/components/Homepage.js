@@ -1,8 +1,8 @@
 import React from "react";
 import style from "../styles/Homepage.module.css";
-import Login from "../users/login/page";
+import Login from "./Login";
 
-export default function Homepage({handleTabChange}) {
+export default function Homepage({handleTabChange , handleUserData}) {
     return (
         <div className={style.container}>
             <section className={style.infoBlock}>
@@ -15,7 +15,7 @@ export default function Homepage({handleTabChange}) {
                     <li>React for the interactive user interface</li>
                     <li>Node.js and Express for robust server-side operations</li>
                     <li>MongoDB for secure and scalable data storage</li>
-                    <li>Authentication with JWT for your data's protection</li>
+                    <li>Authentication with JWT for your datas protection</li>
                     <li>Webpack for optimized asset management</li>
                     <li>Modern CSS/SASS for elegant styling</li>
                 </ul>
@@ -40,7 +40,10 @@ export default function Homepage({handleTabChange}) {
                 </p>
             </section>
             <section className={style.infoBlock}>
-                <Login  handleTabChange={handleTabChange}/>
+                <Login
+                    handleTabChange={handleTabChange}
+                    handleUserData={handleUserData}
+                />
             </section>
         </div>
     );

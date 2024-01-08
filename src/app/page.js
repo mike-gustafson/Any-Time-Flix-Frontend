@@ -1,87 +1,122 @@
 'use client'
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
-import { useReducer } from 'react';
-import { useState, useEffect } from 'react';
-import setAuthToken from './utils/setAuthToken';
+import handleLogout from '@/app/utils/handleLogout';
+import setAuthToken from '@/app/utils/setAuthToken';
 
-// Components
+import React, { useState, useEffect } from 'react';
+
 import Nav from './components/Nav';
-import UserHome from './users/profile/page'
+import Account from './components/Account';
 import Explore from './components/Explore';
 import Results from './components/Results';
 import Homepage from './components/Homepage';
 
 export default function Home() {
-
-
-  // tabs item click handler
-  const [activeView, setActiveView] = useState('Home');
-  const [searchQuery, setSearchQuery] = useState(''); // Default value is empty string
-  const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
-  const [resultsLength, setResultsLength] = useState(10); // Default value is 10
+  const [activeView, setActiveView] = useState('Homepage');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [resultsKey, setResultsKey] = useState(1);
+  const [resultsLength, setResultsLength] = useState(20);
   const [filterKey, setFilterKey] = useState(0);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [isThereLocalStorage, setIsThereLocalStorage] = useState(null)
 
-
-
-  const toggleFilter = () => {
-    setIsFilterVisible(prevVisible => !prevVisible);
-    setFilterKey(prevKey => prevKey + 1);
-  };
+  function mergeObjects(obj1, obj2) {
+    const result = { ...obj1 };
+    for (const key in obj2) {
+      if (!result.hasOwnProperty(key)) {
+        result[key] = obj2[key];
+      }
+    }
+    return result;
+  }
 
   useEffect(() => {
-  }, [isFilterVisible]);
+    // Check if localStorage is available and set isThereLocalStorage accordingly
+    setIsThereLocalStorage(!!window.localStorage);
+  }, []);
+
+  if (!userData && isThereLocalStorage) {
+    if (localStorage.getItem('jwtToken')) {
+
+      const checkSession = () => {
+        const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
+        if (Date.now() >= expirationTime) {
+            handleLogout();
+            alert('Session has ended. Please login to continue.');
+            handleTabChange('Home');
+        }
+    };
+
+    checkSession();
+      setAuthToken(localStorage.getItem('jwtToken'));
+      if (localStorage.getItem('jwtToken')) {
+        axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
+        .then((response) => {
+            let userData = jwtDecode(localStorage.getItem('jwtToken'));
+            if (userData.email === localStorage.getItem('email')) {
+                const combinedData = mergeObjects(response.data.userData, userData);
+                setUserData(combinedData);
+            } else {
+                console.log('/users/login');
+            }
+        })
+        .catch((error) => {
+            console.log('error', error);
+            handleTabChange('Home');
+        });
+      }
+    }
+  }
+
+  const toggleFilter = () => {
+    setIsFilterVisible((prevVisible) => !prevVisible);
+    setFilterKey((prevKey) => prevKey + 1);
+  };
+
+  const handleUserData = (data) => {
+    setUserData(data);
+  };
+
+  useEffect(() => {}, [isFilterVisible]);
 
   const handleTabChange = (selectedTab) => {
     setActiveView(selectedTab);
-    setResultsKey(resultsKey + 1);
-    clearSearchQuery();
+    setResultsKey((prevKey) => prevKey + 1);
   };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    setResultsKey(resultsKey + 1);
+    setActiveView('Search');
+    setResultsKey((prevKey) => prevKey + 1);
   };
 
-  const clearSearchQuery = () => {
-    setSearchQuery('');
+  const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}`, setUserData, handleTabChange};
+  const exploreProps = { toggleFilter, userData, setUserData, handleTabChange };
+  const homepageProps = { handleTabChange, handleUserData, setUserData, userData };
+  const accountProps = { handleUserData, handleTabChange };
+  
+  const views = {
+    Homepage: { component: Homepage, props: homepageProps },
+    Account: { component: Account, props: accountProps },
+    Explore: { component: Explore, props: exploreProps },
+    Search: { component: Results, props: searchProps },
   };
-
-  // render content based on active tab or search
-  const renderContent = () => {
-    if (searchQuery) {
-      return (
-        <Results
-          key={resultsKey}
-          resultsLength={resultsLength}
-          resultsRoute={`/movies/search/${searchQuery}`}
-          toggleFilter={toggleFilter}
-        />
-      );
-    } else {
-      if (activeView === 'Home') {
-        return (
-          <Homepage  handleTabChange={handleTabChange}/>
-        );
-      } else if (activeView === 'Account') {
-        return (
-          <UserHome />
-        );
-      } else if (activeView === 'Explore') {
-        return (
-          <Explore toggleFilter={toggleFilter} />
-        );
-      }
-    }
+  
+  const displayActiveView = () => {
+    const { component: Component, props } = views[activeView] || views.Homepage;
+    return <Component {...props} key={resultsKey} />;
   };
+  
 
   return (
     <main className={style.wrapper}>
-      <div key={filterKey} className={isFilterVisible ? style.dimmingOverlayVisible : style.dimmingOverlayHidden}>
-      </div>
+      <div key={filterKey} className={isFilterVisible ? style.dimmingOverlayVisible : style.dimmingOverlayHidden} />
       <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
       <div className={style.main}>
-        {renderContent()}
+        {displayActiveView()}
       </div>
     </main>
   );
