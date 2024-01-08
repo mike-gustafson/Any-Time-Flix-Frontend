@@ -46,35 +46,25 @@ export default function Home() {
         }
     };
 
-      checkSession();
-        setAuthToken(localStorage.getItem('jwtToken'));
-        if (localStorage.getItem('jwtToken')) {
-            axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
-                .then((response) => {
-                    // data is an object
-                    console.log('success', response.data.userData)
-                    let userData = jwtDecode(localStorage.getItem('jwtToken'));
-                    if (userData.email === localStorage.getItem('email')) {
-                        const combinedData = mergeObjects(response.data.userData, userData);
-                        console.log('combinedData', combinedData)
-                        setUserData(combinedData);
-                    } else {
-                        console.log('/users/login');
-                    }
-                })
-                .catch((error) => {
-                    console.log('error', error);
-                    handleTabChange('Home');
-                });
-        } else {
-            console.log('/users/login');
-        }
-    } else {
-      console.log('no jwtToken')
+    checkSession();
+      setAuthToken(localStorage.getItem('jwtToken'));
+      if (localStorage.getItem('jwtToken')) {
+        axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
+        .then((response) => {
+            let userData = jwtDecode(localStorage.getItem('jwtToken'));
+            if (userData.email === localStorage.getItem('email')) {
+                const combinedData = mergeObjects(response.data.userData, userData);
+                setUserData(combinedData);
+            } else {
+                console.log('/users/login');
+            }
+        })
+        .catch((error) => {
+            console.log('error', error);
+            handleTabChange('Home');
+        });
+      }
     }
-  } else {
-    console.log('userData exists')
-    console.log(userData)
   }
 
   const toggleFilter = () => {
