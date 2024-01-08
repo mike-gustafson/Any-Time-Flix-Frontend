@@ -44,5 +44,6 @@ ANY-TIME-FLIX IS A SOLUTION TO THIS ISSUE ALLOWING YOU TO VIEW NEW AND OLD MOVIE
       - New User(New/Page.js)
 
 
-
+# # Screenshots
+HomePage
 ![atf ](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/5463b1e1-3b1f-4f3f-a3eb-be55643ab5b1)
