@@ -23,7 +23,6 @@ export default function Home() {
   const [userData, setUserData] = useState(null);
   const [isThereLocalStorage, setIsThereLocalStorage] = useState(null)
 
-
   function mergeObjects(obj1, obj2) {
     const result = { ...obj1 };
     for (const key in obj2) {
@@ -34,7 +33,7 @@ export default function Home() {
     return result;
   }
 
-  if (!userData && isThereLocalStorage) {
+  if (!userData && localStorage) {
     if (localStorage.getItem('jwtToken')) {
 
       const checkSession = () => {
