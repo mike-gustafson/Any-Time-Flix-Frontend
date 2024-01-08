@@ -33,10 +33,8 @@ export default function Home() {
   }
 
   if (!userData) {
-    console.log('no user yet')
     if (localStorage.getItem('jwtToken')) {
-      console.log('jwtToken exists, reaching out to database to fetch userData for user: '+ localStorage.getItem('email'))
-
+      
       const checkSession = () => {
         const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
         if (Date.now() >= expirationTime) {
@@ -73,7 +71,6 @@ export default function Home() {
   };
 
   const handleUserData = (data) => {
-    console.log('handleUserData', data)
     setUserData(data);
   };
 

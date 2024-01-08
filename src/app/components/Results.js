@@ -17,7 +17,6 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [modalContent, setModalContent] = useState(null);
     const [toastMessage, setToastMessage] = useState('');
-
     useEffect(() => {
         fetchResultsData();
     }, [resultsRoute]);
@@ -59,12 +58,11 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     };
 
     const isMovieInList = (listType, movieId) => {
-        console.log('userData', userData);
-        console.log('listType', listType);
-        console.log('movieId', movieId);
-        console.log(userData[listType].some((m) => m.id === movieId))
-        if (userData && userData[listType]) {
-            return userData[listType].some((m) => m.id === movieId);
+        const activeList = userData[listType];
+        for (const savedMovie of activeList) {
+            if (savedMovie.id == movieId) {
+                return true;
+            }
         }
         return false;
     };
