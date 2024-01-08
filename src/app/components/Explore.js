@@ -7,7 +7,6 @@ import Home from '../page';
 import { Movie } from '@mui/icons-material';
 
 export default function Explore({ toggleFilter, userData, setUserData, handleTabChange }) {
-  
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [activeView, setActiveView] = useState('Top Rated');
   const resultsLength = 20;

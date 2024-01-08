@@ -2,7 +2,7 @@ import React from "react";
 import style from "../styles/Homepage.module.css";
 import Login from "./Login";
 
-export default function Homepage({handleTabChange}) {
+export default function Homepage({handleTabChange , handleUserData}) {
     return (
         <div className={style.container}>
             <section className={style.infoBlock}>
@@ -42,6 +42,7 @@ export default function Homepage({handleTabChange}) {
             <section className={style.infoBlock}>
                 <Login
                     handleTabChange={handleTabChange}
+                    handleUserData={handleUserData}
                 />
             </section>
         </div>

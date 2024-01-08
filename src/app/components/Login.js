@@ -36,6 +36,7 @@ export default function Login({ handleTabChange, handleUserData }) {
                 const userDataFetch = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${decoded.email}`);
                 const userData = userDataFetch.data.userData;
                 setRedirect(true);
+                handleUserData(userData);
             } else {
                 console.log('Login failed, code:', response.status);
             }
@@ -96,7 +97,7 @@ export default function Login({ handleTabChange, handleUserData }) {
             <div className={style.card}>
                 <div className={style.cardBody} >
                         <h2 className={style.title}>Sign up</h2>
-                        <p>Don't have an account yet? Join us for free today by clicking thesignup button below.</p>
+                        <p>Dont have an account yet? Join us for free today by clicking thesignup button below.</p>
                         <a href="/users/signup" type="button" className={style.button}>Register Now!</a>
                     </div>
             </div>

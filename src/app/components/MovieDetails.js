@@ -77,9 +77,13 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
           </div>
 
           <div className={style.body}>
-            <div className={style.image}>
-              <Image src={`https://image.tmdb.org/t/p/w500${fetchedMovie.poster_path}`} width={400} height={300} alt={fetchedMovie.original_title} />
-              <p className={style.tag}>{fetchedMovie.tagline}</p>
+            <div className={style.imagePanel}>
+              <div className={style.image}>
+                <Image src={`https://image.tmdb.org/t/p/w500${fetchedMovie.poster_path}`} fill={true} alt={fetchedMovie.original_title} />
+              </div>
+              <div className={style.tagline}>
+                <p className={style.tag}>{fetchedMovie.tagline}</p>
+              </div>
             </div>
 
             <div className={style.description}>

@@ -18,7 +18,7 @@
         align-items: center;
         background-color: black;
         width: stretch;
-        height: 3rem;
+        height: inherit;
         margin: 0;
         position: fixed;
         display: flex;
@@ -30,7 +30,7 @@
         align-items: center;
         background-color: black;
         width: stretch;
-        height: 3rem;
+        height: inherit;
         margin: 0;
         position: fixed;
         display: flex;
@@ -57,7 +57,7 @@
         cursor: pointer;
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 570px) {
         .largeNavBar {
             visibility: hidden;
         }
@@ -66,7 +66,7 @@
         }
     }
 
-    @media (min-width: 376px) {
+    @media (min-width: 571px) {
         .largeNavBar {
             visibility: visible;
         }
