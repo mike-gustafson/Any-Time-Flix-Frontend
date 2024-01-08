@@ -34,7 +34,7 @@ export default function Home() {
     return result;
   }
 
-  if (!userData && localStorage) {
+  if (!userData && isThereLocalStorage) {
     if (localStorage.getItem('jwtToken')) {
 
       const checkSession = () => {
