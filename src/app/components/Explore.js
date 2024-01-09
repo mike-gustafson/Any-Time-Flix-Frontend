@@ -11,7 +11,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
   const [activeView, setActiveView] = useState('Top Rated');
   const [yearRequested, setYearRequested] = useState(null);
   const [genreRequested, setGenreRequested] = useState(null);
-  const [ratingRequested, setRatingRequested] = useState(null);
+  const [ratingRequested, setRatingRequested] = useState(5);
 
   const resultsLength = 20;
 

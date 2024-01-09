@@ -19,7 +19,9 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
+        if (activeCategory !== 'Year' || activeCategory !== 'Genre' || activeCategory !== 'Rating') {
         handleMain(newValue);
+        }
         setActiveCategory(newValue === activeCategory ? null : newValue);
         
         if (activeCategory === 'Genre') {
@@ -85,7 +87,7 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
             buttons: genres.map((genre) => ({
                 id: genre.id,
                 label: genre.name,
-                value: `${genre.name}`,
+                value: `${genre.id}`,
             })),
             buttonStyle: style.genreButtons,
         },
