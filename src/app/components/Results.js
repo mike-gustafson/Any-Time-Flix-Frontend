@@ -19,13 +19,26 @@ import style from '../styles/Results.module.css';
 
 export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData, handleTabChange }) {
 
-    const [data,            setData]            = useState(null);
-    const [selectedMovieId, setSelectedMovieId] = useState(null);
-    const [modalContent,    setModalContent]    = useState(null);
-    const [toastMessage,    setToastMessage]    = useState('');
-    const [page,            setPage]            = useState(1);
+    const [data,             setData]             = useState(null);
+    const [selectedMovieId,  setSelectedMovieId]  = useState(null);
+    const [modalContent,     setModalContent]     = useState(null);
+    const [toastMessage,     setToastMessage]     = useState('');
+    const [page,             setPage]             = useState(1);
+    const [prevResultsRoute, setPrevResultsRoute] = useState(resultsRoute);
 
     const containerRef = useRef(null);
+
+    const scrollToTop = () => {
+        const container = window;
+        if (container) {
+            container.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    useEffect(() => {
+        console.log('scroll to top')
+        scrollToTop();
+    }, [resultsRoute]);
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
@@ -37,12 +50,11 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 } else {
                     const appendedResults = [...data.results, ...newData.results];
                     const appendedData = { ...data, results: appendedResults };
-                    console.log('appendedData', appendedData)
                     setData(appendedData);
                 }
             })
             .catch((error) => console.error('Error fetching results data:', error));
-    }, [page, resultsRoute]);
+    }, [page, resultsRoute, prevResultsRoute]);
 
     useEffect(() => {
         // Add an event listener to the container for infinite scrolling
