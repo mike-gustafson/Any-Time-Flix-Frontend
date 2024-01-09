@@ -12,6 +12,7 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
     const [activeLink, setActiveLink] = useState("Popular");
     const [activeCategory, setActiveCategory] = useState(null);
     const [years, setYears] = useState([]);
+    const [selectedYear, setSelectedYear] = useState(null);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -25,6 +26,7 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
     };
 
     const handleYear = (year) => {
+        setSelectedYear(year);
         setActiveLink('Year');
         handleQueryByYear(year);
     };
@@ -158,18 +160,25 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
                     ) : (
                         <div className={style.dropdownContainer}>
                             {activeCategory === 'Year' ? (
-                                <select
-                                className={style.yearDropdown}
-                                onChange={(e) => handleYear(e.target.value)}
-                                value={activeLink}
-                                >
-                                <option value={null}>Select a Year</option>
-                                {dropdownOptions.map((option) => (
-                                    <option key={option.id} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                                </select>
+                                <div className={style.dropdownContainer}>
+                                    <select
+                                        className={style.yearDropdown}
+                                        onChange={(e) => handleYear(e.target.value)}
+                                        value={selectedYear}
+                                    >
+                                        <option value={null}>Select a Year</option>
+                                        {dropdownOptions.map((option) => (
+                                            <option key={option.id} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {selectedYear && (
+                                        <div className={style.selectedYearText}>
+                                            Showing movies from {selectedYear}
+                                        </div>
+                                    )}
+                                </div>
                             ) : (
                                 additionalButtons.map(item => (
                                     <div
