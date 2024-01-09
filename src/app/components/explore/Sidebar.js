@@ -8,7 +8,7 @@ import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
 
-export default function Sidebar({ handleMain, handleQueryByYear }) {
+export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGenre, handleQueryByRating }) {
     const [activeLink, setActiveLink] = useState("Popular");
     const [activeCategory, setActiveCategory] = useState(null);
     const [years, setYears] = useState([]);
@@ -20,9 +20,13 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
         handleMain(newValue);
-
-        // Set the active category to show additional buttons
         setActiveCategory(newValue === activeCategory ? null : newValue);
+        
+        if (activeCategory === 'Genre') {
+            handleQueryByGenre(newValue);
+        } else if (activeCategory === 'Rating') {
+            handleQueryByRating(newValue);
+        }
     };
 
     const handleYear = (year) => {
@@ -81,7 +85,7 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
             buttons: genres.map((genre) => ({
                 id: genre.id,
                 label: genre.name,
-                value: `Genre${genre.id}`,
+                value: `${genre.name}`,
             })),
             buttonStyle: style.genreButtons,
         },
@@ -93,7 +97,7 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
             buttons: Array.from({ length: 10 }, (_, index) => ({
                 id: index + 1,
                 label: `${index + 1}`,
-                value: `Rating${index + 1}`,
+                value: `${index + 1}`,
             })),
             buttonStyle: style.ratingButtons,
         },
