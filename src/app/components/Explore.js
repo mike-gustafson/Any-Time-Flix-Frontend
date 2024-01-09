@@ -9,12 +9,19 @@ import { Movie } from '@mui/icons-material';
 export default function Explore({ toggleFilter, userData, setUserData, handleTabChange }) {
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [activeView, setActiveView] = useState('Top Rated');
+  const [yearRequested, setYearRequested] = useState(null);
+
   const resultsLength = 20;
 
   const handleMain = (selectedView) => {
     setActiveView(selectedView);
     setResultsKey(resultsKey + 1);
   };
+
+const handleQueryByYear = (year) => {
+  setYearRequested(year);
+  handleMain('Year');
+};
 
   const renderContent = () => {
     if (activeView === 'Now Playing') {
@@ -65,13 +72,25 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           handleTabChange={handleTabChange}
         />
       );
+    } else if (activeView === 'Year') {
+      return (
+        <Results
+          key={resultsKey}
+          resultsLength={resultsLength}
+          resultsRoute={`/movies/year/${yearRequested}`}
+          toggleFilter={toggleFilter}
+          userData={userData}
+          setUserData={setUserData}
+          handleTabChange={handleTabChange}
+        />
+      );
     }
   };
 
   return (
     <div className={style.container}>
       <div className={style.sidebar}>
-        <Sidebar handleMain={handleMain} />
+        <Sidebar handleMain={handleMain} handleQueryByYear={handleQueryByYear}/>
       </div>
       <div className={style.main}>
         {renderContent()}
