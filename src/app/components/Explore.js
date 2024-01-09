@@ -44,7 +44,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute="/movies/now-playing"
+          resultsRoute="/movies/now-playing/"
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -56,7 +56,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute="/movies/popular"
+          resultsRoute="/movies/popular/"
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -68,7 +68,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute="/movies/top-rated"
+          resultsRoute="/movies/top-rated/"
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -80,7 +80,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute="/movies/upcoming"
+          resultsRoute="/movies/upcoming/"
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -92,7 +92,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/discover/year/${yearRequested}`}
+          resultsRoute={`/movies/discover/year/${yearRequested}/1`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -104,7 +104,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/discover/genre/${genreRequested}`}
+          resultsRoute={`/movies/discover/genre/${genreRequested}/1`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -116,7 +116,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/discover/rating/${ratingRequested}`}
+          resultsRoute={`/movies/discover/rating/${ratingRequested}/1`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}

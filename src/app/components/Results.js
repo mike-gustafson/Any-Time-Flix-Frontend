@@ -1,36 +1,85 @@
+import React, { useState, useEffect, useRef } from 'react';
+
 import axios from 'axios';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
 
-import style from '../styles/Results.module.css';
-
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
-import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
-import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import HeartBrokenOutlinedIcon from '@mui/icons-material/HeartBrokenOutlined';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 import Toast from './Toast';
 import MovieDetailsModal from './MovieDetailsModal';
 
+import style from '../styles/Results.module.css';
+
 export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData, handleTabChange }) {
-    const [data, setData] = useState(null);
+
+    const [data,            setData]            = useState(null);
     const [selectedMovieId, setSelectedMovieId] = useState(null);
-    const [modalContent, setModalContent] = useState(null);
-    const [toastMessage, setToastMessage] = useState('');
+    const [modalContent,    setModalContent]    = useState(null);
+    const [toastMessage,    setToastMessage]    = useState('');
+    const [page,            setPage]            = useState(1);
+
+    const containerRef = useRef(null);
+
     useEffect(() => {
-        fetchResultsData();
-    }, [resultsRoute]);
-    
-    const fetchResultsData = () => {
-        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}`)
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
             .then((res) => res.json())
-            .then((data) => setData(data))
+            .then((newData) => {
+                if (page === 1) {
+                    setData(newData);
+                } else {
+                    const appendedResults = [...data.results, ...newData.results];
+                    const appendedData = { ...data, results: appendedResults };
+                    console.log('appendedData', appendedData)
+                    setData(appendedData);
+                }
+            })
             .catch((error) => console.error('Error fetching results data:', error));
+    }, [page, resultsRoute]);
+
+    useEffect(() => {
+        // Add an event listener to the container for infinite scrolling
+        const container = containerRef.current;
+        if (container) { container.addEventListener('scroll', handleScroll) }
+        return () => {
+            if (container) { container.removeEventListener('scroll', handleScroll) }
+        };
+    }, [page]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY;
+            if (scrollTop + windowHeight + 1 >= documentHeight) { // +1 is needed beacuse otherwise it will never reach the bottom
+                setPage((prevPage) => prevPage + 1);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    // not sure why, but both handleScroll functions are needed for infinite scrolling to work
+    const handleScroll = () => {
+        const container = containerRef.current;
+        if (container) {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = container.scrollTop;
+            if (scrollTop + windowHeight + 1 >= documentHeight) {
+                setPage((prevPage) => prevPage + 1);
+            }
+        }
     };
+
     const showToast = (message) => {
         setToastMessage(message);
     };
@@ -50,14 +99,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
 
     const handleLearnMoreClick = (id) => {
         toggleFilter();
-        setModalContent(
-            <MovieDetailsModal 
-                movieId={id} 
-                onClose={handleOnClose} 
-                toggleFilter={toggleFilter}
-                userData={userData}
-            />
-        );
+        setModalContent(<MovieDetailsModal movieId={id} onClose={handleOnClose} toggleFilter={toggleFilter} userData={userData} />);
     };
 
     const isMovieInList = (listType, movieId) => {
@@ -70,7 +112,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
         return false;
     };
 
-    const handleAddToListClick = (event, listType, movieId) => {
+    const handleListIconClick = (event, listType, movieId) => {
         event.stopPropagation();
         const jwtToken = localStorage.getItem('jwtToken');
         if (jwtToken) {
@@ -81,9 +123,10 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 console.error('Movie not found');
                 return;
             }
-    
+
             if (isMovieInList(listType, movieId)) {
-                axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listEndpoint}`, { movie: movie})
+                axios
+                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listEndpoint}`, { movie: movie })
                     .then((response) => {
                         setUserData(response.data);
                         const message = `${movie.original_title} removed from your ${listType} movies`;
@@ -94,7 +137,8 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                     });
                 return;
             } else {
-                axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: movie})
+                axios
+                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: movie })
                     .then((response) => {
                         setUserData(response.data);
                         const isMovieAlreadyInList = response.data[listType].some((savedMovie) => savedMovie.id === movieId);
@@ -105,34 +149,33 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                     })
                     .catch((error) => {
                         console.error(`Error updating ${listType} movies`, error);
-                    });    
+                    });
             }
         }
     };
-    
 
     if (!data) return <p>Loading or no data available...</p>;
 
     return (
-        <div className={style.container}>
-            {data.results.slice(0, resultsLength).map((movie) => (
+        <div className={style.container} ref={containerRef}>
+            {data.results.map((movie) => (
                 <div
                     key={movie.id}
                     className={selectedMovieId === movie.id ? style.expandedBox : style.box}
                     onClick={() => handleBoxClick(movie.id)}
                 >
                     <div className={style.imageContainer}>
-                        <Image 
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-                            width={175} 
-                            height={262.5} 
-                            className={style.image} 
-                            alt={`${movie.title}`} 
+                        <Image
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            width={175}
+                            height={262.5}
+                            className={style.image}
+                            alt={`${movie.title}`}
                         />
-                        {userData && ( // Conditional rendering based on userData
-                            <div 
-                                className={style.addToWatchList} 
-                                onClick={(event) => handleAddToListClick(event, 'watchList', movie.id)}
+                        {userData && (
+                            <div
+                                className={style.addToWatchList}
+                                onClick={(event) => handleListIconClick(event, 'watchList', movie.id)}
                                 title="Add to Watchlist"
                             >
                                 {isMovieInList('watchList', movie.id) ? (
@@ -145,7 +188,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                         {userData && (
                             <div
                                 className={style.addToWatchedList}
-                                onClick={(event) => handleAddToListClick(event, 'watched', movie.id)}
+                                onClick={(event) => handleListIconClick(event, 'watched', movie.id)}
                                 title="Add to Watched"
                             >
                                 {isMovieInList('watched', movie.id) ? (
@@ -157,8 +200,8 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                         )}
                         {userData && (
                             <div
-                                className={style.addToLiked} 
-                                onClick={(event) => handleAddToListClick(event, 'liked', movie.id)}
+                                className={style.addToLiked}
+                                onClick={(event) => handleListIconClick(event, 'liked', movie.id)}
                                 title="Add to Liked"
                             >
                                 {isMovieInList('liked', movie.id) ? (
@@ -169,9 +212,9 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             </div>
                         )}
                         {userData && (
-                            <div 
-                                className={style.addToDisliked} 
-                                onClick={(event) => handleAddToListClick(event, 'disliked', movie.id)}    
+                            <div
+                                className={style.addToDisliked}
+                                onClick={(event) => handleListIconClick(event, 'disliked', movie.id)}
                                 title="Add to Disliked"
                             >
                                 {isMovieInList('disliked', movie.id) ? (
@@ -182,10 +225,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                             </div>
                         )}
                         {selectedMovieId === movie.id && (
-                            <button
-                                className={style.detailsLink}
-                                onClick={() => handleLearnMoreClick(movie.id)}
-                            >
+                            <button className={style.detailsLink} onClick={() => handleLearnMoreClick(movie.id)}>
                                 Learn More
                             </button>
                         )}
@@ -201,11 +241,9 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                                 <span className={style.summary}>{movie.overview}</span>
                             </div>
                             <div className={style.infoContainer}>
+                                <span className={style.stat}>Rating: {movie.vote_average.toFixed(1)}</span>
                                 <span className={style.stat}>
-                                    Rating: {movie.vote_average.toFixed(1)}
-                                </span>
-                                <span className={style.stat}>
-                                    Released: {(new Date(movie.release_date)).toLocaleDateString()}
+                                    Released: {new Date(movie.release_date).toLocaleDateString()}
                                 </span>
                             </div>
                         </div>
