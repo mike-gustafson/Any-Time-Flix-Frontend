@@ -329,11 +329,10 @@
 
   .whereToWatchContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     padding: 5px 20px 20px 20px;
-    border: 1px solid black;
   }
   .whereToWatch {
     display: flex;

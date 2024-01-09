@@ -10,7 +10,7 @@ import StarIcon from '@mui/icons-material/Star';
 
 export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGenre, handleQueryByRating }) {
     const [activeLink, setActiveLink] = useState("Popular");
-    const [activeCategory, setActiveCategory] = useState(null);
+    const [activeFindByCategory, setActiveFindByCategory] = useState(null);
     const [years, setYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState(null);
     const [genres, setGenres] = useState([]);
@@ -19,17 +19,46 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
-        if (activeCategory !== 'Year' || activeCategory !== 'Genre' || activeCategory !== 'Rating') {
-        handleMain(newValue);
-        }
-        setActiveCategory(newValue === activeCategory ? null : newValue);
-        
-        if (activeCategory === 'Genre') {
-            handleQueryByGenre(newValue);
-        } else if (activeCategory === 'Rating') {
-            handleQueryByRating(newValue);
+        if (newValue === 'Popular') {
+            handleMain('Popular');
+        } else if (newValue === 'Top Rated') {
+            handleMain('Top Rated');
+        } else if (newValue === 'Now Playing') {
+            handleMain('Now Playing');
+        } else if (newValue === 'Upcoming') {
+            handleMain('Upcoming');
+        } else if (newValue === 'Genre') {
+            if (activeFindByCategory !== 'Genre') {
+                setActiveFindByCategory('Genre');
+            } else {
+                setActiveFindByCategory(null);
+                setActiveLink(null)
+            }
+        } else if (newValue === 'Rating') {
+            if (activeFindByCategory !== 'Rating') {
+                setActiveFindByCategory('Rating');
+            } else {
+                setActiveFindByCategory(null);
+                setActiveLink(null)
+            }
+        } else if (newValue === 'Year') {
+            if (activeFindByCategory !== 'Year') {
+                setActiveFindByCategory('Year');
+            } else {
+                setActiveFindByCategory(null);
+                setActiveLink(null)
+            }
         }
     };
+
+    const handleActiveFindByQuery = (query) => {
+        if (activeFindByCategory === 'Genre') {
+            handleQueryByGenre(query);
+        }
+        if (activeFindByCategory === 'Rating') {
+            handleQueryByRating(query);
+        }
+    }
 
     const handleYear = (year) => {
         setSelectedYear(year);
@@ -39,26 +68,21 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
 
     useEffect(() => {
         const fetchGenresForButtons = async () => {
-            setLoading(true);
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/genre/movie/list`);
                 const data = await response.json();
                 setGenres(data.genres);
             } catch (err) {
                 setError(err);
-            } finally {
-                setLoading(false);
             }
         };
-
-        if (activeCategory === 'Genre' && genres.length === 0) {
+        if (genres.length === 0) {
             fetchGenresForButtons();
         }
-    }, [activeCategory, genres]);
+    }, []);
 
     useEffect(() => {
         const fetchYearsForDropdown = async () => {
-            setLoading(true);
             try {
                 const currentYear = new Date().getFullYear();
                 const yearsList = Array.from({ length: currentYear - 1900 + 1 }, (_, index) => ({
@@ -66,19 +90,15 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
                     label: `${currentYear - index}`,
                     value: `${currentYear - index}`,
                 }));
-                yearsList.unshift({ id: 9999, label: "Future", value: currentYear + 1 });
                 setYears(yearsList);
             } catch (err) {
                 setError(err);
-            } finally {
-                setLoading(false);
             }
         };
-    
-        if (activeCategory === 'Year' && years.length === 0) {
+        if (activeFindByCategory === 'Year' && years.length === 0) {
             fetchYearsForDropdown();
         }
-    }, [activeCategory, years]);
+    }, [activeFindByCategory, years]);
     
 
     // Define a map of additional buttons for each category along with the corresponding button style
@@ -108,10 +128,10 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
     // Initialize additionalButtons and dropdownOptions based on the active category
     let additionalButtons = [];
     let dropdownOptions = [];
-    if (activeCategory === 'Year') {
+    if (activeFindByCategory === 'Year') {
         dropdownOptions = years;
     } else {
-        additionalButtons = additionalButtonsMap[activeCategory]?.buttons || [];
+        additionalButtons = additionalButtonsMap[activeFindByCategory]?.buttons || [];
     }
 
     return (
@@ -165,7 +185,7 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
                         <div>Error: {error.message}</div>
                     ) : (
                         <div className={style.dropdownContainer}>
-                            {activeCategory === 'Year' ? (
+                            {activeFindByCategory === 'Year' ? (
                                 <div className={style.dropdownContainer}>
                                     <select
                                         className={style.yearDropdown}
@@ -179,18 +199,13 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
                                             </option>
                                         ))}
                                     </select>
-                                    {selectedYear && (
-                                        <div className={style.selectedYearText}>
-                                            Showing movies from {selectedYear}
-                                        </div>
-                                    )}
                                 </div>
                             ) : (
                                 additionalButtons.map(item => (
                                     <div
                                         key={item.id}
-                                        className={`${style.link} ${additionalButtonsMap[activeCategory]?.buttonStyle}`}
-                                        onClick={() => handleLinkClick(item.value)}
+                                        className={`${style.link} ${additionalButtonsMap[activeFindByCategory]?.buttonStyle}`}
+                                        onClick={() => handleActiveFindByQuery(item.value)}
                                     >
                                         {item.label}
                                     </div>

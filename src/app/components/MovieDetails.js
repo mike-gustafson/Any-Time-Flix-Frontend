@@ -62,7 +62,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
 
   const openProviderLink = (link) => {
     if (link) {
-        window.open(link, '_blank');
+      window.open(link, '_blank');
     }
   };
 
@@ -91,7 +91,6 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
               <div className={style.tagline}>
                 <p className={style.tag}>{fetchedMovie.tagline}</p>
               </div>
-              
             </div>
 
             <div className={style.description}>
@@ -118,65 +117,103 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
                 ))}
               </ul>
 
-              <div classname={style.whereToWatchContainer}>
-              <h3 className={style.whereToWatchTitle}>Streaming On</h3>
-                {fetchedMovie.watch_providers.flatrate.length > 0 ? (
-                  <div className={style.whereToWatch}>
-                      {fetchedMovie.watch_providers.flatrate.map((provider, index) => (
-                          <div className={style.provider} key={`provider_${provider.provider_id}`} onClick={() => openProviderLink(fetchedMovie.watch_providers.link)}>
-                            <div className={style.providerLogo}>
-                              <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
-                            <span>{provider.provider_name}</span>
+              <div className={style.whereToWatchContainer}>
+                {fetchedMovie.watch_providers && (
+                  <>
+                    {fetchedMovie.watch_providers.flatrate && (
+                      <>
+                        {fetchedMovie.watch_providers.flatrate.length > 0 && (
+                          <>
+                            <h3 className={style.whereToWatchTitle}>Streaming On</h3>
+                            <div className={style.whereToWatch}>
+                              {fetchedMovie.watch_providers.flatrate.map((provider, index) => (
+                                <div
+                                  className={style.provider}
+                                  key={`provider_flatrate_${provider.provider_id}`}
+                                  onClick={() => openProviderLink(provider.link)}
+                                >
+                                  <div className={style.providerLogo}>
+                                    <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
+                                    <span>{provider.provider_name}</span>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
-                          </div>
-                      ))}
-                  </div>
-                ) : null}
-              <h3 className={style.whereToWatchTitle}>Rent</h3>
-                {fetchedMovie.watch_providers.rent.length > 0 ? (
-                  <div className={style.whereToWatch}>
-                      {fetchedMovie.watch_providers.rent.map((provider, index) => (
-                          <div className={style.provider} key={`provider_${provider.provider_id}`} onClick={() => openProviderLink(fetchedMovie.watch_providers.link)}>
-                            <div className={style.providerLogo}>
-                              <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
-                            {provider.provider_name}</div>
-                          </div>
-                      ))}
-                  </div>
-                ) : null}
-              <h3 className={style.whereToWatchTitle}>Buy</h3>
-                {fetchedMovie.watch_providers.buy.length > 0 ? (
-                  <div className={style.whereToWatch}>
-                      {fetchedMovie.watch_providers.buy.map((provider, index) => (
-                          <div className={style.provider} key={`provider_${provider.provider_id}`} onClick={() => openProviderLink(fetchedMovie.watch_providers.link)}>
-                            <div className={style.providerLogo}>
-                              <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
-                            {provider.provider_name}</div>
-                          </div>
-                      ))}
-                  </div>
-                ) : null}
-                <h3 className={style.whereToWatchAttribution}>
-                  Available platforms provided by{" "}
-                  <a href="https://www.justwatch.com" target="_blank">
-                  <img
-                    className={style.justWatchLogo}
-                    src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg"
-                    alt="JustWatch Logo"
-                  />
-                  </a>
-                </h3>
-                
-      </div>
-          
+                          </>
+                        )}
+                      </>
+                    )}
+
+                    {fetchedMovie.watch_providers.rent && (
+                      <>
+                        {fetchedMovie.watch_providers.rent.length > 0 && (
+                          <>
+                            <h3 className={style.whereToWatchTitle}>Rent</h3>
+                            <div className={style.whereToWatch}>
+                              {fetchedMovie.watch_providers.rent.map((provider, index) => (
+                                <div
+                                  className={style.provider}
+                                  key={`provider_rent_${provider.provider_id}`}
+                                  onClick={() => openProviderLink(provider.link)}
+                                >
+                                  <div className={style.providerLogo}>
+                                    <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
+                                    <span>{provider.provider_name}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+
+                    {fetchedMovie.watch_providers.buy && (
+                      <>
+                        {fetchedMovie.watch_providers.buy.length > 0 && (
+                          <>
+                            <h3 className={style.whereToWatchTitle}>Buy</h3>
+                            <div className={style.whereToWatch}>
+                              {fetchedMovie.watch_providers.buy.map((provider, index) => (
+                                <div
+                                  className={style.provider}
+                                  key={`provider_buy_${provider.provider_id}`}
+                                  onClick={() => openProviderLink(provider.link)}
+                                >
+                                  <div className={style.providerLogo}>
+                                    <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
+                                    <span>{provider.provider_name}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+
+                    <h3 className={style.whereToWatchAttribution}>
+                      Available platforms provided by{" "}
+                      <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">
+                        <img
+                          className={style.justWatchLogo}
+                          src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg"
+                          alt="JustWatch Logo"
+                        />
+                      </a>
+                    </h3>
+                  </>
+                )}
+              </div>
+
               <div className={style.recommendationsTrigger}>
                 <h3>
                   Recommendations
                   <span className={style.recommendationsIconContainer}>
-                  <KeyboardArrowUpIcon
-                    className={isRecommendationsExpanded ? style.iconRotated : style.iconNotRotated}
-                    onClick={toggleRecommendations}
-                  />
+                    <KeyboardArrowUpIcon
+                      className={isRecommendationsExpanded ? style.iconRotated : style.iconNotRotated}
+                      onClick={toggleRecommendations}
+                    />
                   </span>
                 </h3>
               </div>

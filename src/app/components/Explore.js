@@ -8,7 +8,7 @@ import { Movie } from '@mui/icons-material';
 
 export default function Explore({ toggleFilter, userData, setUserData, handleTabChange }) {
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
-  const [activeView, setActiveView] = useState('Top Rated');
+  const [activeView, setActiveView] = useState('Popular');
   const [yearRequested, setYearRequested] = useState(null);
   const [genreRequested, setGenreRequested] = useState(null);
   const [ratingRequested, setRatingRequested] = useState(5);
@@ -16,6 +16,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
   const resultsLength = 20;
 
   const handleMain = (selectedView) => {
+    console.log('handleMain triggered by:', selectedView);
     setActiveView(selectedView);
     setResultsKey(resultsKey + 1);
   };
@@ -92,7 +93,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/discover/year/${yearRequested}/1`}
+          resultsRoute={`/movies/discover/year/${yearRequested}/`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -104,7 +105,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/discover/genre/${genreRequested}/1`}
+          resultsRoute={`/movies/discover/genre/${genreRequested}/`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}
@@ -116,7 +117,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/discover/rating/${ratingRequested}/1`}
+          resultsRoute={`/movies/discover/rating/${ratingRequested}/`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}

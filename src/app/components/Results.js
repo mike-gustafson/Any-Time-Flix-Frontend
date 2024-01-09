@@ -36,7 +36,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     }
 
     useEffect(() => {
-        console.log('scroll to top')
+        setPage(1);
         scrollToTop();
     }, [resultsRoute]);
 
@@ -44,7 +44,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
             .then((res) => res.json())
             .then((newData) => {
-                console.log('newData', newData)
+                console.log('route from Results.js', resultsRoute)
                 if (page === 1) {
                     setData(newData);
                 } else {
