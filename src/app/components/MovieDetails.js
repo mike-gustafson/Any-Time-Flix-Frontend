@@ -137,7 +137,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
                 <div className={style.resultsContainer}>
                   <Results
                     resultsLength={20}
-                    resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations`}
+                    resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations/`}
                     toggleFilter={fakeToggleFilter}
                     userData={userData}
                   />

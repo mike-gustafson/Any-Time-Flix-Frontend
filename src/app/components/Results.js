@@ -31,6 +31,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
             .then((res) => res.json())
             .then((newData) => {
+                console.log('newData', newData)
                 if (page === 1) {
                     setData(newData);
                 } else {
