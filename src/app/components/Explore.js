@@ -20,6 +20,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
 
 const handleQueryByYear = (year) => {
   setYearRequested(year);
+  console.log('Year requested:', year);
   handleMain('Year');
 };
 
@@ -77,7 +78,7 @@ const handleQueryByYear = (year) => {
         <Results
           key={resultsKey}
           resultsLength={resultsLength}
-          resultsRoute={`/movies/year/${yearRequested}`}
+          resultsRoute={`/movies/discover/year/${yearRequested}`}
           toggleFilter={toggleFilter}
           userData={userData}
           setUserData={setUserData}

@@ -28,7 +28,7 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
         setActiveLink('Year');
         handleQueryByYear(year);
     };
-    
+
     useEffect(() => {
         const fetchGenresForButtons = async () => {
             setLoading(true);
@@ -55,10 +55,10 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
                 const currentYear = new Date().getFullYear();
                 const yearsList = Array.from({ length: currentYear - 1900 + 1 }, (_, index) => ({
                     id: 5 + index,
-                    label: `${1900 + index}`,
-                    value: `Year${1900 + index}`,
+                    label: `${currentYear - index}`,
+                    value: `${currentYear - index}`,
                 }));
-                yearsList.push({ id: 9999, label: "Future", value: "YearFuture" });
+                yearsList.unshift({ id: 9999, label: "Future", value: currentYear + 1 });
                 setYears(yearsList);
             } catch (err) {
                 setError(err);
@@ -66,11 +66,12 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
                 setLoading(false);
             }
         };
-
+    
         if (activeCategory === 'Year' && years.length === 0) {
             fetchYearsForDropdown();
         }
     }, [activeCategory, years]);
+    
 
     // Define a map of additional buttons for each category along with the corresponding button style
     const additionalButtonsMap = {
@@ -158,15 +159,16 @@ export default function Sidebar({ handleMain, handleQueryByYear }) {
                         <div className={style.dropdownContainer}>
                             {activeCategory === 'Year' ? (
                                 <select
-                                    className={style.yearDropdown}
-                                    onChange={(e) => handleYear(e.target.value)}
-                                    value={activeLink}
+                                className={style.yearDropdown}
+                                onChange={(e) => handleYear(e.target.value)}
+                                value={activeLink}
                                 >
-                                    {dropdownOptions.map((option) => (
-                                        <option key={option.id} value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
+                                <option value={null}>Select a Year</option>
+                                {dropdownOptions.map((option) => (
+                                    <option key={option.id} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
                                 </select>
                             ) : (
                                 additionalButtons.map(item => (

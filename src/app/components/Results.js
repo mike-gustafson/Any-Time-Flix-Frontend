@@ -31,7 +31,6 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
             .then((data) => setData(data))
             .catch((error) => console.error('Error fetching results data:', error));
     };
-
     const showToast = (message) => {
         setToastMessage(message);
     };
