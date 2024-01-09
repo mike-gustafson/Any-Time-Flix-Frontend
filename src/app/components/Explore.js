@@ -3,8 +3,6 @@ import { useState } from 'react';
 import style from '../styles/Explore.module.css';
 import Sidebar from './explore/Sidebar';
 import Results from './Results';
-import Home from '../page';
-import { Movie } from '@mui/icons-material';
 
 export default function Explore({ toggleFilter, userData, setUserData, handleTabChange }) {
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
@@ -16,26 +14,22 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
   const resultsLength = 20;
 
   const handleMain = (selectedView) => {
-    console.log('handleMain triggered by:', selectedView);
     setActiveView(selectedView);
     setResultsKey(resultsKey + 1);
   };
 
   const handleQueryByGenre = (genre) => {
     setGenreRequested(genre);
-    console.log('Genre requested:', genre);
     handleMain('Genre');
   };
 
   const handleQueryByYear = (year) => {
     setYearRequested(year);
-    console.log('Year requested:', year);
     handleMain('Year');
   };
 
   const handleQueryByRating = (rating) => {
     setRatingRequested(rating);
-    console.log('Rating requested:', rating);
     handleMain('Rating');
   };
 

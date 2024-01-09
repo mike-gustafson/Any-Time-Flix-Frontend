@@ -17,30 +17,36 @@ import MovieDetailsModal from './MovieDetailsModal';
 
 import style from '../styles/Results.module.css';
 
-export default function Results({ resultsLength, resultsRoute, toggleFilter, userData, setUserData, handleTabChange }) {
-
+export default function Results({ resultsRoute, toggleFilter, userData, setUserData }) {
     const [data,             setData]             = useState(null);
     const [selectedMovieId,  setSelectedMovieId]  = useState(null);
     const [modalContent,     setModalContent]     = useState(null);
     const [toastMessage,     setToastMessage]     = useState('');
     const [page,             setPage]             = useState(1);
-    const [prevResultsRoute, setPrevResultsRoute] = useState(resultsRoute);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
 
     const containerRef = useRef(null);
 
     const scrollToTop = () => {
+        console.log('scrolling to top')
         const container = window;
         if (container) {
             container.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        setIsFirstLoad(false);
+    }
+
+    if (isFirstLoad) {
+        scrollToTop();
     }
 
     useEffect(() => {
         setPage(1);
-        scrollToTop();
     }, [resultsRoute]);
 
     useEffect(() => {
+        console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
             .then((res) => res.json())
             .then((newData) => {
@@ -54,7 +60,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                 }
             })
             .catch((error) => console.error('Error fetching results data:', error));
-    }, [page, resultsRoute, prevResultsRoute]);
+    }, [page, resultsRoute]);
 
     useEffect(() => {
         // Add an event listener to the container for infinite scrolling
@@ -108,6 +114,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
     const handleOnClose = () => {
         setModalContent(null);
         toggleFilter();
+
     };
 
     const handleLearnMoreClick = (id) => {
@@ -142,7 +149,7 @@ export default function Results({ resultsLength, resultsRoute, toggleFilter, use
                     .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listEndpoint}`, { movie: movie })
                     .then((response) => {
                         setUserData(response.data);
-                        const message = `${movie.original_title} removed from your ${listType} movies`;
+                        const message = `${movie.title} removed from your ${listType} movies`;
                         showToast(message);
                     })
                     .catch((error) => {

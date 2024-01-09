@@ -40,8 +40,8 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
     return creditMap;
   };
 
-  const castCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits.cast || []), [fetchedMovie]);
-  const crewCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits.crew || []), [fetchedMovie]);
+  const castCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits?.cast || []), [fetchedMovie]);
+  const crewCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits?.crew || []), [fetchedMovie]);
 
   let nextFakeId = 1;
   const assignFakeId = (creditMap) => {
@@ -53,8 +53,13 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
     });
   };
 
-  assignFakeId(castCreditsMap);
-  assignFakeId(crewCreditsMap);
+  if (castCreditsMap) {
+    assignFakeId(castCreditsMap);
+  }
+
+  if (crewCreditsMap) {
+    assignFakeId(crewCreditsMap);
+  }
 
   const toggleRecommendations = () => {
     setIsRecommendationsExpanded(!isRecommendationsExpanded);
@@ -72,14 +77,16 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
         <>
           <div className={style.header}>
             <div className={style.title}>
-              {fetchedMovie.original_title}
+              {fetchedMovie.title}
               <div className={style.date}>
-                ({(new Date(fetchedMovie.release_date)).getFullYear()}) - {fetchedMovie.runtime}min
+                {fetchedMovie.release_date && (
+                  `(${(new Date(fetchedMovie.release_date)).getFullYear()}) - ${fetchedMovie.runtime}min`
+                )}
               </div>
             </div>
 
             <div className={style.voteDetails}>
-              <div className={style.popular}>Average Rating  {fetchedMovie.vote_average.toFixed(1)}/10</div>
+              <div className={style.popular}>Average Rating  {fetchedMovie.vote_average ? fetchedMovie.vote_average.toFixed(1) : 'N/A'}/10</div>
             </div>
           </div>
 
@@ -89,7 +96,9 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
                 <Image src={`https://image.tmdb.org/t/p/w500${fetchedMovie.poster_path}`} fill={true} alt={fetchedMovie.original_title} />
               </div>
               <div className={style.tagline}>
-                <p className={style.tag}>{fetchedMovie.tagline}</p>
+                {fetchedMovie.tagline && (
+                  <p className={style.tag}>{fetchedMovie.tagline}</p>
+                )}
               </div>
             </div>
 
@@ -98,21 +107,21 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
 
               <ul className={style.genres}>
                 <li className={style.labelLi}>Genres</li>
-                {fetchedMovie.genres.map((genre, index) => (
+                {fetchedMovie.genres && fetchedMovie.genres.map((genre, index) => (
                   <li key={`genre_${genre.id}`}>{genre.name}</li>
                 ))}
               </ul>
 
               <ul className={style.languages}>
                 <li className={style.labelLi}>Languages</li>
-                {fetchedMovie.spoken_languages.map((language, index) => (
+                {fetchedMovie.spoken_languages && fetchedMovie.spoken_languages.map((language, index) => (
                   <li key={`language_${language.iso_639_1}`}>{language.name}</li>
                 ))}
               </ul>
 
               <ul className={style.productionCompanies}>
                 <li className={style.labelLi}>Production Companies</li>
-                {fetchedMovie.production_companies.map((company, index) => (
+                {fetchedMovie.production_companies && fetchedMovie.production_companies.map((company, index) => (
                   <li key={`company_${company.id}`}>{company.name}</li>
                 ))}
               </ul>
@@ -233,7 +242,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
                 <div className={style.resultsContainer}>
                   <Results
                     resultsLength={20}
-                    resultsRoute={`/movies/movie/${fetchedMovie.id}/recommendations/`}
+                    resultsRoute={fetchedMovie.id ? `/movies/movie/${fetchedMovie.id}/recommendations/` : '/movies'} // Update the route when fetchedMovie.id is missing
                     toggleFilter={fakeToggleFilter}
                     userData={userData}
                   />
@@ -244,7 +253,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
             <div className={style.creditsContainer}>
               <ul className={style.creditsList}>
                 <li className={style.creditsLabel}>Cast</li>
-                {Object.values(castCreditsMap).map((cast) => (
+                {castCreditsMap && Object.values(castCreditsMap).map((cast) => (
                   <li key={`cast_${cast.id}`}>
                     <div className={style.credit}>
                       <div className={style.creditName}>{cast.name}</div>
@@ -256,7 +265,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
 
               <ul className={style.creditsList}>
                 <li className={style.creditsLabel}>Crew</li>
-                {Object.values(crewCreditsMap).map((crew) => (
+                {crewCreditsMap && Object.values(crewCreditsMap).map((crew) => (
                   <li key={`crew_${crew.id}`}>
                     <div className={style.credit}>
                       <div className={style.creditName}>{crew.name}</div>
