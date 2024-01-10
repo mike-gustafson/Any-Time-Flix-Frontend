@@ -66,6 +66,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
   };
 
   const openProviderLink = (link) => {
+    console.log(link)
     if (link) {
       window.open(link, '_blank');
     }
@@ -139,7 +140,7 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
                                 <div
                                   className={style.provider}
                                   key={`provider_flatrate_${provider.provider_id}`}
-                                  onClick={() => openProviderLink(provider.link)}
+                                  onClick={() => openProviderLink(fetchedMovie.watch_providers.link)}
                                 >
                                   <div className={style.providerLogo}>
                                     <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
