@@ -57,3 +57,4 @@ Explore Page
 ![atf3](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/bea1214e-8b4b-4e88-a8ba-609d012118f8)
 
 
+npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom
