@@ -56,5 +56,86 @@ Login Page
 Explore Page
 ![atf3](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/bea1214e-8b4b-4e88-a8ba-609d012118f8)
 
+## File Structure
 
+<<<<<<< HEAD
 npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom
+=======
+```md
+├───.next
+│   └───...
+├───node_modules
+│   └───...
+|
+├───public
+|    next.svg
+|    vercel.svg
+|
+└───src
+|   └────app
+|        │   favicon.ico
+|        │   globals.css
+|        │   layout.js
+|        │   page.js
+|        │   page.module.css
+|        │   profile.module.css
+|        │   signup.module.css
+|        │
+|        ├───components
+|        │   │   Account.js
+|        │   │   Explore.js
+|        │   │   Homepage.js
+|        │   │   MovieDetails.js
+|        │   │   MovieDetailsModal.js
+|        │   │   Nav.js
+|        │   │   Results.js
+|        │   │   Search.js
+|        │   │   Tabs.js
+|        │   │   Toast.js
+|        │   │
+|        │   ├───account
+|        │   │       Profile.js
+|        │   │       ProfileSidebar.js
+|        │   │       UserList.js
+|        │   │
+|        │   └───explore
+|        │           MovieDetailsDataBox.js
+|        │           Sidebar.js
+|        │
+|        ├───styles
+|        │    Explore.module.css
+|        │    Homepage.module.css
+|        │    MovieDetails.module.css
+|        │    MovieDetailsModal.module.css
+|        │    Nav.module.css
+|        │    Results.module.css
+|        │    Search.module.css
+|        │    Tabs.module.css
+|        │    Toast.module.css
+|        │
+|        ├───users
+|        │   ├───login
+|        │   │    page.js
+|        │   │    page.module.css
+|        │   │
+|        │   ├───new
+|        │   │    page.js
+|        │   │
+|        │   └───signup
+|        │        page.js
+|        │
+|        └───utils
+|             handleLogout.js
+|             resultsProps.js
+|             setAuthToken.js
+|   .env
+|   .eslintrc.json
+|   .gitignore
+|   jsconfig.json
+|   next.config.js
+|   notes.md
+|   package-lock.json
+|   package.json
+└   README.md
+```
+>>>>>>> fb4ac69b18b6c9cf67f665bc39a70eeada8023fc
