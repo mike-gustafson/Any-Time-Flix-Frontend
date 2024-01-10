@@ -19,15 +19,15 @@ export default function Page({ handleUserData, handleTabChange }) {
 
     function mergeObjects(obj1, obj2) {
         const result = { ...obj1 };
-      
+
         for (const key in obj2) {
-          if (!result.hasOwnProperty(key)) {
-            result[key] = obj2[key];
-          }
+            if (!result.hasOwnProperty(key)) {
+                result[key] = obj2[key];
+            }
         }
-      
+
         return result;
-      }
+    }
 
     useEffect(() => {
         const checkSession = () => {
@@ -64,7 +64,7 @@ export default function Page({ handleUserData, handleTabChange }) {
         } else {
             handleTabChange('Home');
         }
-    });
+    }, []);
 
 
     const handleUpdateList = (listName, removedMovieId) => {
@@ -91,7 +91,7 @@ export default function Page({ handleUserData, handleTabChange }) {
         return currentListName ? (
             <UserList list={data[currentListName]} dataProp={data} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
         ) : (
-            <Profile dataProp={data.userData} />
+            <Profile dataProp={data} />
         );
     };
 
