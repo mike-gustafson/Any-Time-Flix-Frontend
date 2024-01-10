@@ -58,9 +58,6 @@ Explore Page
 
 ## File Structure
 
-<<<<<<< HEAD
-npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom
-=======
 ```md
 ├───.next
 │   └───...
@@ -138,4 +135,3 @@ npm install -D jest jest-environment-jsdom @testing-library/react @testing-libra
 |   package.json
 └   README.md
 ```
->>>>>>> fb4ac69b18b6c9cf67f665bc39a70eeada8023fc
