@@ -47,11 +47,9 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
     }, [resultsRoute]);
 
     useEffect(() => {
-        console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
             .then((res) => res.json())
             .then((newData) => {
-                console.log('route from Results.js', resultsRoute+page)
                 if (page === 1) {
                     setData(newData);
                 } else {
@@ -125,7 +123,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
 
     const checkForJwtToken = () => {
         const jwtToken = localStorage.getItem('jwtToken');
-        if (!jwtToken) {
+        if (jwtToken === null) {
             setUserData(null);
         }
     };
