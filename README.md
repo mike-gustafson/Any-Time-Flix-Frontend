@@ -13,12 +13,24 @@ Everyone enjoys a good flix. The question is, what to watch? Any-Time-Flix is a 
     ```bash
     npm install
 
+3. Start Backend Server:
+
+Make sure the backend server is running using nodemon.[backend](https://github.com/mike-gustafson/Any-Time-Flix/tree/main)
+
+4. Create .env file:
+   Inside your front-end repo, create a .env file.
+   Add the following line to the .env file (assuming your server is running on port 8000):
+   ```arduino
+   NEXT_PUBLIC_SERVER_URL=http://localhost:8000
+
+5. Access the App:
+   Open your web browser and navigate to the URL shown in the terminal (usually localhost:3000).
 
 ## Deployment
 
 1. FORK and CLONE this repo
 2. Run npm install from your terminal while inside of the project's directory.
-3. Check make sure the backend sever is running. Use nodemon to start server. [backend](https://github.com/mike-gustafson/Any-Time-Flix/tree/main)
+3. Check make sure the backend sever is running. Use nodemon to start server. 
 4. Once connected you should see the port # you are using 
 5. Create a .env file inside your front-end repo
 6. Inside .env file put NEXT_PUBLIC_SERVER_URL=http://localhost:8000 (assuming your running sever 8000)
