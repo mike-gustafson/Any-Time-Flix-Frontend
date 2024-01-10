@@ -62,7 +62,7 @@ export default function Page({ handleUserData, handleTabChange }) {
                     handleTabChange('Home');
                 });
         } else {
-            console.log('/users/login');
+            handleTabChange('Home');
         }
     });
 

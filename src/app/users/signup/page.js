@@ -100,7 +100,7 @@ const Signup = () => {
 
 	};
 
-	if (redirect) { router.push('/users/login'); }
+	if (redirect) { router.push('/'); }
 	if (error) {
 		return (
 			<div>
