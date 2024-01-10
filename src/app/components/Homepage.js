@@ -7,7 +7,7 @@ export default function Homepage({handleTabChange , handleUserData}) {
 
 
     const renderLogin = () => {
-        if (typeof window === 'undefined') {
+        if (typeof window !== 'undefined') {
             if (localStorage.getItem('jwtToken')) {
                 return (
                     <>
