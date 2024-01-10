@@ -43,6 +43,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
 
     useEffect(() => {
         setPage(1);
+        checkForJwtToken();
     }, [resultsRoute]);
 
     useEffect(() => {
@@ -121,6 +122,14 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
         toggleFilter();
         setModalContent(<MovieDetailsModal movieId={id} onClose={handleOnClose} toggleFilter={toggleFilter} userData={userData} />);
     };
+
+    const checkForJwtToken = () => {
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (!jwtToken) {
+            setUserData(null);
+        }
+    };
+
 
     const isMovieInList = (listType, movieId) => {
         const activeList = userData[listType];
