@@ -2,9 +2,9 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import handleLogout from '../utils/handleLogout';
 
-import handleLogout from '@/app/utils/handleLogout';
-import setAuthToken from '@/app/utils/setAuthToken';
+import setAuthToken from '../utils/setAuthToken';
 
 import Profile from './account/Profile';
 import UserList from './account/UserList';

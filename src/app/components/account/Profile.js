@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import handleLogout from '@/app/utils/handleLogout';
+import handleLogout from '../../utils/handleLogout';
 
 export default function Profile({ dataProp }) {
   const router = useRouter();

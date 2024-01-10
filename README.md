@@ -1,38 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# ANY-TIME-FLIX (A.T.F)
 
-First, run the development server:
+Everyone enjoys a good flix. The question is, what to watch? Any-Time-Flix is a solution to this issue, allowing you to view both new and old movies. Additionally, you can create a watchlist, liked movies, and a playlist so the user can be just a click away from all the movies they love.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Deployment
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Fork and Clone this repo:**
+   ```bash
+   git clone https://github.com/your-username/any-time-flix.git
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+2. **Install  Dependencies**
+    ```bash
+    npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Start Backend Server:
 
-## Learn More
+Make sure the backend server is running using nodemon.[backend](https://github.com/mike-gustafson/Any-Time-Flix/tree/main)
 
-To learn more about Next.js, take a look at the following resources:
+4. Create .env file:
+   Inside your front-end repo, create a .env file.
+   Add the following line to the .env file (assuming your server is running on port 8000):
+   ```arduino
+   NEXT_PUBLIC_SERVER_URL=http://localhost:8000
+5. Access the App:
+   Open your web browser and navigate to the URL shown in the terminal (usually localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Component Tree
+- Home(Page.js)
+  - Explore(Explore.js)
+    - Sidebar(Sidebar.js)
+      - Popular(Results.js)
+      - Top Rated(Results.js)
+      - Now Playing(Results.js)
+      - Upcoming(Results.js)
+  - Account(Account.js)
+    - Sidebar(ProfileSidbar.js)
+      - Profile(Profile.js)
+        - Logout(Profile.js)
+          - Login(Login.js)
+      - Watched List(Results.js)
+      - Watched(Results.js)
+      - Liked(Results.js)
+      - Playlist(Results.js)
+  - Homepage(Homepage.js)
+    - Login(Login.js)
+      - Account(Account.js)
+    - Sign Up(Signup/Page.js)
+      - New User(New/Page.js)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Screenshots
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# HomePage
+![atf ](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/5463b1e1-3b1f-4f3f-a3eb-be55643ab5b1)
 
+
+# Login Page
+![atf2](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/65736fa3-c882-4b74-aa99-7ce24f60b552)
+
+# Explore Page
+![atf3](https://github.com/SEIRFX-822/mern-auth-frontend/assets/142261380/bea1214e-8b4b-4e88-a8ba-609d012118f8)
 
 ## File Structure
 

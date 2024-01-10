@@ -2,8 +2,9 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
-import handleLogout from '@/app/utils/handleLogout';
-import setAuthToken from '@/app/utils/setAuthToken';
+import handleLogout from './utils/handleLogout';
+import setAuthToken from './utils/setAuthToken';
+
 
 import React, { useState, useEffect } from 'react';
 
