@@ -5,7 +5,6 @@ import handleLogout from "../utils/handleLogout";
 
 export default function Homepage({handleTabChange , handleUserData}) {
 
-    console.log(localStorage);
 
     const renderLogin = () => {
         if (typeof window === 'undefined') {
