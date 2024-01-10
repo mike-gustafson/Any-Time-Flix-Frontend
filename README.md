@@ -14,8 +14,7 @@ Everyone enjoys a good flix. The question is, what to watch? Any-Time-Flix is a 
     npm install
 
 3. Start Backend Server:
-
-Make sure the backend server is running using nodemon.[backend](https://github.com/mike-gustafson/Any-Time-Flix/tree/main)
+   Make sure the backend server is running using nodemon.[backend](https://github.com/mike-gustafson/Any-Time-Flix/tree/main)
 
 4. Create .env file:
    Inside your front-end repo, create a .env file.
@@ -23,7 +22,7 @@ Make sure the backend server is running using nodemon.[backend](https://github.c
    ```arduino
    NEXT_PUBLIC_SERVER_URL=http://localhost:8000
 
-5. Run the Application:
+5. **Run the Application**
    ```bash
    npm run dev
 
