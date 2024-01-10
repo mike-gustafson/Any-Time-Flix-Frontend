@@ -1,5 +1,6 @@
+import React from 'react'
 import { Inter } from 'next/font/google'
-
+import style from './RootLayout.module.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {

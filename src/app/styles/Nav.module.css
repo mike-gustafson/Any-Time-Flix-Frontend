@@ -1,18 +1,29 @@
 .container {
-    height: 3rem;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    height: 2.5rem;
+    width: 100%;
     z-index: 3;
+    background: rgb(57, 57, 57);
+
+
 }
     .largeNavBar {
+        display: flex;
         visibility: hidden;
         align-items: center;
-        background-color: black;
         width: stretch;
-        margin: 0;
+        max-width: 1400px;
+        height: inherit;
+        margin: 0 auto;
         position: fixed;
-        display: flex;
         top: 0;
         left: 0;
+        right: 0;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     }
+
     .mobileNavBar {
         visibility: visible;
         align-items: center;
@@ -48,7 +59,7 @@
         justify-content: center;
         height: 100%;
         color: white;
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: bold;
         white-space: nowrap;
         margin: 0 0 0 1rem;

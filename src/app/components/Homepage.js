@@ -1,8 +1,42 @@
 import React from "react";
 import style from "../styles/Homepage.module.css";
 import Login from "./Login";
+import handleLogout from "../utils/handleLogout";
 
 export default function Homepage({handleTabChange , handleUserData}) {
+
+
+    const renderLogin = () => {
+        if (typeof window !== 'undefined') {
+            if (localStorage.getItem('jwtToken')) {
+                return (
+                    <>
+                <h2>Welcome!</h2>
+                <div onClick={() => {
+                    handleTabChange('Explore');
+                }}>
+                    <h3>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h3>
+                </div>
+                <button onClick={() => {
+                    handleLogout();
+                    handleTabChange('Home');
+                }
+                }
+                className={style.logoutButton}
+                >Logout</button>
+                </>
+                )
+            } else {
+                return (
+                <Login
+                handleTabChange={handleTabChange}
+                handleUserData={handleUserData}
+                />
+                )
+            }
+        }
+    }
+
     return (
         <div className={style.container}>
             <section className={style.infoBlock}>
@@ -35,15 +69,11 @@ export default function Homepage({handleTabChange , handleUserData}) {
             </section>
             <section className={style.infoBlock}>
                 <p>
-                    Ready to get started? Join our community and enjoy the world of
-                    movies!
+                    Ready to get started? Click <h5>Explore</h5> above to start browsing!
                 </p>
             </section>
             <section className={style.infoBlock}>
-                <Login
-                    handleTabChange={handleTabChange}
-                    handleUserData={handleUserData}
-                />
+                {renderLogin()}
             </section>
         </div>
     );

@@ -54,6 +54,7 @@ export default function Login({ handleTabChange, handleUserData }) {
             <div className={style.container}>
                 <div className={style.singleCard} >
                     <h4 className={style.loginError}>{errorMessage} - Please try again</h4>
+                    <h5>Remember, email addresses are case sensitive</h5>
                     <div className={style.cardBody}>
                     <form className={style.loginForm} onSubmit={handleSubmit}>
                         <h2 className={style.title}>Login</h2>

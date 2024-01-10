@@ -4,6 +4,7 @@
     align-self: center;
     gap: 20px;
     max-width: 1400px;
+    padding: 10px;
 }
     .infoBlock {
         display: flex;
@@ -44,4 +45,20 @@
         .infoBlock:last-child {
             order: -1;
         }
+}
+
+.goToExplore, .logoutButton {
+    color: cyan;
+    text-decoration: none;
+    background-color: black;
+    margin: 0;
+    padding: 10px 10px;
+    border-radius: 0.5rem;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+.goToExplore:hover, .logoutButton:hover {
+    color: goldenrod;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
