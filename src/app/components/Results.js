@@ -25,6 +25,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
     const [page,             setPage]             = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [clickedListIcons, setClickedListIcons] = useState({});
 
     const containerRef = useRef(null);
 
@@ -168,6 +169,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
                         setUserData(response.data);
                         const message = `${movie.title} removed from your ${listType} movies`;
                         showToast(message);
+                        setClickedListIcons({ ...clickedListIcons, [movieId]: false });
                     })
                     .catch((error) => {
                         console.error(`Error updating ${listType} movies`, error);
@@ -183,6 +185,8 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
                             ? `${movie.title} removed from your ${listType} movies`
                             : `${movie.title} added to your ${listType} movies`;
                         showToast(message);
+                        setClickedListIcons({ ...clickedListIcons, [movieId]: true });
+
                     })
                     .catch((error) => {
                         console.error(`Error updating ${listType} movies`, error);
