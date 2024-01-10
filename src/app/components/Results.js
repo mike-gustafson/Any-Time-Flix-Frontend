@@ -127,7 +127,6 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('expiration');
         localStorage.removeItem('email');
-        alert('Your session has expired. Please login again.');
         }
     };
 
