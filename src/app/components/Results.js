@@ -121,10 +121,20 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
         setModalContent(<MovieDetailsModal movieId={id} onClose={handleOnClose} toggleFilter={toggleFilter} userData={userData} />);
     };
 
+    const handleOutOfDateToken = () => {
+        if (userData) {
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('expiration');
+        localStorage.removeItem('email');
+        alert('Your session has expired. Please login again.');
+        }
+    };
+
     const checkForJwtToken = () => {
         const jwtToken = localStorage.getItem('jwtToken');
         if (jwtToken === null) {
-            setUserData(null);
+            console.log(userData)
+            handleOutOfDateToken();
         }
     };
 

@@ -4,7 +4,7 @@ import style from '../styles/Explore.module.css';
 import Sidebar from './explore/Sidebar';
 import Results from './Results';
 
-export default function Explore({ toggleFilter, userData, setUserData, handleTabChange }) {
+export default function Explore({ toggleFilter, userData, removeUserData, handleTabChange }) {
   const [resultsKey, setResultsKey] = useState(1); // Start counting at 1
   const [activeView, setActiveView] = useState('Popular');
   const [yearRequested, setYearRequested] = useState(null);
@@ -42,7 +42,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute="/movies/now-playing/"
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );
@@ -54,7 +54,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute="/movies/popular/"
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );
@@ -66,7 +66,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute="/movies/top-rated/"
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );
@@ -78,7 +78,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute="/movies/upcoming/"
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );
@@ -90,7 +90,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute={`/movies/discover/year/${yearRequested}/`}
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );
@@ -102,7 +102,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute={`/movies/discover/genre/${genreRequested}/`}
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );
@@ -114,7 +114,7 @@ export default function Explore({ toggleFilter, userData, setUserData, handleTab
           resultsRoute={`/movies/discover/rating/${ratingRequested}/`}
           toggleFilter={toggleFilter}
           userData={userData}
-          setUserData={setUserData}
+          removeUserData={removeUserData}
           handleTabChange={handleTabChange}
         />
       );

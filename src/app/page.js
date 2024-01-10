@@ -44,9 +44,10 @@ export default function Home() {
       const checkSession = () => {
         const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
         if (Date.now() >= expirationTime) {
-            handleLogout();
-            alert('Session has ended. Please login to continue.');
-            handleTabChange('Home');
+          removeUserData();
+          handleLogout();
+          alert('Session has ended. Please login to continue.');
+          handleTabChange('Home');
         }
     };
 
@@ -60,7 +61,8 @@ export default function Home() {
                 const combinedData = mergeObjects(response.data.userData, userData);
                 setUserData(combinedData);
             } else {
-                console.log('/users/login');
+              removeUserData();
+              console.log('/users/login');
             }
         })
         .catch((error) => {
@@ -80,6 +82,10 @@ export default function Home() {
     setUserData(data);
   };
 
+  const removeUserData = () => {
+    setUserData(null);
+  };
+
   useEffect(() => {}, [isFilterVisible]);
 
   const handleTabChange = (selectedTab) => {
@@ -94,7 +100,7 @@ export default function Home() {
   };
 
   const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}/`, setUserData, handleTabChange};
-  const exploreProps = { toggleFilter, userData, setUserData, handleTabChange };
+  const exploreProps = { toggleFilter, userData, removeUserData, handleTabChange };
   const homepageProps = { handleTabChange, handleUserData, setUserData, userData };
   const accountProps = { handleUserData, handleTabChange };
   
