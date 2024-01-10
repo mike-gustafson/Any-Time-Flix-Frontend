@@ -50,7 +50,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${resultsRoute}${page}`)  
             .then((res) => res.json())
             .then((newData) => {
-                console.log('route from Results.js', resultsRoute)
+                console.log('route from Results.js', resultsRoute+page)
                 if (page === 1) {
                     setData(newData);
                 } else {
