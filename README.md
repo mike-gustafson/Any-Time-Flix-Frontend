@@ -18,8 +18,7 @@ Everyone enjoys a good flix. The question is, what to watch? Any-Time-Flix is a 
 
 4. Create .env file:
    Inside your front-end repo, create a .env file.
-   Add the following line to the .env file 
-   (assuming your server is running on port 8000):
+   Add the following line to the .env file (assuming your server is running on port 8000):
    ```arduino
    NEXT_PUBLIC_SERVER_URL=http://localhost:8000
 
