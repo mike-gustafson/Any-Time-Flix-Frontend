@@ -8,31 +8,33 @@ export default function Homepage({handleTabChange , handleUserData}) {
     console.log(localStorage);
 
     const renderLogin = () => {
-        if (localStorage.getItem('jwtToken')) {
-            return (
-                <>
-            <h2>Welcome!</h2>
-            <div onClick={() => {
-                handleTabChange('Explore');
-            }}>
-                <h3>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h3>
-            </div>
-            <button onClick={() => {
-                handleLogout();
-                handleTabChange('Home');
+        if (typeof window === 'undefined') {
+            if (localStorage.getItem('jwtToken')) {
+                return (
+                    <>
+                <h2>Welcome!</h2>
+                <div onClick={() => {
+                    handleTabChange('Explore');
+                }}>
+                    <h3>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h3>
+                </div>
+                <button onClick={() => {
+                    handleLogout();
+                    handleTabChange('Home');
+                }
+                }
+                className={style.logoutButton}
+                >Logout</button>
+                </>
+                )
+            } else {
+                return (
+                <Login
+                handleTabChange={handleTabChange}
+                handleUserData={handleUserData}
+                />
+                )
             }
-            }
-            className={style.logoutButton}
-            >Logout</button>
-            </>
-            )
-        } else {
-            return (
-            <Login
-            handleTabChange={handleTabChange}
-            handleUserData={handleUserData}
-        />
-            )
         }
     }
 
