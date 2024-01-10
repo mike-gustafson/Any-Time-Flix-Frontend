@@ -111,7 +111,7 @@ const Signup = () => {
 							<br />
 							<h2>Login</h2>
 							<p>Sign In to your account</p>
-							<a href="/users/login" type="button" className="btn btn-primary active mt-3">Login</a>
+							<a href="/" type="button" className="btn btn-primary active mt-3">Login</a>
 							<span>  </span>
 							<a href="/users/signup" type="button" className="btn btn-secondary active mt-3">Signup</a>
 						</div>
@@ -180,9 +180,6 @@ const Signup = () => {
 										<div className="col-6">
 											<button type="submit" className="btn btn-primary px-4">Sign Up</button>
 										</div>
-										<div className="col-6 text-right">
-											<button type="button" className="btn btn-link px-0">Forgot password?</button>
-										</div>
 									</div>
 								</form>
 							</div>
@@ -200,7 +197,7 @@ const Signup = () => {
 								<div>
 									<h2>Login</h2>
 									<p>Sign In to your account</p>
-									<a href="/users/login" type="button" className="btn btn-primary active mt-3">Login</a>
+									<a href="/" type="button" className="btn btn-primary active mt-3">Login</a>
 								</div>
 							</div>
 						</div>
