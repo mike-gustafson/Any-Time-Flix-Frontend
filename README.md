@@ -22,22 +22,8 @@ Make sure the backend server is running using nodemon.[backend](https://github.c
    Add the following line to the .env file (assuming your server is running on port 8000):
    ```arduino
    NEXT_PUBLIC_SERVER_URL=http://localhost:8000
-
 5. Access the App:
    Open your web browser and navigate to the URL shown in the terminal (usually localhost:3000).
-
-## Deployment
-
-1. FORK and CLONE this repo
-2. Run npm install from your terminal while inside of the project's directory.
-3. Check make sure the backend sever is running. Use nodemon to start server. 
-4. Once connected you should see the port # you are using 
-5. Create a .env file inside your front-end repo
-6. Inside .env file put NEXT_PUBLIC_SERVER_URL=http://localhost:8000 (assuming your running sever 8000)
-7. Type npm run dev in terminal inside of the poject's directory to start sever.
-8. Once server started you will see a localhost:3000 ( or whatever sever you are using)
-9. Open web browser and type your localhost in you URL address to access app.
-
 
 
 ## Component Tree
