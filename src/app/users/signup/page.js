@@ -6,9 +6,7 @@ import { useRouter } from 'next/navigation';
 
 const Signup = () => {
 	const router = useRouter();
-
 	const [redirect, setRedirect] = useState(false);
-
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
@@ -21,54 +19,43 @@ const Signup = () => {
 	const [country, setCountry] = useState('');
 	const [error, setError] = useState(false);
 
-	// create the 
 	const handleFirstName = (e) => {
-		// fill in code
 		setFirstName(e.target.value);
 	};
 
 	const handleLastName = (e) => {
-		// fill in code
 		setLastName(e.target.value);
 	};
 
 	const handleUserName = (e) => {
-		// fill in code
 		setUserName(e.target.value);
 	};
 
 	const handleCity = (e) => {
-		// fill in code
 		setCity(e.target.value);
 	};
 
 	const handleState = (e) => {
-		// fill in code
 		setState(e.target.value);
 	};
 
 	const handleCountry = (e) => {
-		// fill in code
 		setCountry(e.target.value);
 	};
 
 	const handleEmail = (e) => {
-		// fill in code
 		setEmail(e.target.value);
 	};
 
 	const handlePassword = (e) => {
-		// fill in code
 		setPassword(e.target.value);
 	};
 
 	const handleBio = (e) => {
-		// fill in code
 		setBio(e.target.value);
 	};
 
 	const handleProfilePicture = (e) => {
-		// fill in code
 		setProfilePicture(e.target.value);
 	};
 

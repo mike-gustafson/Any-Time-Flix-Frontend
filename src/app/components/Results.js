@@ -23,8 +23,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
     const [modalContent,     setModalContent]     = useState(null);
     const [toastMessage,     setToastMessage]     = useState('');
     const [page,             setPage]             = useState(1);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [isFirstLoad,      setIsFirstLoad]      = useState(true);
     const [clickedListIcons, setClickedListIcons] = useState({});
 
     const containerRef = useRef(null);
@@ -114,7 +113,6 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
     const handleOnClose = () => {
         setModalContent(null);
         toggleFilter();
-
     };
 
     const handleLearnMoreClick = (id) => {
@@ -137,7 +135,6 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
             handleOutOfDateToken();
         }
     };
-
 
     const isMovieInList = (listType, movieId) => {
         const activeList = userData[listType];

@@ -11,11 +11,11 @@ export default function Homepage({handleTabChange , handleUserData}) {
             if (localStorage.getItem('jwtToken')) {
                 return (
                     <>
-                <h2>Welcome!</h2>
+                <h2 className={style.heading}>Welcome!</h2>
                 <div onClick={() => {
                     handleTabChange('Explore');
                 }}>
-                    <h3>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h3>
+                    <h2>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h2>
                 </div>
                 <button onClick={() => {
                     handleLogout();
@@ -40,7 +40,7 @@ export default function Homepage({handleTabChange , handleUserData}) {
     return (
         <div className={style.container}>
             <section className={style.infoBlock}>
-                <h2>Tech Stack</h2>
+                <h2 className={style.heading}>Tech Stack</h2>
                 <p>
                     Our app is powered by a cutting-edge tech stack to provide you with
                     the best experience:
@@ -55,7 +55,7 @@ export default function Homepage({handleTabChange , handleUserData}) {
                 </ul>
             </section>
             <section className={style.infoBlock}>
-                <h2>App Functionality</h2>
+                <h2 className={style.heading}>App Functionality</h2>
                 <p>
                     Discover what our app has to offer and simplify your movie
                     experience:
@@ -69,7 +69,7 @@ export default function Homepage({handleTabChange , handleUserData}) {
             </section>
             <section className={style.infoBlock}>
                 <p>
-                    Ready to get started? Click <h5>Explore</h5> above to start browsing!
+                    Ready to get started? Click EXPLORE above to start browsing!
                 </p>
             </section>
             <section className={style.infoBlock}>

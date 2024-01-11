@@ -34,60 +34,53 @@ export default function Home() {
     return result;
   }
 
-  useEffect(() => {
-    // Check if localStorage is available and set isThereLocalStorage accordingly
-    setIsThereLocalStorage(!!window.localStorage);
+  useEffect(() => { 
+    setIsThereLocalStorage(!!window.localStorage)
+    console.log('useEffect 1 running')
   }, []);
 
-  if (!userData && isThereLocalStorage) {
-    if (localStorage.getItem('jwtToken')) {
+  useEffect(() => {
+    console.log('useEffect 2 running')
+  }, [isFilterVisible]);
 
-      const checkSession = () => {
-        const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
-        if (Date.now() >= expirationTime) {
-          removeUserData();
-          handleLogout();
-          alert('Session has ended. Please login to continue.');
-          handleTabChange('Home');
-        }
-    };
-
-    checkSession();
-      setAuthToken(localStorage.getItem('jwtToken'));
+  useEffect(() => {
+    if (!userData && isThereLocalStorage) {
       if (localStorage.getItem('jwtToken')) {
-        axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${localStorage.getItem('email')}`)
-        .then((response) => {
-            let userData = jwtDecode(localStorage.getItem('jwtToken'));
-            if (userData.email === localStorage.getItem('email')) {
-                const combinedData = mergeObjects(response.data.userData, userData);
-                setUserData(combinedData);
-            } else {
-              removeUserData();
-              console.log('/users/login');
-            }
-        })
-        .catch((error) => {
-            console.log('error', error);
+        console.log('token but no data so we are fixing that')
+        setAuthToken(localStorage.getItem('jwtToken'));
+        const userData = axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/refreshData/${localStorage.getItem('email')}`)
+          .then((response) => {
+            console.log('response', response)
+            handleUserData(response.data);
+          })
+          .catch((error) => {
+            console.log('error2', error);
+            handleLogout();
             handleTabChange('Home');
-        });
+          });
+      } else {
+        handleTabChange('Home');
       }
+    } else if (!userData && !localStorage.getItem('jwtToken')) {
+      console.log('no token and no data, redirecting to "Homepage"')
+      handleTabChange('Home');
+    } else {
+      console.log('token and data are both ready to go')
     }
-  }
+  }, [userData, activeView]);
 
   const toggleFilter = () => {
     setIsFilterVisible((prevVisible) => !prevVisible);
     setFilterKey((prevKey) => prevKey + 1);
   };
 
-  const handleUserData = (data) => {
-    setUserData(data);
+  const handleUserData = (userData) => {
+    setUserData(userData);
   };
 
   const removeUserData = () => {
     setUserData(null);
   };
-
-  useEffect(() => {}, [isFilterVisible]);
 
   const handleTabChange = (selectedTab) => {
     setActiveView(selectedTab);
@@ -103,7 +96,7 @@ export default function Home() {
   const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}/`, setUserData, handleTabChange};
   const exploreProps = { toggleFilter, userData, removeUserData, handleTabChange, setUserData };
   const homepageProps = { handleTabChange, handleUserData, setUserData, userData };
-  const accountProps = { handleUserData, handleTabChange };
+  const accountProps = { handleUserData, handleTabChange, userData };
   
   const views = {
     Homepage: { component: Homepage, props: homepageProps },

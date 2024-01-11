@@ -5,15 +5,15 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 export default function Tabs({ handleTabChange }) {
-    const handleTabClick = (tabValue) => {
+
+    const handleTabClick = (tabSelected) => {
         if (typeof window !== 'undefined') {
-            if (localStorage.getItem('jwtToken') === null && tabValue === 'Account') {
-                alert('Please login to view your account.');
-                console.log('Please login to view your account.');
-                handleTabChange('Home');
-            } 
+            if (localStorage.getItem('jwtToken') === null && tabSelected === 'Account') {
+                alert('Please login or sign up to view the account page');
+            } else {
+                handleTabChange(tabSelected);
+            }
         }
-        handleTabChange(tabValue);
     }
 
     return (

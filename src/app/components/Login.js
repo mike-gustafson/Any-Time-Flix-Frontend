@@ -1,9 +1,11 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
+
+// util imports
 import setAuthToken from '../utils/setAuthToken';
 
-import jwtDecode from 'jwt-decode';
+// style imports
 import style from '../styles/Login.module.css';
 
 
@@ -22,22 +24,19 @@ export default function Login({ handleTabChange, handleUserData }) {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = async (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password });
-    
             if (response.status === 200) {
                 setError(false);
                 localStorage.setItem('jwtToken', response.data.token);
                 localStorage.setItem('email', response.data.loginData.email);
                 localStorage.setItem('expiration', response.data.loginData.exp);
+                console.log('userData from response', response.data.userData);
                 setAuthToken(response.data.token);
-                let decoded = jwtDecode(response.data.token);
-                const userDataFetch = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/email/${decoded.email}`);
-                const userData = userDataFetch.data.userData;
                 setRedirect(true);
-                handleUserData(userData);
+                handleUserData(response.data.userData);
             } else {
                 console.log('Login failed, code:', response.status);
             }
@@ -56,7 +55,7 @@ export default function Login({ handleTabChange, handleUserData }) {
                     <h4 className={style.loginError}>{errorMessage} - Please try again</h4>
                     <h5>Remember, email addresses are case sensitive</h5>
                     <div className={style.cardBody}>
-                    <form className={style.loginForm} onSubmit={handleSubmit}>
+                    <form className={style.loginForm} onSubmit={handleLoginSubmit}>
                         <h2 className={style.title}>Login</h2>
                         <p>Sign In to your account</p>
                         <div>
@@ -82,7 +81,7 @@ export default function Login({ handleTabChange, handleUserData }) {
                 <div className={style.cardBody}>
                     <h2 className={style.title}>Login</h2>
                     <p>Sign In to your account</p>
-                    <form className={style.loginForm} onSubmit={handleSubmit}>
+                    <form className={style.loginForm} onSubmit={handleLoginSubmit}>
                         <div>
                             <input type="text" className={style.input} name="email" autoComplete="off" placeholder="Email" value={email} onChange={handleEmail} required />
                         </div>
