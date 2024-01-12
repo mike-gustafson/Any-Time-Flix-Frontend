@@ -30,10 +30,10 @@ export default function Login({ handleTabChange, handleUserData }) {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password });
             if (response.status === 200) {
                 setError(false);
+                console.log(response.data)
                 localStorage.setItem('jwtToken', response.data.token);
-                localStorage.setItem('email', response.data.loginData.email);
-                localStorage.setItem('expiration', response.data.loginData.exp);
-                console.log('userData from response', response.data.userData);
+                localStorage.setItem('email', response.data.userData.email);
+                localStorage.setItem('expiration', response.data.tokenExpiration);
                 setAuthToken(response.data.token);
                 setRedirect(true);
                 handleUserData(response.data.userData);

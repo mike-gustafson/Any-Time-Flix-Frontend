@@ -1,7 +1,7 @@
 /* Toast.module.css */
 .toast {
     position: fixed;
-    top: 0;
+    top: 2.5rem;
     left: 50%;
     transform: translateX(-50%);
     background-color: cyan;
@@ -14,11 +14,11 @@
 }
 
 .slideIn {
-    animation: slideIn 0.5s ease-out;
+    animation: slideIn .5s ease-out;
 }
 
 .slideOut {
-    animation: slideOut 0.5s ease-in;
+    animation: slideOut .5s ease-in;
 }
 
 @keyframes slideIn {
@@ -26,13 +26,13 @@
         top: -50px;
     }
     to {
-        top: 0;
+        top: 2.5rem;
     }
 }
 
 @keyframes slideOut {
     from {
-        top: 0;
+        top: 2.5rem;
     }
     to {
         top: -50px;

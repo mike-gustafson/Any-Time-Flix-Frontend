@@ -36,11 +36,9 @@ export default function Home() {
 
   useEffect(() => { 
     setIsThereLocalStorage(!!window.localStorage)
-    console.log('useEffect 1 running')
   }, []);
 
   useEffect(() => {
-    console.log('useEffect 2 running')
   }, [isFilterVisible]);
 
   useEffect(() => {
@@ -48,10 +46,9 @@ export default function Home() {
       if (localStorage.getItem('jwtToken')) {
         console.log('token but no data so we are fixing that')
         setAuthToken(localStorage.getItem('jwtToken'));
-        const userData = axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/refreshData/${localStorage.getItem('email')}`)
+        const userData = axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/refreshData`)
           .then((response) => {
-            console.log('response', response)
-            handleUserData(response.data);
+            handleUserData(response.data.data);
           })
           .catch((error) => {
             console.log('error2', error);

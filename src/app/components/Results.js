@@ -138,6 +138,8 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
 
     const isMovieInList = (listType, movieId) => {
         const activeList = userData[listType];
+        if (!activeList) return false;
+        if (activeList.length === 0) return false;
         for (const savedMovie of activeList) {
             if (savedMovie.id == movieId) {
                 return true;
@@ -148,21 +150,15 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
 
     const handleListIconClick = (event, listType, movieId) => {
         event.stopPropagation();
-        const jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken) {
+        if (localStorage.getItem('jwtToken')) {
             const movie = data.results.find((movie) => movie.id === movieId);
-            const listEndpoint = `${listType}/${userData._id}`;
-
-            if (!movie) {
-                console.error('Movie not found');
-                return;
-            }
+            if (!movie) return;
 
             if (isMovieInList(listType, movieId)) {
                 axios
-                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listEndpoint}`, { movie: movie })
+                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listType}`, { movie: movie })
                     .then((response) => {
-                        setUserData(response.data);
+                        setUserData(response.data.updatedUserData);
                         const message = `${movie.title} removed from your ${listType} movies`;
                         showToast(message);
                         setClickedListIcons({ ...clickedListIcons, [movieId]: false });
@@ -173,16 +169,12 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
                 return;
             } else {
                 axios
-                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listEndpoint}`, { movie: movie })
+                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listType}`, { movie: movie })
                     .then((response) => {
-                        setUserData(response.data);
-                        const isMovieAlreadyInList = response.data[listType].some((savedMovie) => savedMovie.id === movieId);
-                        const message = isMovieAlreadyInList
-                            ? `${movie.title} removed from your ${listType} movies`
-                            : `${movie.title} added to your ${listType} movies`;
+                        setUserData(response.data.updatedUserData);
+                        const message = `${movie.title} added to your ${listType} movies`;
                         showToast(message);
                         setClickedListIcons({ ...clickedListIcons, [movieId]: true });
-
                     })
                     .catch((error) => {
                         console.error(`Error updating ${listType} movies`, error);
