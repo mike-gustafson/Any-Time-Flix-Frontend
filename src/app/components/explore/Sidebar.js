@@ -19,37 +19,21 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
-        if (newValue === 'Popular') {
-            handleMain('Popular');
-        } else if (newValue === 'Top Rated') {
-            handleMain('Top Rated');
-        } else if (newValue === 'Now Playing') {
-            handleMain('Now Playing');
-        } else if (newValue === 'Upcoming') {
-            handleMain('Upcoming');
-        } else if (newValue === 'Genre') {
-            if (activeFindByCategory !== 'Genre') {
-                setActiveFindByCategory('Genre');
+    
+        const categoryMapping = { 'Popular': 'Popular', 'Top Rated': 'Top Rated', 'Now Playing': 'Now Playing', 'Upcoming': 'Upcoming' };
+    
+        if (categoryMapping[newValue]) {
+            handleMain(categoryMapping[newValue]);
+        } else if (newValue === 'Genre' || newValue === 'Rating' || newValue === 'Year') {
+            if (activeFindByCategory !== newValue) {
+                setActiveFindByCategory(newValue);
             } else {
                 setActiveFindByCategory(null);
-                setActiveLink(null)
-            }
-        } else if (newValue === 'Rating') {
-            if (activeFindByCategory !== 'Rating') {
-                setActiveFindByCategory('Rating');
-            } else {
-                setActiveFindByCategory(null);
-                setActiveLink(null)
-            }
-        } else if (newValue === 'Year') {
-            if (activeFindByCategory !== 'Year') {
-                setActiveFindByCategory('Year');
-            } else {
-                setActiveFindByCategory(null);
-                setActiveLink(null)
+                setActiveLink(null);
             }
         }
     };
+    
 
     const handleActiveFindByQuery = (query) => {
         if (activeFindByCategory === 'Genre') {

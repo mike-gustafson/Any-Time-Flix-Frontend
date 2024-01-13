@@ -79,7 +79,7 @@ const Signup = () => {
 				setRedirect(true);
 			})
 			.catch(error => {
-				if (error.response.data.message === 'Email already exists') {
+				if (error.response.data.message === 'Error occured... Please try again.') {
 					console.log('===> Error in Signup', error.response.data.message);
 					setError(true);
 				}

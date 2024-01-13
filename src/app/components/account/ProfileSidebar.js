@@ -99,8 +99,18 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                 <div
                     className={`${style.link} ${activeLink === 'Playlist' ? style.activeLink : ''}`}
                     onClick={() => handleLinkClick("Playlist")}>
-                    <ReplayIcon className={style.icon} />Playlist
+                    <ReplayIcon className={style.icon} />Playlists
                 </div>
+                <div 
+                    className={`${style.link} ${activeLink === 'Recent Searches' ? style.activeLink : ''}`}
+                    onClick={() => handleLinkClick("Recent Searches")}>
+                    <ReplayIcon className={style.icon} />Recent Searches
+                </div>
+                <div    
+                    className={`${style.link} ${activeLink === 'Disliked' ? style.activeLink : ''}`}
+                    onClick={() => handleLinkClick("Disliked")}>
+                    <ReplayIcon className={style.icon} />Disliked
+                    </div>
             </div>
         </div >
     )

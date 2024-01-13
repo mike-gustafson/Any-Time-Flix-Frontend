@@ -6,18 +6,23 @@
     width: stretch;
     margin: 0;
 }
-    .icon {
+    .iconContainer {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         color: cyan;
         height: 100%;
-        width: 75px;
-        font-size: .8rem;
+        width: 50px;
+        margin: 0 1rem;
+        font-size: small;
         font-weight: bold;
     }
-    .icon:hover {
+        .icon {
+            width: 80%;
+            margin: 0;
+        }
+    .icon:hover, .iconContainer:hover {
         color: goldenrod;
         cursor: pointer;
     }

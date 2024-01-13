@@ -3,7 +3,7 @@ import style from "../styles/Homepage.module.css";
 import Login from "./Login";
 import handleLogout from "../utils/handleLogout";
 
-export default function Homepage({handleTabChange , handleUserData}) {
+export default function Homepage({ handleTargetPage, handleUserData }) {
 
 
     const renderLogin = () => {
@@ -11,27 +11,27 @@ export default function Homepage({handleTabChange , handleUserData}) {
             if (localStorage.getItem('jwtToken')) {
                 return (
                     <>
-                <h2 className={style.heading}>Welcome!</h2>
-                <div onClick={() => {
-                    handleTabChange('Explore');
-                }}>
-                    <h2>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h2>
-                </div>
-                <button onClick={() => {
-                    handleLogout();
-                    handleTabChange('Home');
-                }
-                }
-                className={style.logoutButton}
-                >Logout</button>
-                </>
+                        <h2 className={style.heading}>Welcome!</h2>
+                        <div onClick={() => {
+                            handleTargetPage('Explore');
+                        }}>
+                            <h2>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h2>
+                        </div>
+                        <button onClick={() => {
+                            handleLogout();
+                            handleTargetPage('Home');
+                        }
+                        }
+                            className={style.logoutButton}
+                        >Logout</button>
+                    </>
                 )
             } else {
                 return (
-                <Login
-                handleTabChange={handleTabChange}
-                handleUserData={handleUserData}
-                />
+                    <Login
+                        handleTargetPage={handleTargetPage}
+                        handleUserData={handleUserData}
+                    />
                 )
             }
         }

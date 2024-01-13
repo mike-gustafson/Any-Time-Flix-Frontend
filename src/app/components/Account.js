@@ -11,7 +11,7 @@ import UserList from './account/UserList';
 import ProfileSidebar from './account/ProfileSidebar';
 import style from '../styles/Explore.module.css';
 
-export default function Page({ handleUserData, handleTabChange, userData }) {
+export default function Page({ handleUserData, userData }) {
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [activeView, setActiveView] = useState('Profile');
@@ -34,14 +34,24 @@ export default function Page({ handleUserData, handleTabChange, userData }) {
         const listMapping = {
             'Watch List': 'watchList',
             'Watched': 'watched',
-            'Liked': 'liked'
+            'Liked': 'liked',
+            'Disliked': 'disliked',
         };
         const currentListName = listMapping[activeView];
-        return currentListName ? (
-            <UserList list={userData[currentListName]} dataProp={userData} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
-        ) : (
-            <Profile userData={userData} />
-        );
+        // if activeView is in listMapping, render UserList
+        if (currentListName) {
+            return (
+                <UserList list={userData[currentListName]} dataProp={userData} listName={currentListName} onUpdateList={(movieId) => handleUpdateList(currentListName, movieId)} />
+            );
+        } else if (activeView === 'Profile') {
+            return (
+                <Profile userData={userData} />
+            );
+        } else if (activeView === 'Recent Searches') {
+            return (
+                <UserList list={userData.recentSearches} dataProp={userData} listName="recentSearches" onUpdateList={(movieId) => handleUpdateList('recentSearches', movieId)} />
+            );
+        }
     };
 
     return (

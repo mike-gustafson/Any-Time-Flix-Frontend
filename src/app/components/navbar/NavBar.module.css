@@ -2,12 +2,10 @@
     display: flex;
     justify-content: center;
     position: fixed;
-    height: 2.5rem;
+    height: 3rem;
     width: 100%;
     z-index: 3;
     background: rgb(57, 57, 57);
-
-
 }
     .largeNavBar {
         display: flex;
@@ -24,22 +22,9 @@
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     }
 
-    .mobileNavBar {
-        visibility: visible;
-        align-items: center;
-        background-color: black;
-        width: stretch;
-        height: inherit;
-        margin: 0;
-        position: fixed;
-        display: flex;
-        bottom: 0;
-        left: 0;
-    }
     .mobileHeader {
         visibility: visible;
         align-items: center;
-        background-color: black;
         width: stretch;
         height: inherit;
         margin: 0;
@@ -48,25 +33,31 @@
         top: 0;
         left: 0;
     }
-    .mobileHeader .title {
-        margin: 10px;
-        font-size: 30px;
+    .mobileNavBar {
+        visibility: visible;
+        align-items: center;
+        width: stretch;
+        height: inherit;
+        margin: 0;
+        position: fixed;
+        display: flex;
+        bottom: 0;
+        left: 0;
+        background: rgb(57, 57, 57);
     }
 
-    .title {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        color: white;
-        font-size: 1.5rem;
-        font-weight: bold;
-        white-space: nowrap;
-        margin: 0 0 0 1rem;
-    }
-    .title:hover {
-        cursor: pointer;
-    }
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            white-space: nowrap;
+            margin: 0 0 0 .5rem;
+            cursor: pointer;
+        }
 
     @media (max-width: 570px) {
         .largeNavBar {

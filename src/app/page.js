@@ -1,14 +1,12 @@
 'use client'
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import style from './page.module.css';
 import handleLogout from './utils/handleLogout';
 import setAuthToken from './utils/setAuthToken';
-
-
 import React, { useState, useEffect } from 'react';
 
-import Nav from './components/Nav';
+// component imports
+import NavBar from './components/navbar/NavBar';
 import Account from './components/Account';
 import Explore from './components/Explore';
 import Results from './components/Results';
@@ -24,23 +22,11 @@ export default function Home() {
   const [userData, setUserData] = useState(null);
   const [isThereLocalStorage, setIsThereLocalStorage] = useState(null)
 
-  function mergeObjects(obj1, obj2) {
-    const result = { ...obj1 };
-    for (const key in obj2) {
-      if (!result.hasOwnProperty(key)) {
-        result[key] = obj2[key];
-      }
-    }
-    return result;
-  }
-
   useEffect(() => { 
     setIsThereLocalStorage(!!window.localStorage)
   }, []);
 
-  useEffect(() => {
-  }, [isFilterVisible]);
-
+  // userData clears on page refresh, so we need to check for a token and get the data if it exists
   useEffect(() => {
     if (!userData && isThereLocalStorage) {
       if (localStorage.getItem('jwtToken')) {
@@ -53,15 +39,12 @@ export default function Home() {
           .catch((error) => {
             console.log('error2', error);
             handleLogout();
-            handleTabChange('Home');
+            handleTargetPage('Home');
           });
       } else {
-        handleTabChange('Home');
+        handleTargetPage('Home');
       }
-    } else if (!userData && !localStorage.getItem('jwtToken')) {
-      console.log('no token and no data, redirecting to "Homepage"')
-      handleTabChange('Home');
-    } else {
+    } else if (userData && localStorage.getItem('jwtToken')) {
       console.log('token and data are both ready to go')
     }
   }, [userData, activeView]);
@@ -71,6 +54,7 @@ export default function Home() {
     setFilterKey((prevKey) => prevKey + 1);
   };
 
+  // store userData in localStorage
   const handleUserData = (userData) => {
     setUserData(userData);
   };
@@ -79,22 +63,38 @@ export default function Home() {
     setUserData(null);
   };
 
-  const handleTabChange = (selectedTab) => {
-    setActiveView(selectedTab);
-    setResultsKey((prevKey) => prevKey + 1);
+  const handleTargetPage = (selectedTab) => {
+    if (selectedTab === 'Logout') {
+      handleLogout();
+      handleTargetPage('Home');
+    } else {
+      setActiveView(selectedTab);
+      setResultsKey((prevKey) => prevKey + 1);
+    }
   };
 
+  // handles the query from the search bar in the navbar
   const handleSearch = (query) => {
+    // set the search query useState to the query
     setSearchQuery(query);
+    // set active view to search results
     setActiveView('Search');
-    setResultsKey((prevKey) => prevKey + 1);
+    // run route to add search to recent searches if the user is logged in 
+    if (localStorage.getItem('jwtToken')) {
+      const updatedUserData = axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/updateRecentSearches/`, { query })
+        .then((response) => {
+          setUserData(response.data.updatedUserData);
+          console.log('response.data', response.data.updatedUserData)
+        })
+    }
   };
 
-  const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}/`, setUserData, handleTabChange};
-  const exploreProps = { toggleFilter, userData, removeUserData, handleTabChange, setUserData };
-  const homepageProps = { handleTabChange, handleUserData, setUserData, userData };
-  const accountProps = { handleUserData, handleTabChange, userData };
-  
+  const searchProps = { resultsLength, toggleFilter, userData, searchQuery, resultsRoute: `/movies/search/${searchQuery}/`, setUserData, handleTargetPage};
+  const exploreProps = { toggleFilter, userData, removeUserData, handleTargetPage, setUserData };
+  const homepageProps = { handleTargetPage, handleUserData, setUserData, userData };
+  const accountProps = { handleUserData, userData };
+  const navBarHooks = { handleTargetPage, handleSearch};
+
   const views = {
     Homepage: { component: Homepage, props: homepageProps },
     Account: { component: Account, props: accountProps },
@@ -107,14 +107,15 @@ export default function Home() {
     return <Component {...props} key={resultsKey} />;
   };
   
-
   return (
-    <main className={style.wrapper}>
-      <div key={filterKey} className={isFilterVisible ? style.dimmingOverlayVisible : style.dimmingOverlayHidden} />
-      <Nav handleTabChange={handleTabChange} handleSearch={handleSearch} />
-      <div className={style.main}>
-        {displayActiveView()}
-      </div>
-    </main>
+    <div>
+      <NavBar {...navBarHooks} />
+      <main className={style.wrapper}>
+        <div key={filterKey} className={isFilterVisible ? style.dimmingOverlayVisible : style.dimmingOverlayHidden} />
+        <div className={style.main}>
+          {displayActiveView()}
+        </div>
+      </main>
+    </div>
   );
 }

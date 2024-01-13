@@ -43,7 +43,6 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
 
     useEffect(() => {
         setPage(1);
-        checkForJwtToken();
     }, [resultsRoute]);
 
     useEffect(() => {
@@ -118,22 +117,6 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
     const handleLearnMoreClick = (id) => {
         toggleFilter();
         setModalContent(<MovieDetailsModal movieId={id} onClose={handleOnClose} toggleFilter={toggleFilter} userData={userData} />);
-    };
-
-    const handleOutOfDateToken = () => {
-        if (userData) {
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('expiration');
-        localStorage.removeItem('email');
-        }
-    };
-
-    const checkForJwtToken = () => {
-        const jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken === null) {
-            console.log(userData)
-            handleOutOfDateToken();
-        }
     };
 
     const isMovieInList = (listType, movieId) => {

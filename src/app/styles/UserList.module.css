@@ -1,10 +1,15 @@
 .container {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     gap: 15px;
     width: stretch;
     overflow: hidden;
+}
+.rowLayout {
+    flex-direction: row;
+}
+.columnLayout {
+    flex-direction: column;
 }
 .listItem {
     display: flex; 
@@ -104,3 +109,55 @@
     background-color: darkgrey;
     border-radius: 25px;
 }
+
+.recentSearchItem {
+    display: flex;
+    flex-direction: column;
+ border: 1px solid black;
+ border-radius: 5px;
+
+}
+.recentSearchTitle {
+padding: 0 5px;
+text-transform: uppercase;
+font-weight: bold;
+}
+.recentSearchResults {
+    display: none; /* Hide the results by default */
+    padding: 0 10px;
+  }
+  
+.recentSearchResult {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    padding: 2px 0;
+    width: 50%;
+}
+.recentSearchResult:hover {
+    cursor: pointer;
+    background-color: #e0e0e0;
+}
+.recentSearchResultDetails {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    padding: 5px;
+}
+.recentSearchResultTitle {
+    margin: 1px 0;
+    font-size: 20px;
+}
+.recentSearchResultOverview {
+    margin: 1px 0;
+    font-size: 12px;
+}
+.recentSearchResults.visible {
+    display: block; /* Display the results */
+  }
+  
+  .recentSearchResults.hidden {
+    display: none; /* Hide the results */
+  }
+  
