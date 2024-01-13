@@ -12,17 +12,15 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // component
 export default function Search({ handleSearch }) {
-    // useStates
-    const [search, setSearch] = useState('');
+    
+    const [search, setSearch] = useState(''); // used to store search bar input
 
     // handles what happens when "enter" is pressed while in the search bar
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault();
-            // performs search (passed back to page.js)
-            handleSearch(search);
-            // resets search bar
-            setSearch('');
+            event.preventDefault(); // prevent page refresh
+            handleSearch(search); // pass search bar input back to page.js
+            setSearch(''); // reset search bar
         }
     };
 

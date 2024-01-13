@@ -1,10 +1,4 @@
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import handleLogout from '../utils/handleLogout';
-
-import setAuthToken from '../utils/setAuthToken';
+import { useState } from 'react';
 
 import Profile from './account/Profile';
 import UserList from './account/UserList';

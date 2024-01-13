@@ -1,16 +1,23 @@
+// imports
 import React from "react";
-import style from "../styles/Homepage.module.css";
-import Login from "./Login";
-import handleLogout from "../utils/handleLogout";
 
+// utils
+import handleLogout from "../../utils/handleLogout";
+
+// style import
+import style from "./Homepage.module.css";
+
+// component imports
+import Login from "./Login";
+
+// component
 export default function Homepage({ handleTargetPage, handleUserData }) {
 
-
     const renderLogin = () => {
-        if (typeof window !== 'undefined') {
-            if (localStorage.getItem('jwtToken')) {
+        if (typeof window !== 'undefined') { // checks if window is defined (vercel needs this to build)
+            if (localStorage.getItem('jwtToken')) { // checks if there is a token in localStorage (user is logged in) and displays welcome message and logout button
                 return (
-                    <>
+                    <div>
                         <h2 className={style.heading}>Welcome!</h2>
                         <div onClick={() => {
                             handleTargetPage('Explore');
@@ -24,9 +31,9 @@ export default function Homepage({ handleTargetPage, handleUserData }) {
                         }
                             className={style.logoutButton}
                         >Logout</button>
-                    </>
+                    </div>
                 )
-            } else {
+            } else { // if there is no token in localStorage (user is not logged in) display login component
                 return (
                     <Login
                         handleTargetPage={handleTargetPage}
@@ -73,7 +80,7 @@ export default function Homepage({ handleTargetPage, handleUserData }) {
                 </p>
             </section>
             <section className={style.infoBlock}>
-                {renderLogin()}
+                {renderLogin()} {/* renders login component or welcome message and logout button */}
             </section>
         </div>
     );

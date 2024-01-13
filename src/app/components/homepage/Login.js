@@ -2,53 +2,51 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-// util imports
-import setAuthToken from '../utils/setAuthToken';
+// utils
+import setAuthToken from '../../utils/setAuthToken';
 
-// style imports
-import style from '../styles/Login.module.css';
+// styles
+import style from './Login.module.css';
 
+// component
+export default function Login({ handleUserData }) {
 
-export default function Login({ handleTabChange, handleUserData }) {
-
-    const [redirect, setRedirect] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleEmail = (e) => {
-        setEmail(e.target.value);
-    };
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
+        const formatedEmail = e.target.value.toLowerCase(); // email addresses are case sensitive, so we need to make sure they are all lowercase
+        setEmail(formatedEmail); // set email in state
     };
 
-    const handleLoginSubmit = async (e) => {
-        e.preventDefault();
+    const handlePassword = (e) => {
+        setPassword(e.target.value); // no need to format password, but using the same function as email for consistency
+    };
+
+    const handleLoginSubmit = async (e) => { // handles login form submission
+        e.preventDefault(); // prevent default form behavior
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password });
-            if (response.status === 200) {
-                setError(false);
-                console.log(response.data)
-                localStorage.setItem('jwtToken', response.data.token);
-                localStorage.setItem('email', response.data.userData.email);
-                localStorage.setItem('expiration', response.data.tokenExpiration);
-                setAuthToken(response.data.token);
-                setRedirect(true);
-                handleUserData(response.data.userData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, { email, password }); // send login request to server
+            if (response.status === 200) { // if login is successful, set token and userData in localStorage and state
+                setError(false); // reset error state
+                localStorage.setItem('jwtToken', response.data.token); // set token in localStorage
+                localStorage.setItem('email', response.data.userData.email); // set email in localStorage
+                localStorage.setItem('expiration', response.data.tokenExpiration); // set token expiration in localStorage
+                setAuthToken(response.data.token); // set token in axios header so it is sent with every request
+                handleUserData(response.data.userData); // set userData in state
             } else {
-                console.log('Login failed, code:', response.status);
+                console.log('Login failed, code:', response.status); // if login is unsuccessful, log the error code
             }
         } catch (error) {
-            setErrorMessage(error.response?.data?.message || error.message);
-            setError(true);
+            setErrorMessage(error.response?.data?.message || error.message); // if there is an error, set the error message
+            setError(true); // set error state to true
         }
     };
     
-    if (redirect) { handleTabChange('Account') }
 
-    if (error) {
+    if (error) { // if there is an error, display error message and login form so user can try again
         return (
             <div className={style.container}>
                 <div className={style.singleCard} >
@@ -59,14 +57,14 @@ export default function Login({ handleTabChange, handleUserData }) {
                         <h2 className={style.title}>Login</h2>
                         <p>Sign In to your account</p>
                         <div>
-                            <input type="text" className={style.input} name="email" placeholder="Email" value={email} onChange={handleEmail} required />
+                            <input type="text" autocomplete="username" className={style.input} name="email" placeholder="Email" value={email} onChange={handleEmail} required />
                         </div>
                         <div>
-                            <input type="password" className={style.input} name="password" placeholder="Password" alue={password} required />
+                            <input type="password" autocomplete="password" className={style.input} name="password" placeholder="Password" value={password} onChange={handlePassword} required />
                         </div>
                         <div className={style.loginButtons}>
                             <button type="submit" className={style.button}>Login</button>
-                            <button type="button" className={style.button}>Forgot password?</button>
+                            {/* <button type="button" className={style.button}>Forgot password?</button> */} {/* This will be functional in v2 after email confirmation at signup is implemented */}
                         </div>
                     </form>
                 </div>
@@ -90,7 +88,7 @@ export default function Login({ handleTabChange, handleUserData }) {
                         </div>
                         <div className={style.loginButtons}>
                             <button type="submit" className={style.button}>Login</button>
-                            {/* <button type="button" className={style.button}>Forgot password?</button> */}
+                            {/* <button type="button" className={style.button}>Forgot password?</button> */} {/* This will be functional in v2 after email confirmation at signup is implemented */}
                         </div>
                     </form>
                 </div>

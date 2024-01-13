@@ -12,12 +12,10 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 // component
 export default function NavIcons({ handleTargetPage }) {
     
-    // set isAuthenticated to false by default
-    let isAuthenticated = false;
-
-    // if window is defined (page is loaded in a browser), set isAuthenticated to true if jwtToken exists
-    if (typeof window !== 'undefined') {
-        isAuthenticated = localStorage.getItem('jwtToken') !== null;
+    let isAuthenticated = false; // sets isAuthenticated to false by default, used to determine what icons to display
+    
+    if (typeof window !== 'undefined') { // checks if window is defined (vercel needs this to build)
+        isAuthenticated = localStorage.getItem('jwtToken') !== null; // checks if there is a token in localStorage
     }
 
     // array of icon data
@@ -26,10 +24,10 @@ export default function NavIcons({ handleTargetPage }) {
         { iconClickValue: 'Explore',  icon: <TravelExploreIcon className={styles.icon} />, text: 'Explore' },
         isAuthenticated
             ? { iconClickValue: 'Account',  icon: <AccountBoxIcon className={styles.icon} />,    text: 'Account' }
-            : { iconClickValue: 'Login',    icon: <LoginIcon className={styles.icon} />,    text: 'Login'   },
+            : { iconClickValue: 'Sign Up',  icon: <PersonAddIcon className={styles.icon} />,    text: 'Sign Up' },
         isAuthenticated
             ? { iconClickValue: 'Logout',   icon: <LogoutIcon className={styles.icon} />,    text: 'Logout'  }
-            : { iconClickValue: 'Sign Up',  icon: <PersonAddIcon className={styles.icon} />,    text: 'Sign Up' },
+            : { iconClickValue: 'Login',    icon: <LoginIcon className={styles.icon} />,    text: 'Login'   },
     ];
 
     // return component
