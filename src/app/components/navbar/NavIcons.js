@@ -120,7 +120,7 @@ export default function NavIcons({ handleTargetPage, handleUserData, handleLogou
                     <button className={styles.loginButton} onClick={toggleLoginBox}>Cancel</button>
                 </div>
                 <div className={styles.loginFooter}>
-                    <p className={styles.loginFooterText}>Don't have an account?</p>
+                    <p className={styles.loginFooterText}>Don&apos;t have an account?</p>
                     <button className={styles.loginFooterButton} onClick={handleSignupClick}>Sign Up</button>
                 </div>
             </form>
