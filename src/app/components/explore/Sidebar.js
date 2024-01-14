@@ -8,22 +8,53 @@ import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
 
-export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGenre, handleQueryByRating }) {
+export default function Sidebar({ handleMain, handleFindByQuery }) {
     const [activeLink, setActiveLink] = useState("Popular");
     const [activeFindByCategory, setActiveFindByCategory] = useState(null);
     const [years, setYears] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(null);
+    const [error, setError] = useState(null);
     const [genres, setGenres] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchGenres = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/genre/movie/list`);
+                const data = await response.json();
+                setGenres(data.genres);
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        };
+
+        const buildYearList = () => {
+            const currentYear = new Date().getFullYear();
+            const yearsList = Array.from({ length: currentYear - 1900 + 1 }, (_, index) => ({
+                id: 5 + index,
+                label: `${currentYear - index}`,
+                value: `${currentYear - index}`,
+            }));
+            setYears(yearsList);
+        };
+
+        if (genres.length === 0) {
+            fetchGenres();
+        }
+
+        if (years.length === 0) {
+            buildYearList();
+        }
+    }, [genres, years.length]);
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
-    
         const categoryMapping = { 'Popular': 'Popular', 'Top Rated': 'Top Rated', 'Now Playing': 'Now Playing', 'Upcoming': 'Upcoming' };
-    
         if (categoryMapping[newValue]) {
             handleMain(categoryMapping[newValue]);
+            setActiveFindByCategory(null);
         } else if (newValue === 'Genre' || newValue === 'Rating' || newValue === 'Year') {
             if (activeFindByCategory !== newValue) {
                 setActiveFindByCategory(newValue);
@@ -33,59 +64,7 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
             }
         }
     };
-    
 
-    const handleActiveFindByQuery = (query) => {
-        if (activeFindByCategory === 'Genre') {
-            handleQueryByGenre(query);
-        }
-        if (activeFindByCategory === 'Rating') {
-            handleQueryByRating(query);
-        }
-    }
-
-    const handleYear = (year) => {
-        setSelectedYear(year);
-        setActiveLink('Year');
-        handleQueryByYear(year);
-    };
-
-    useEffect(() => {
-        const fetchGenresForButtons = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/genre/movie/list`);
-                const data = await response.json();
-                setGenres(data.genres);
-            } catch (err) {
-                setError(err);
-            }
-        };
-        if (genres.length === 0) {
-            fetchGenresForButtons();
-        }
-    }, []);
-
-    useEffect(() => {
-        const fetchYearsForDropdown = async () => {
-            try {
-                const currentYear = new Date().getFullYear();
-                const yearsList = Array.from({ length: currentYear - 1900 + 1 }, (_, index) => ({
-                    id: 5 + index,
-                    label: `${currentYear - index}`,
-                    value: `${currentYear - index}`,
-                }));
-                setYears(yearsList);
-            } catch (err) {
-                setError(err);
-            }
-        };
-        if (activeFindByCategory === 'Year' && years.length === 0) {
-            fetchYearsForDropdown();
-        }
-    }, [activeFindByCategory, years]);
-    
-
-    // Define a map of additional buttons for each category along with the corresponding button style
     const additionalButtonsMap = {
         Genre: {
             buttons: genres.map((genre) => ({
@@ -108,61 +87,45 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
             buttonStyle: style.ratingButtons,
         },
     };
-
-    // Initialize additionalButtons and dropdownOptions based on the active category
-    let additionalButtons = [];
-    let dropdownOptions = [];
-    if (activeFindByCategory === 'Year') {
-        dropdownOptions = years;
-    } else {
-        additionalButtons = additionalButtonsMap[activeFindByCategory]?.buttons || [];
-    }
-
+    
     return (
         <div className={style.sidebarBody}>
             <div className={style.header}>
                 <h3 className={style.linkCategoryTitle}>Top lists</h3>
-                <div
-                    className={`${style.link} ${activeLink === 'Popular' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Popular")}>
-                    <AutoAwesomeIcon className={style.icon} />Popular
-                </div>
-                <div
-                    className={`${style.link} ${activeLink === 'Top Rated' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Top Rated")}>
-                    <TrendingUpIcon className={style.icon} />Top Rated
-                </div>
-                <div
-                    className={`${style.link} ${activeLink === 'Now Playing' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Now Playing")}>
-                    <LiveTvIcon className={style.icon} />Now Playing
-                </div>
-                <div
-                    className={`${style.link} ${activeLink === 'Upcoming' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Upcoming")}>
-                    <CalendarMonthIcon className={style.icon} />Upcoming
-                </div>
+                {[
+                    'Popular', 'Top Rated', 'Now Playing', 'Upcoming'
+                ].map((category) => (
+                    <div
+                        key={category}
+                        className={`${style.link} ${activeLink === category ? style.activeLink : ''}`}
+                        onClick={() => handleLinkClick(category)}
+                    >
+                        {category === 'Popular' && <AutoAwesomeIcon className={style.icon} />}
+                        {category === 'Top Rated' && <TrendingUpIcon className={style.icon} />}
+                        {category === 'Now Playing' && <LiveTvIcon className={style.icon} />}
+                        {category === 'Upcoming' && <CalendarMonthIcon className={style.icon} />}
+                        {category}
+                    </div>
+                ))}
                 <hr />
                 <h3 className={style.linkCategoryTitle}>Find movies by</h3>
                 <div className={style.findByLinkContainer}>
-                    <div
-                        className={`${style.findByLink} ${activeLink === 'Genre' ? style.activeLink : ''}`}
-                        onClick={() => handleLinkClick("Genre")}>
-                        <MovieCreationIcon className={style.icon} />Genre
-                    </div>
-                    <div
-                        className={`${style.findByLink} ${activeLink === 'Year' ? style.activeLink : ''}`}
-                        onClick={() => handleLinkClick("Year")}>
-                        <CalendarMonthIcon className={style.icon} />Year
-                    </div>
-                    <div
-                        className={`${style.findByLink} ${activeLink === 'Rating' ? style.activeLink : ''}`}
-                        onClick={() => handleLinkClick("Rating")}>
-                        <StarIcon className={style.icon} />Rating
-                    </div>
+                    {[
+                        { category: 'Genre', icon: <MovieCreationIcon className={style.icon} /> },
+                        { category: 'Year', icon: <CalendarMonthIcon className={style.icon} /> },
+                        { category: 'Rating', icon: <StarIcon className={style.icon} /> },
+                    ].map(({ category, icon }) => (
+                        <div
+                            key={category}
+                            className={`${style.findByLink} ${activeLink === category ? style.activeLink : ''}`}
+                            onClick={() => handleLinkClick(category)}
+                        >
+                            {icon}
+                            {category}
+                        </div>
+                    ))}
                 </div>
                 <div className={style.additionalButtonsContainer}>
-                    {/* Render the additional buttons or the year dropdown menu for the active category */}
                     {loading ? (
                         <div>Loading...</div>
                     ) : error ? (
@@ -173,11 +136,11 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
                                 <div className={style.dropdownContainer}>
                                     <select
                                         className={style.yearDropdown}
-                                        onChange={(e) => handleYear(e.target.value)}
-                                        value={selectedYear}
+                                        onChange={(e) => handleFindByQuery(e.target.value, activeFindByCategory)}
+                                        value=""
                                     >
                                         <option value={null}>Select a Year</option>
-                                        {dropdownOptions.map((option) => (
+                                        {years.map((option) => (
                                             <option key={option.id} value={option.value}>
                                                 {option.label}
                                             </option>
@@ -185,11 +148,11 @@ export default function Sidebar({ handleMain, handleQueryByYear, handleQueryByGe
                                     </select>
                                 </div>
                             ) : (
-                                additionalButtons.map(item => (
+                                (additionalButtonsMap[activeFindByCategory]?.buttons || []).map(item => (
                                     <div
                                         key={item.id}
                                         className={`${style.link} ${additionalButtonsMap[activeFindByCategory]?.buttonStyle}`}
-                                        onClick={() => handleActiveFindByQuery(item.value)}
+                                        onClick={() => handleFindByQuery(item.value, activeFindByCategory)}
                                     >
                                         {item.label}
                                     </div>

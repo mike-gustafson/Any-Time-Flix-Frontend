@@ -1,10 +1,10 @@
 /* Toast.module.css */
 .toast {
     position: fixed;
-    top: 2.5rem;
+    top: 3rem;
     left: 50%;
     transform: translateX(-50%);
-    background-color: cyan;
+    background-color: goldenrod;
     color: black;
     font-weight: bolder;
     padding: 10px 20px;
@@ -26,13 +26,13 @@
         top: -50px;
     }
     to {
-        top: 2.5rem;
+        top: 3rem;
     }
 }
 
 @keyframes slideOut {
     from {
-        top: 2.5rem;
+        top: 3rem;
     }
     to {
         top: -50px;

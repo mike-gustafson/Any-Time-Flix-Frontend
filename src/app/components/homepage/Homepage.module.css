@@ -1,8 +1,9 @@
 .container {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     align-self: center;
-    gap: 20px;
+    gap: 5px;
     max-width: 1400px;
     padding: 10px;
 }
@@ -61,4 +62,40 @@
     color: goldenrod;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+}
+.movieScrollBox {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+.movieScrollBoxCategory {
+    display: flex;
+    flex-direction: row;
+}
+.movieScrollBoxHeading {
+    display: flex;
+    align-items: top;
+    justify-content: right;
+    text-decoration: underline;
+    font-size: 1.5rem;
+    font-weight: bold;
+    white-space: nowrap;
+    margin: 0 0 0 1rem;
+    width: 150px;
+}
+
+.movieScrollBoxColumn {
+    width: 75%;
+}
+.recentSearchesColumn {
+    width: 20%;
+}
+.topQueries {
+    column-count: 2;
+    column-gap: 10px;
+    row-gap: 1px;
+}
+.topQuery {
+    font-size: 14px;
+
 }

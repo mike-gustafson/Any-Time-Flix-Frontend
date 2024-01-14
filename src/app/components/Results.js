@@ -16,6 +16,7 @@ import Toast from './Toast';
 import MovieDetailsModal from './MovieDetailsModal';
 
 import style from '../styles/Results.module.css';
+import { ne } from '@faker-js/faker';
 
 export default function Results({ resultsRoute, toggleFilter, userData, setUserData }) {
     const [data,             setData]             = useState(null);
@@ -184,7 +185,7 @@ export default function Results({ resultsRoute, toggleFilter, userData, setUserD
                             className={style.image}
                             alt={`${movie.title}`}
                         />
-                        {userData && (
+                        {localStorage.getItem('jwtToken') && userData && (
                             <div
                                 className={style.addToWatchList}
                                 onClick={(event) => handleListIconClick(event, 'watchList', movie.id)}

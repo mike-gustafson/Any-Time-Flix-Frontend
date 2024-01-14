@@ -1,51 +1,134 @@
-// imports
-import React from "react";
+import axios from "axios";
 
-// utils
-import handleLogout from "../../utils/handleLogout";
+// imports
+import React, { useState, useEffect } from "react";
 
 // style import
 import style from "./Homepage.module.css";
 
-// component imports
-import Login from "./Login";
+// components import
+import HomepageMovieDisplay from "./HomepageMovieDisplay";
+import { parse } from "path";
 
 // component
-export default function Homepage({ handleTargetPage, handleUserData }) {
+export default function Homepage({ handleTargetPage, handleSearch }) {
 
-    const renderLogin = () => {
-        if (typeof window !== 'undefined') { // checks if window is defined (vercel needs this to build)
-            if (localStorage.getItem('jwtToken')) { // checks if there is a token in localStorage (user is logged in) and displays welcome message and logout button
-                return (
-                    <div>
-                        <h2 className={style.heading}>Welcome!</h2>
-                        <div onClick={() => {
-                            handleTargetPage('Explore');
-                        }}>
-                            <h2>Click <span className={style.goToExplore}>Here</span> to Start Browsing</h2>
-                        </div>
-                        <button onClick={() => {
-                            handleLogout();
-                            handleTargetPage('Home');
-                        }
-                        }
-                            className={style.logoutButton}
-                        >Logout</button>
-                    </div>
-                )
-            } else { // if there is no token in localStorage (user is not logged in) display login component
-                return (
-                    <Login
-                        handleTargetPage={handleTargetPage}
-                        handleUserData={handleUserData}
-                    />
-                )
+    const [popularMovies, setPopularMovies] = useState(null);
+    const [topRatedMovies, setTopRatedMovies] = useState(null);
+    const [topSearches, setTopSearches] = useState(null);
+
+    // Use useEffect to fetch popular movies when the component mounts
+    useEffect(() => {
+        const getPopularMovies = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/movies/popular/1`
+                );
+                const returnedMovies = response.data.results;
+                setPopularMovies(returnedMovies);
+            } catch (error) {
+                console.error("Error fetching popular movies:", error);
+            }
+        };
+        const getTopRatedMovies = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/movies/top-rated/1`
+                );
+                const returnedMovies = response.data.results;
+                setTopRatedMovies(returnedMovies);
+            } catch (error) {
+                console.error("Error fetching top rated movies:", error);
             }
         }
+        const getPopularSearches = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/searches/top25`
+                );
+                const returnedSearchTerms = response.data.response;
+                setTopSearches(returnedSearchTerms);
+            } catch (error) {
+                console.error("Error fetching top rated movies:", error);
+            }
+        }
+        getPopularMovies();
+        getTopRatedMovies();
+        getPopularSearches();
+    }, []);
+
+    // rerender page when popularMovies changes
+    useEffect(() => {
+    }, [popularMovies, topRatedMovies, topSearches]);
+
+    
+
+
+    const renderPopularMovies = () => {
+        if (popularMovies) {
+            return <HomepageMovieDisplay movies={popularMovies} />;
+        } else {
+            return <p>Loading...</p>;
+        }
+    };
+    const renderTopRatedMovies = () => {
+        if (topRatedMovies) {
+            return <HomepageMovieDisplay movies={topRatedMovies} />;
+        } else {
+            return <p>Loading...</p>;
+        }
     }
+    const renderTopSearches = () => {
+        if (topSearches) {
+            return (
+                <ul className={style.topQueries}>
+                    {topSearches.map((search, index) => (
+                        <li className={style.topQuery} key={index} >({search.timesQueried}) {search.query}</li>
+                    ))}
+                </ul>
+            )
+        } else {
+            return <p>Loading...</p>;
+        }
+    }
+    
+
+    const iterateThroughUserData = () => {
+        if (!localStorage.getItem('userData')) {
+            return (
+                <p>no user data</p>
+            );
+        } else {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        // list all keys in userData and create an array of them then list the items in a list on the page
+        const keys = Object.keys(userData);
+        const listItems = keys.map(key => <li key={key}>{key}</li>);
+        return (
+            <ul>{listItems}</ul>
+        );          
+    }}
 
     return (
         <div className={style.container}>
+            <div className={style.movieScrollBoxColumn}>
+                <div className={style.movieScrollBox}>
+                    <div className={style.movieScrollBoxCategory}>
+                        <h2 className={style.movieScrollBoxHeading}>Popular</h2>
+                        {renderPopularMovies()}
+                    </div>
+                </div>
+                <div className={style.movieScrollBox}>
+                    <div className={style.movieScrollBoxCategory}>
+                        <h2 className={style.movieScrollBoxHeading}>Top Rated</h2>
+                        {renderTopRatedMovies()}
+                    </div>
+                </div>
+            </div>
+            <div className={style.recentSearchesColumn}>
+                <h2 className={style.heading}>Popular Searches</h2>
+                {renderTopSearches()}
+            </div>
+
             <section className={style.infoBlock}>
                 <h2 className={style.heading}>Tech Stack</h2>
                 <p>
@@ -75,12 +158,9 @@ export default function Homepage({ handleTargetPage, handleUserData }) {
                 </ul>
             </section>
             <section className={style.infoBlock}>
-                <p>
-                    Ready to get started? Click EXPLORE above to start browsing!
-                </p>
             </section>
             <section className={style.infoBlock}>
-                {renderLogin()} {/* renders login component or welcome message and logout button */}
+                {iterateThroughUserData()}              
             </section>
         </div>
     );

@@ -1,14 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import handleLogout from '../../utils/handleLogout';
 
 export default function Profile({ userData }) {
     const router = useRouter();
-    const [isLoading, setLoading] = useState(true);
-
-    console.log('Profile.js is open')
-
 
     const expirationTime = new Date(parseInt(localStorage.getItem('expiration')) * 1000);
     const currentTime = Date.now();

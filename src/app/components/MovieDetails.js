@@ -190,7 +190,6 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
                                   key={`provider_buy_${provider.provider_id}`}
                                   onClick={() => openProviderLink(fetchedMovie.watch_providers.link)}
                                 >
-                                  {console.log(provider)}
                                   <div className={style.providerLogo}>
                                     <Image src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`} width={25} height={25} alt={provider.provider_name} />
                                     <span>{provider.provider_name}</span>

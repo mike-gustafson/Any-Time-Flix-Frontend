@@ -5,10 +5,14 @@ import UserList from './account/UserList';
 import ProfileSidebar from './account/ProfileSidebar';
 import style from '../styles/Explore.module.css';
 
-export default function Page({ handleUserData, userData }) {
+export default function Page({ userData, handleUserData }) {
     const [isLoading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [activeView, setActiveView] = useState('Profile');
+
+    if (!userData) {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        handleUserData(userData);
+    }
 
     const handleUpdateList = (listName, removedMovieId) => {
         setData(prevData => ({
@@ -19,10 +23,6 @@ export default function Page({ handleUserData, userData }) {
             }
         }));
     };
-
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error loading data: {error.message}</p>;
-    if (!userData) return <p>No data shown...</p>;
 
     const renderContent = () => {
         const listMapping = {

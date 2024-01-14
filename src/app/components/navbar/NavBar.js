@@ -6,7 +6,11 @@ import NavSearch from './NavSearch';
 import styles from './NavBar.module.css';
 
 // component
-export default function NavBar({ handleTargetPage, handleSearch }) {
+export default function NavBar({ handleTargetPage, handleSearch, activeView, handleUserData, handleLogoutWhileInAccount }) {
+
+  // props and hooks, used to keep code clean and readable
+  const navIconsPropsAndHooks = { handleTargetPage, activeView, handleUserData, handleLogoutWhileInAccount }
+  const navSearchPropsAndHooks = { handleSearch }
 
   return (
     <div className={styles.container}>
@@ -14,17 +18,17 @@ export default function NavBar({ handleTargetPage, handleSearch }) {
       {/* appears when screen width is greater than 570px */}
       <div className={styles.largeNavBar}>
         <h1 className={styles.title} onClick={() => handleTargetPage('Homepage')}>Any Time Flix</h1>
-        <NavIcons handleTargetPage={handleTargetPage} />
-        <NavSearch handleSearch={handleSearch} />
+        <NavIcons {...navIconsPropsAndHooks} />
+        <NavSearch {...navSearchPropsAndHooks} />
       </div>
 
       {/* appears when screen width is less than 570px */}
       <div className={styles.mobileHeader}>
         <h1 className={styles.title} onClick={() => handleTargetPage('Homepage')}>Any Time Flix</h1>
-        <NavSearch handleSearch={handleSearch} />
+        <NavSearch {...navSearchPropsAndHooks} />
       </div>
       <div className={styles.mobileNavBar}>
-        <NavIcons handleTargetPage={handleTargetPage} />
+        <NavIcons {...navIconsPropsAndHooks} />
       </div>
       
     </div>
