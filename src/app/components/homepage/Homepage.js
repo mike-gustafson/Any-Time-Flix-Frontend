@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import style from "./Homepage.module.css";
 
 // components import
+import HeroCarousel from "./HeroCarousel";
 import HomepageMovieDisplay from "./HomepageMovieDisplay";
 import { parse } from "path";
 
@@ -91,7 +92,13 @@ export default function Homepage({ handleTargetPage, handleSearch }) {
             return <p>Loading...</p>;
         }
     }
-    
+    const renderHeroCarousel = () => {
+        if (popularMovies) {
+            return <HeroCarousel movies={popularMovies} />;
+        } else {
+            return <p>Loading...</p>;
+        }
+    }
 
     const iterateThroughUserData = () => {
         if (!localStorage.getItem('userData')) {
@@ -110,6 +117,11 @@ export default function Homepage({ handleTargetPage, handleSearch }) {
 
     return (
         <div className={style.container}>
+
+            <div className={style.heroSection}>
+                {renderHeroCarousel()}
+            </div>
+
             <div className={style.movieScrollBoxColumn}>
                 <div className={style.movieScrollBox}>
                     <div className={style.movieScrollBoxCategory}>
@@ -156,12 +168,7 @@ export default function Homepage({ handleTargetPage, handleSearch }) {
                     <li>Receive personalized movie recommendations</li>
                     <li>Customize the number of results per page</li>
                 </ul>
-            </section>
-            <section className={style.infoBlock}>
-            </section>
-            <section className={style.infoBlock}>
-                {iterateThroughUserData()}              
-            </section>
+            </section>             
         </div>
     );
 };

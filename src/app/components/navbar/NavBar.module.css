@@ -6,6 +6,7 @@
     width: 100%;
     z-index: 3;
     background: rgb(57, 57, 57);
+    box-shadow: 0 0 10px 5px rgba(57, 57, 57, 1);
 }
     .largeNavBar {
         display: flex;

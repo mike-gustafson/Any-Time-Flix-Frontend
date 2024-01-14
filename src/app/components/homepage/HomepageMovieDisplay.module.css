@@ -1,12 +1,13 @@
 .container {
     display: flex;
     flex-direction: row;
-    width: 50%;
+    width: 60%;
     height: fit-content;
     padding: 1px 0;
     margin: 0 10px;
     overflow: hidden;
     overflow-x: scroll;
+    border: 1px solid #363636;
 }
 .container::-webkit-scrollbar {
     width: 7px;
