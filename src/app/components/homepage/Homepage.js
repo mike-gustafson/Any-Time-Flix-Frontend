@@ -14,7 +14,7 @@ import getTopRatedMovies from "../../utils/server_calls/getTopRatedMovies"; // t
 import getPopularSearches from "../../utils/server_calls/getPopularSearchs";// takes no arguments
 
 // component
-export default function Homepage({ handleModalClose, handleModalOpen }) {
+export default function Homepage({ handleModalClose, handleModalOpen, handleSearch }) {
 
     // states to store fetched data
     const [popularMovies, setPopularMovies] = useState(null);
@@ -22,9 +22,8 @@ export default function Homepage({ handleModalClose, handleModalOpen }) {
     const [topSearches, setTopSearches] = useState(null);
 
     // hooks to pass to child components
-    const heroCarouselHooks = {handleModalClose: handleModalClose, handleModalOpen: handleModalOpen}
-    const moviePostersHooks = {handleModalClose: handleModalClose, handleModalOpen: handleModalOpen}
-    
+    const heroCarouselHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen }
+    const moviePostersHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen }
 
     // Use useEffect to fetch movies when the component mounts
     useEffect(() => {
@@ -41,53 +40,49 @@ export default function Homepage({ handleModalClose, handleModalOpen }) {
         asyncFetchs();
     }, []);
 
-    // rerender page when states change
-    useEffect(() => {
-    }, [popularMovies, topRatedMovies, topSearches]);
-
-
-    
-    const renderFetchedMovies = () => {    
-        if (popularMovies !== null && topRatedMovies !== null) {
-            const movies = [popularMovies, topRatedMovies]
-                .reduce((acc, val) => acc.concat(val), [])
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 64);        
-            return <MoviePosters movies={movies} {...moviePostersHooks}/>;
-        } else {
-            return <p>Loading...</p>;
-        }
-    };
-
-    const renderTopSearches = () => {
-        if (topSearches) {
-            return (
-                <ul className={style.topQueries}>
-                    {topSearches.map((search, index) => (
-                        <li className={style.topQuery} key={index} >({search.timesQueried}) {search.query}</li>
-                    ))}
-                </ul>
-            )
-        } else {
-            return <p>Loading...</p>;
-        }
-    }
+    // render functions for each section of the page.  Organized in order of appearance on page
+    // ready for v1
     const renderHeroCarousel = () => {
         if (popularMovies) {
             return <HeroCarousel movies={popularMovies} {...heroCarouselHooks} />;
         } else {
             return <p>Loading...</p>;
         }
-        }   
-    
+    }
+
+    // ready for v1
+    const renderFetchedMovies = () => {
+        if (popularMovies !== null && topRatedMovies !== null) {
+            const movies = [popularMovies, topRatedMovies]
+                .reduce((acc, val) => acc.concat(val), [])
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 64);
+            return <MoviePosters movies={movies} {...moviePostersHooks} />;
+        } else {
+            return <p>Loading...</p>;
+        }
+    };
+
+// ready for v1
+    const renderTopSearches = () => {
+        if (topSearches) {
+            return (
+                <div className={style.topQueries}>
+                    {topSearches.map((search, index) => (
+                        <span className={style.query} key={index} onClick={() => handleSearch(search.query)}>{search.query}</span>
+                    ))}
+                </div>
+            )
+        } else {
+            return <p>Loading...</p>;
+        }
+    }
 
     return (
         <div className={style.container}>
-
             <div className={style.heroSection}>
                 {renderHeroCarousel()}
             </div>
-
             <div className={style.movieSmallPosters}>
                 <h2 className={style.heading}>
                     Any Time Flix is your home a finding old and new favorite movies and where to watch them.
@@ -100,28 +95,11 @@ export default function Homepage({ handleModalClose, handleModalOpen }) {
                     Click on a poster to learn more
                 </p>
             </div>
-
-            <div className={style.recentSearchesColumn}>
-                <h2 className={style.heading}>Popular Searches</h2>
+            <hr className={style.divider} />
+            <div className={style.topSearches}>
+                <h2 className={style.topSearchTitle}>Popular Searches</h2>
                 {renderTopSearches()}
             </div>
-
-            <section className={style.infoBlock}>
-            </section>
-            <section className={style.infoBlock}>
-                <h2 className={style.heading}>App Functionality</h2>
-                <p>
-                    Discover what our app has to offer and simplify your movie
-                    experience:
-                </p>
-                <ul>
-                    <li>Search for movies and access detailed information</li>
-                    <li>Explore the latest Now Playing and Popular movies</li>
-                    <li>Receive personalized movie recommendations</li>
-                    <li>Customize the number of results per page</li>
-                </ul>
-            </section>    
-                 
         </div>
     );
 };

@@ -29,24 +29,12 @@ export default function Home() {
       if (!userData && localStorage.getItem('userData')) { // checks if there no userData, but there is a token in localStorage (user is logged in but data missing due to page refresh)
         const userData = JSON.parse(localStorage.getItem('userData')); // get userData from localStorage
         setUserData(userData); // set userData in state
-        
+        console.log('got userData from localStorage after page refresh')        
       }
     }
   }, [userData, activeView]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') { // checks if window is defined (vercel needs this to build)
-      if (!userData && !localStorage.getItem('jwtToken')) { // checks if there is no token in state, but there is a token in localStorage (user is logged in but token missing due to page refresh)
-        setActiveView('Homepage'); // set active view to homepage
-      }
-    }
-  }, [userData])
-
-// are any of these three hooks necessary? Where are they used?
-  const toggleFilter = () => {
-    setIsFilterVisible((prevVisible) => !prevVisible); // toggle filter visibility
-  };
-
+// are either of these hooks necessary? Where are they used?
   const handleUserData = () => {
     const userData = JSON.parse(localStorage.getItem('userData')); // get userData from localStorage
     setUserData(userData); // set userData in state
@@ -55,23 +43,26 @@ export default function Home() {
   const removeUserData = () => {
     setUserData(null); // remove userData from state
   };
+/////////////////////////////////////////////////////////////////////////////////////////
 
+// Ready for v1
   const handleModalClose = () => {
-    toggleFilter();
-    setModalContent(null);
-};
+    setIsFilterVisible((prevVisible) => !prevVisible); // toggle filter visibility
+    setModalContent(null); // remove modal content so modal closes. modalContent contains JSX to render the modal
+  };
 
-const handleModalOpen = (content) => {
-    toggleFilter();
-    setModalContent(content);
-};
+// Ready for v1
+  const handleModalOpen = (content) => {
+    setIsFilterVisible((prevVisible) => !prevVisible); // toggle filter visibility
+    setModalContent(content); // set modal content to content passed in. modalContent contains JSX to render the modal
+  };
 
+// Ready for v1
   const handleLogoutWhileInAccount = () => {
     if (activeView === 'Account') { // if user is on account page
       setActiveView('Homepage'); // set active view to homepage
     }
   };
-
 
 // Ready for v1
   // handles the target page when a user clicks on a navbar icon
@@ -99,29 +90,32 @@ const handleModalOpen = (content) => {
     }
   };
 
-  const exploreProps = { };
-  const exploreHooks = { toggleFilter, removeUserData, handleTargetPage, setUserData };
-  const accountProps = { };
-  const accountHooks = { handleUserData };
 
-  const searchProps = {  resultsRoute: `/movies/search/${searchQuery}/`};
-  const searchHooks = { toggleFilter, setUserData };
+  // props and hooks for each view, all set here for ease of use and readability
+  const exploreProps = { userData };
+  const exploreHooks = { removeUserData: removeUserData, handleTargetPage: handleTargetPage, setUserData: setUserData };
+  const accountProps = { userData };
+  const accountHooks = { handleUserData: handleUserData };
 
-  const signupProps = {};
-  const signupHooks = {};
+  const searchProps = { resultsRoute: `/movies/search/${searchQuery}/`};
+  const searchHooks = { setUserData: setUserData };
 
 // finalized hooks for v1
-  const navBarHooks = { handleTargetPage, handleSearch, handleUserData, handleLogoutWhileInAccount };
-  const navBarProps = { activeView };
-  const homepageHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen };
+  const signupProps   = {};
+  const signupHooks   = {};
+  const navBarHooks   = { handleTargetPage: handleTargetPage, handleSearch: handleSearch, handleUserData: handleUserData, handleLogoutWhileInAccount: handleLogoutWhileInAccount };
+  const navBarProps   = { activeView };
+  const homepageHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen, handleSearch: handleSearch };
+  const homepageProps = {};
 
+// ready for v1
   const views = {
-    Homepage: { component: Homepage, hooks: homepageHooks },
-    Account: { component: Account, props: accountProps, hooks: accountHooks },
-    Explore: { component: Explore, props: exploreProps, hooks: exploreHooks },
-    Search: { component: Results, props: searchProps, hooks: searchHooks },
-    Signup: { component: Signup, props: signupProps, hooks: signupHooks },
-  };
+    Homepage: { component: Homepage, props: homepageProps, hooks: homepageHooks },
+    Account:  { component: Account,  props: accountProps,  hooks: accountHooks  },
+    Explore:  { component: Explore,  props: exploreProps,  hooks: exploreHooks  },
+    Search:   { component: Results,  props: searchProps,   hooks: searchHooks   },
+    Signup:   { component: Signup,   props: signupProps,   hooks: signupHooks   },
+  }; 
   
 // ready for v1
   const displayActiveView = () => {
@@ -137,7 +131,6 @@ const handleModalOpen = (content) => {
         <div className={style.main}>
           {displayActiveView()} {/* render component determined by activeView */}
         </div>
-        
         {modalContent}    
       </main>
     </div>

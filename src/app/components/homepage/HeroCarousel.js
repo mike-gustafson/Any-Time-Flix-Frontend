@@ -8,7 +8,7 @@ import { NavigateNext } from '@mui/icons-material';
 import MovieDetailsModal from '../modal/MovieDetailsModal';
 
 export default function HeroCarousel({ movies, handleModalOpen, handleModalClose }) {
-console.log(movies)
+    
     const [currentSlide, setCurrentSlide] = useState(0);
     const [carouselShift, setCarouselShift] = useState(1280);
 

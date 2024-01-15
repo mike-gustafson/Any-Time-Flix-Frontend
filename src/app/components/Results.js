@@ -16,9 +16,8 @@ import Toast from './Toast';
 import MovieDetailsModal from './modal/MovieDetailsModal';
 
 import style from '../styles/Results.module.css';
-import { ne } from '@faker-js/faker';
 
-export default function Results({ resultsRoute, toggleFilter, userData, setUserData }) {
+export default function Results({ resultsRoute, userData, setUserData }) {
     const [data,             setData]             = useState(null);
     const [selectedMovieId,  setSelectedMovieId]  = useState(null);
     const [modalContent,     setModalContent]     = useState(null);
