@@ -25,6 +25,9 @@ export default function Home() {
 // Ready for v1
   // userData clears on page refresh, so we need to check for a token and get the data if it exists
   useEffect(() => {
+    console.log('useEffect in page.js ran')
+    console.log('userData:', userData)
+    console.log(JSON.parse(localStorage.getItem('userData')))
     if (typeof window !== 'undefined') { // checks if window is defined (vercel needs this to build)
       if (!userData && localStorage.getItem('userData')) { // checks if there no userData, but there is a token in localStorage (user is logged in but data missing due to page refresh)
         const userData = JSON.parse(localStorage.getItem('userData')); // get userData from localStorage
@@ -34,12 +37,11 @@ export default function Home() {
     }
   }, [userData, activeView]);
 
-// are either of these hooks necessary? Where are they used?
   const handleUserData = () => {
-    const userData = JSON.parse(localStorage.getItem('userData')); // get userData from localStorage
-    setUserData(userData); // set userData in state
+    setActiveView('Homepage')
   };
 
+// are either of these hooks necessary? Where are they used?
   const removeUserData = () => {
     setUserData(null); // remove userData from state
   };
@@ -102,7 +104,7 @@ export default function Home() {
 
 // finalized hooks for v1
   const signupProps   = {};
-  const signupHooks   = {};
+  const signupHooks   = { setActiveView: setActiveView, handleUserData: handleUserData };
   const navBarHooks   = { handleTargetPage: handleTargetPage, handleSearch: handleSearch, handleUserData: handleUserData, handleLogoutWhileInAccount: handleLogoutWhileInAccount };
   const navBarProps   = { activeView };
   const homepageHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen, handleSearch: handleSearch };

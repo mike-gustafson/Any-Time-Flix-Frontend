@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-export default function Signup() {
+import style from './Signup.module.css';
+import handleLogin from '../../utils/handleLogin';
+
+export default function Signup({ setActiveView, handleUserData }) {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -46,8 +49,10 @@ export default function Signup() {
         }
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/signup`, formData);
-            console.log(response)
-            alert('Signup successful');
+            if (response.status === 200) {
+                await handleLogin(formData.email, formData.password);
+                handleUserData();
+            }
         }
         catch (err) {
             console.log(err);
@@ -75,119 +80,59 @@ export default function Signup() {
     };
 
     return (
-        <div>
-            <h2>Signup</h2>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <label>
-                    First Name:
-                    <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Last Name:
-                    <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    User Name:
-                    <input
-                        type="text"
-                        name="userName"
-                        value={formData.userName}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    City:
-                    <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    State:
-                    <input
-                        type="text"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Country:
-                    <select
-                        name="country"
-                        value={formData.country}
-                        onChange={handleChange}
-                    >
-                        <option value="">Select a Country</option>
-                        {countries.map((countryData) => (
-                            <option
-                                key={countryData.iso_3166_1}
-                                value={countryData.iso_3166_1}
-                            >
-                                {countryData.english_name}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Password:
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Confirm Password:
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Bio:
-                    <textarea
-                        name="bio"
-                        value={formData.bio}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Profile Picture URL:
-                    <input
-                        type="text"
-                        name="profilePicture"
-                        value={formData.profilePicture}
-                        onChange={handleChange}
-                    />
-                </label>
-                <button type="submit">Sign Up</button>
-            </form>
+        <div className={style.container}>
+            <div className={style.header}>
+                <h2>Join Any Time Flix</h2>
+                <p className={style.signupPitch}>Users enjoy the ability to search for movies, add them to their watchlist, see where they're streaming, and more! Sign up today to start enjoying these features!</p>
+            </div>
+            <div className={style.formContainer}>
+                {error && <p>{error}</p>}
+                <form onSubmit={handleSubmit} className={style.form}>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="First Name" type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="Last Name" type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="User Name" type="text" name="userName" value={formData.userName} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="City" type="text" name="city" value={formData.city} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="State" type="text" name="state" value={formData.state} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <select className={style.countryDropdown} name="country" value={formData.country} onChange={handleChange}
+                        >
+                            <option value="">Select a Country</option>
+                            {countries.map((countryData) => (
+                                <option key={countryData.iso_3166_1} value={countryData.iso_3166_1}>
+                                    {countryData.english_name.slice(0, 30)}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="E-Mail" type="email" name="email" value={formData.email} onChange={handleChange} />
+                        </label>
+                        <label className={style.formItem}>
+                            <input className={style.field} placeholder="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="Confirm Password" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+                    </label>
+                    <label className={style.formItem}>
+                        <textarea className={style.bioField} placeholder="Tell us about yourself..." name="bio" value={formData.bio} onChange={handleChange} rows="10" />
+                    </label>
+                    <label className={style.formItem}>
+                        <input className={style.field} placeholder="Enter URL for Profile Picture" type="text" name="profilePicture" value={formData.profilePicture} onChange={handleChange} />
+                    </label>
+                    <button className={style.submit} type="submit">Sign Up</button>
+                </form>
+            </div>
         </div>
+
     );
 }
