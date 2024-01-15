@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import style from '../styles/MovieDetailsModal.module.css';
+import style from './MovieDetailsModal.module.css';
 import MovieDetails from './MovieDetails';
 
 export default function MovieDetailsModal({ movieId, onClose, toggleFilter, userData }) {

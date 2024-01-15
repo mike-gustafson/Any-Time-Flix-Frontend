@@ -4,8 +4,40 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    width: 100vw;
+    width: 1280px;
 }
+    .heroSection {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background-color: black;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        white-space: nowrap;
+        margin: 0;
+    }
+    .heading {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        white-space: nowrap;
+        margin: 0;
+        padding: 40px 0 10px 0;
+    }
+    .subheading {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        color: white;
+        font-size: 1rem;
+        margin: 0;
+    }
     .header {
         display: flex;
         flex-direction: column;
@@ -29,29 +61,15 @@
         transition: all 0.3s ease-in-out;
     }
 
-@media (min-width: 768px) {
+@media (min-width: 720.1px) {
     .container {
-        justify-content: space-between;
         max-width: 100vw;
     }
-        .infoBlock {
-            width: calc(50% - 20px);
-            order: 2;
-        }
 }
 
 @media (max-width: 767px) {
     .container {
-        justify-content: center;
-        gap: 5px;
     }
-        .infoBlock {
-            width: 90vw;
-            height: 40vh;
-            height: fit-content;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
 }
 
 .goToExplore, .logoutButton {
@@ -72,11 +90,12 @@
 .movieScrollBox {
     display: flex;
     flex-direction: column;
-    width: fit-content;
+    width: 100%;
 }
 .movieScrollBoxCategory {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 .movieScrollBoxHeading {
     display: flex;
@@ -91,7 +110,7 @@
 }
 
 .movieScrollBoxColumn {
-    width: 75%;
+    width: 100%;
 }
 .recentSearchesColumn {
     width: 20%;
@@ -107,17 +126,3 @@
 
 }
 
-.heroSection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 1280px;
-    height: 50%;
-    background-color: black;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    white-space: nowrap;
-    margin: 0;
-}

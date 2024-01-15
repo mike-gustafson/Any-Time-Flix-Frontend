@@ -6,6 +6,7 @@
   padding: 0;
   height: 100%;
   background-color: black;
+  overflow: hidden;
 }
 
   .dimmingOverlayHidden {
@@ -29,7 +30,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vw;
     padding:  3rem 0 0 0;
   }
 

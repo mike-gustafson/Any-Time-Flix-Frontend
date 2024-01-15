@@ -13,7 +13,7 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 import Toast from './Toast';
-import MovieDetailsModal from './MovieDetailsModal';
+import MovieDetailsModal from './modal/MovieDetailsModal';
 
 import style from '../styles/Results.module.css';
 import { ne } from '@faker-js/faker';

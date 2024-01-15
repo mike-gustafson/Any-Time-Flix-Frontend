@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import style from '../styles/MovieDetails.module.css';
-import Results from './Results';
+import style from './MovieDetails.module.css';
+import Results from '../Results';
 import Image from 'next/image';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-export default function MovieDetails({ movie, toggleFilter, userData }) {
+export default function MovieDetails({ movie, userData }) {
   const [fetchedMovie, setFetchedMovie] = useState(null);
   const [isRecommendationsExpanded, setIsRecommendationsExpanded] = useState(false);
 
@@ -15,8 +15,6 @@ export default function MovieDetails({ movie, toggleFilter, userData }) {
       .then((res) => res.json())
       .then((data) => {
         setFetchedMovie(data);
-        console.log('Data fetched for', data.original_title);
-        console.log('Data:', data)
       })
       .catch((error) => {
         console.error('Error fetching movie data:', error);

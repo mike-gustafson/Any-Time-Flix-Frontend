@@ -4,40 +4,41 @@ import Sidebar from './explore/Sidebar';
 import Results from './Results';
 
 export default function Explore({ toggleFilter, userData, setUserData }) {
+
   const [resultsKey, setResultsKey] = useState(1);
   const [activeView, setActiveView] = useState('Popular');
   const [findByQuery, setFindByQuery] = useState(null);
 
+  const resultsRouteMap = { //note that these don't include the page
+    'Now Playing': '/movies/now-playing/',
+    Popular: '/movies/popular/',
+    'Top Rated': '/movies/top-rated/',
+    Upcoming: '/movies/upcoming/',
+    Year: `/movies/discover/year/${findByQuery}/`,
+    Genre: `/movies/discover/genre/${findByQuery}/`,
+    Rating: `/movies/discover/rating/${findByQuery}/`,
+  };
+
+  const resultsHooksAndProps = {
+    resultsRoute: resultsRouteMap[activeView],
+    toggleFilter: toggleFilter,
+    userData: userData,
+    setUserData: setUserData
+  }
+  
   const handleMain = (selectedView) => {
     setActiveView(selectedView); // set activeView in state
-    setResultsKey(resultsKey + 1); // this is a hack to force the Results component to re-render when the activeView changes
   };
 
   const handleFindByQuery = (query, view) => {
     setFindByQuery(query);
     setActiveView(view);
-    setResultsKey(resultsKey + 1);
   }
 
   const renderContent = () => {
-    const resultsRouteMap = {
-      'Now Playing': '/movies/now-playing/',
-      Popular: '/movies/popular/',
-      'Top Rated': '/movies/top-rated/',
-      Upcoming: '/movies/upcoming/',
-      Year: `/movies/discover/year/${findByQuery}/`,
-      Genre: `/movies/discover/genre/${findByQuery}/`,
-      Rating: `/movies/discover/rating/${findByQuery}/`,
-    };
 
     return (
-      <Results
-        key={resultsKey}
-        resultsRoute={resultsRouteMap[activeView]}
-        toggleFilter={toggleFilter}
-        userData={userData}
-        setUserData={setUserData}
-      />
+      <Results {...resultsHooksAndProps} />
     );
   };
 

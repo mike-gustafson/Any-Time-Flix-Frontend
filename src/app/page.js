@@ -1,7 +1,6 @@
 'use client'
 import axios from 'axios';
 import style from './page.module.css';
-import handleLogout from './utils/handleLogout';
 import React, { useState, useEffect } from 'react';
 
 // component imports
@@ -12,12 +11,16 @@ import Explore from './components/Explore';
 import Results from './components/Results';
 import Homepage from './components/homepage/Homepage';
 
+// utils imports
+import handleLogout from './utils/handleLogout';
+
 // Home component (is main component for all pages)
 export default function Home() {
   const [activeView, setActiveView] = useState('Homepage');
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [modalContent, setModalContent] = useState(null);
 
 // Ready for v1
   // userData clears on page refresh, so we need to check for a token and get the data if it exists
@@ -53,6 +56,16 @@ export default function Home() {
     setUserData(null); // remove userData from state
   };
 
+  const handleModalClose = () => {
+    toggleFilter();
+    setModalContent(null);
+};
+
+const handleModalOpen = (content) => {
+    toggleFilter();
+    setModalContent(content);
+};
+
   const handleLogoutWhileInAccount = () => {
     if (activeView === 'Account') { // if user is on account page
       setActiveView('Homepage'); // set active view to homepage
@@ -86,12 +99,12 @@ export default function Home() {
     }
   };
 
-  const exploreProps = { userData };
+  const exploreProps = { };
   const exploreHooks = { toggleFilter, removeUserData, handleTargetPage, setUserData };
-  const accountProps = { userData };
+  const accountProps = { };
   const accountHooks = { handleUserData };
 
-  const searchProps = { userData, resultsRoute: `/movies/search/${searchQuery}/`};
+  const searchProps = {  resultsRoute: `/movies/search/${searchQuery}/`};
   const searchHooks = { toggleFilter, setUserData };
 
   const signupProps = {};
@@ -100,7 +113,7 @@ export default function Home() {
 // finalized hooks for v1
   const navBarHooks = { handleTargetPage, handleSearch, handleUserData, handleLogoutWhileInAccount };
   const navBarProps = { activeView };
-  const homepageHooks = { handleTargetPage, handleSearch};
+  const homepageHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen };
 
   const views = {
     Homepage: { component: Homepage, hooks: homepageHooks },
@@ -124,6 +137,8 @@ export default function Home() {
         <div className={style.main}>
           {displayActiveView()} {/* render component determined by activeView */}
         </div>
+        
+        {modalContent}    
       </main>
     </div>
   );
