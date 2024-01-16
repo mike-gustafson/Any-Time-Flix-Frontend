@@ -3,9 +3,8 @@ import style from '../styles/Explore.module.css';
 import Sidebar from './explore/Sidebar';
 import Results from './Results';
 
-export default function Explore({ toggleFilter, userData, setUserData, handleModalClose, handleModalOpen }) {
+export default function Explore({ handleModalClose, handleModalOpen }) {
 
-  const [resultsKey, setResultsKey] = useState(1);
   const [activeView, setActiveView] = useState('Popular');
   const [findByQuery, setFindByQuery] = useState(null);
 
@@ -21,9 +20,6 @@ export default function Explore({ toggleFilter, userData, setUserData, handleMod
 
   const resultsHooksAndProps = {
     resultsRoute: resultsRouteMap[activeView],
-    toggleFilter: toggleFilter,
-    userData: userData,
-    setUserData: setUserData,
     handleModalClose: handleModalClose, 
     handleModalOpen: handleModalOpen
   }

@@ -90,8 +90,8 @@ export default function Home() {
 
 
   // props and hooks for each view, all set here for ease of use and readability
-  const exploreProps = { userData };
-  const exploreHooks = { handleTargetPage: handleTargetPage, setUserData: setUserData, handleModalClose: handleModalClose, handleModalOpen: handleModalOpen };
+  const exploreProps = { };
+  const exploreHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen };
   const accountProps = { userData: userData };
   const accountHooks = { handleUserData: handleUserData };
 

@@ -119,7 +119,7 @@ export default function Results({ resultsRoute, handleModalClose, handleModalOpe
     };
 
     const handleLearnMoreClick = (id) => {
-        handleModalOpen(<MovieDetailsModal movieId={id} onClose={handleModalClose} />);
+        handleModalOpen(<MovieDetailsModal movieId={id} handleModalClose={handleModalClose} />);
     };
 
     const isMovieInList = (listType, movieId) => {
