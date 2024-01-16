@@ -1,0 +1,57 @@
+
+.sidebarBody{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    position: fixed;;
+}
+.icon {
+    display: flex;
+    margin: 0 8px;
+    flex-direction: row;
+    align-items: center;
+    font-size: 32px;
+    color: goldenrod;
+    justify-content: center;
+    border-radius: 25px;
+    padding: 0 4px;
+}
+.linkContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: stretch;
+    height: fit-content;
+    margin: 1px 0;
+    padding: 0 12px 0 0;
+    background-color: #f0f0f0;
+    color: black;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+}
+.link:hover {
+    background-color: #e0e0e0;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.link:hover > .icon {
+    background-color: rgb(85, 85, 85);
+}
+.activeLink {
+    background-color: rgb(154, 153, 153);
+    color: white;
+}
+.activeLink > .icon {
+    background-color: #f0f0f0;
+}
+.linkCategoryTitle {
+    font-size: 18px;
+}

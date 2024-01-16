@@ -16,8 +16,9 @@ import Toast from './Toast';
 import MovieDetailsModal from './modal/MovieDetailsModal';
 
 import style from '../styles/Results.module.css';
+import { parse } from 'path';
 
-export default function Results({ resultsRoute, userData, setUserData }) {
+export default function Results({ resultsRoute, handleModalClose, handleModalOpen }) {
     const [data,             setData]             = useState(null);
     const [selectedMovieId,  setSelectedMovieId]  = useState(null);
     const [modalContent,     setModalContent]     = useState(null);
@@ -25,9 +26,17 @@ export default function Results({ resultsRoute, userData, setUserData }) {
     const [page,             setPage]             = useState(1);
     const [isFirstLoad,      setIsFirstLoad]      = useState(true);
     const [clickedListIcons, setClickedListIcons] = useState({});
-
+    const [userData,         setUserData]         = useState(null);
     const containerRef = useRef(null);
 
+    useEffect(() => {
+        const initialUserData = async () => {
+            if (localStorage.getItem('jwtToken')) {
+                setUserData(JSON.parse(localStorage.getItem('user')));
+            }
+        };
+        initialUserData();
+    }, []);
     const scrollToTop = () => {
         console.log('scrolling to top')
         const container = window;
@@ -109,14 +118,8 @@ export default function Results({ resultsRoute, userData, setUserData }) {
         setSelectedMovieId((prevId) => (prevId === id ? null : id));
     };
 
-    const handleOnClose = () => {
-        setModalContent(null);
-        toggleFilter();
-    };
-
     const handleLearnMoreClick = (id) => {
-        toggleFilter();
-        setModalContent(<MovieDetailsModal movieId={id} onClose={handleOnClose} toggleFilter={toggleFilter} userData={userData} />);
+        handleModalOpen(<MovieDetailsModal movieId={id} onClose={handleModalClose} />);
     };
 
     const isMovieInList = (listType, movieId) => {
@@ -131,15 +134,19 @@ export default function Results({ resultsRoute, userData, setUserData }) {
         return false;
     };
 
-    const handleListIconClick = (event, listType, movieId) => {
-        event.stopPropagation();
+    const handleListIconClick = (e, listType, movieId) => {
+        e.stopPropagation();
+        console.log('movie:', movieId)
+        console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listType}`)
         if (localStorage.getItem('jwtToken')) {
             const movie = data.results.find((movie) => movie.id === movieId);
+            console.log('movie:', movie)
             if (!movie) return;
-
-            if (isMovieInList(listType, movieId)) {
+            if (isMovieInList(listType, movieId)) { 
+                console.log('trying to remove', movieId, 'from', listType)
+                console.log(localStorage.getItem('jwtToken'))
                 axios
-                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listType}`, { movie: movie })
+                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/removeFromList/${listType}/`, { movie })
                     .then((response) => {
                         setUserData(response.data.updatedUserData);
                         const message = `${movie.title} removed from your ${listType} movies`;
@@ -152,7 +159,7 @@ export default function Results({ resultsRoute, userData, setUserData }) {
                 return;
             } else {
                 axios
-                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listType}`, { movie: movie })
+                    .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/addToList/${listType}/`, { movie })
                     .then((response) => {
                         setUserData(response.data.updatedUserData);
                         const message = `${movie.title} added to your ${listType} movies`;
@@ -187,7 +194,7 @@ export default function Results({ resultsRoute, userData, setUserData }) {
                         {localStorage.getItem('jwtToken') && userData && (
                             <div
                                 className={style.addToWatchList}
-                                onClick={(event) => handleListIconClick(event, 'watchList', movie.id)}
+                                onClick={(e) => handleListIconClick(e, 'watchList', movie.id)}
                                 title="Add to Watchlist"
                             >
                                 {isMovieInList('watchList', movie.id) ? (
@@ -200,7 +207,7 @@ export default function Results({ resultsRoute, userData, setUserData }) {
                         {userData && (
                             <div
                                 className={style.addToWatchedList}
-                                onClick={(event) => handleListIconClick(event, 'watched', movie.id)}
+                                onClick={(e) => handleListIconClick(e, 'watched', movie.id)}
                                 title="Add to Watched"
                             >
                                 {isMovieInList('watched', movie.id) ? (
@@ -213,7 +220,7 @@ export default function Results({ resultsRoute, userData, setUserData }) {
                         {userData && (
                             <div
                                 className={style.addToLiked}
-                                onClick={(event) => handleListIconClick(event, 'liked', movie.id)}
+                                onClick={(e) => handleListIconClick(e, 'liked', movie.id)}
                                 title="Add to Liked"
                             >
                                 {isMovieInList('liked', movie.id) ? (
@@ -226,7 +233,7 @@ export default function Results({ resultsRoute, userData, setUserData }) {
                         {userData && (
                             <div
                                 className={style.addToDisliked}
-                                onClick={(event) => handleListIconClick(event, 'disliked', movie.id)}
+                                onClick={(e) => handleListIconClick(e, 'disliked', movie.id)}
                                 title="Add to Disliked"
                             >
                                 {isMovieInList('disliked', movie.id) ? (

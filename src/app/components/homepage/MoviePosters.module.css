@@ -8,12 +8,10 @@
     margin: 0 10px;
     overflow: hidden;
 }
-.movie {
-    margin: 0 2px;
-}
 .poster {
     width: 75px;
     height: auto;
+    margin: 0 2px;
     border-radius: 10px;
     transition: transform 450ms;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

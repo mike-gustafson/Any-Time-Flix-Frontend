@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 // component imports
 import Signup from './components/signup/Signup';
 import NavBar from './components/navbar/NavBar';
-import Account from './components/Account';
+import Account from './components/account/Account';
 import Explore from './components/Explore';
 import Results from './components/Results';
 import Homepage from './components/homepage/Homepage';
@@ -25,14 +25,10 @@ export default function Home() {
 // Ready for v1
   // userData clears on page refresh, so we need to check for a token and get the data if it exists
   useEffect(() => {
-    console.log('useEffect in page.js ran')
-    console.log('userData:', userData)
-    console.log(JSON.parse(localStorage.getItem('userData')))
     if (typeof window !== 'undefined') { // checks if window is defined (vercel needs this to build)
       if (!userData && localStorage.getItem('userData')) { // checks if there no userData, but there is a token in localStorage (user is logged in but data missing due to page refresh)
         const userData = JSON.parse(localStorage.getItem('userData')); // get userData from localStorage
-        setUserData(userData); // set userData in state
-        console.log('got userData from localStorage after page refresh')        
+        setUserData(userData); // set userData in state      
       }
     }
   }, [userData, activeView]);
@@ -95,12 +91,12 @@ export default function Home() {
 
   // props and hooks for each view, all set here for ease of use and readability
   const exploreProps = { userData };
-  const exploreHooks = { removeUserData: removeUserData, handleTargetPage: handleTargetPage, setUserData: setUserData };
-  const accountProps = { userData };
+  const exploreHooks = { handleTargetPage: handleTargetPage, setUserData: setUserData, handleModalClose: handleModalClose, handleModalOpen: handleModalOpen };
+  const accountProps = { userData: userData };
   const accountHooks = { handleUserData: handleUserData };
 
   const searchProps = { resultsRoute: `/movies/search/${searchQuery}/`};
-  const searchHooks = { setUserData: setUserData };
+  const searchHooks = { setUserData: setUserData, handleModalClose: handleModalClose, handleModalOpen: handleModalOpen };
 
 // finalized hooks for v1
   const signupProps   = {};

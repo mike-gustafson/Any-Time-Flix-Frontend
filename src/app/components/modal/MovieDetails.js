@@ -3,65 +3,62 @@ import style from './MovieDetails.module.css';
 import Results from '../Results';
 import Image from 'next/image';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import getMovieDetails from '../../utils/server_calls/getMovieDetails';
 
-export default function MovieDetails({ movie, userData }) {
-  const [fetchedMovie, setFetchedMovie] = useState(null);
+export default function MovieDetails({ movieId }) {
+
+  // states
+  const [fetchedMovie,              setFetchedMovie]              = useState(null);
   const [isRecommendationsExpanded, setIsRecommendationsExpanded] = useState(false);
 
-  const fakeToggleFilter = () => { }
-
+  // Fetch movie details on mount
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/movies/movie/${movie}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setFetchedMovie(data);
-      })
-      .catch((error) => {
+    const fetchMovieDetails = async () => {
+      try {
+        setFetchedMovie(await getMovieDetails(movieId));
+      } catch (error) {
         console.error('Error fetching movie data:', error);
-      });
-  }, [movie]);
+      }
+    }
+    fetchMovieDetails();
+  }, []);
 
+  // Create a map of credits to make it easier to display them
   const createCreditMap = (credits) => {
     const creditMap = {};
     credits.forEach((credit) => {
-      const { id, name, job, character } = credit;
-      if (!creditMap[id]) {
-        creditMap[id] = { name, jobs: [], characters: [] };
-      }
-      if (job) {
-        creditMap[id].jobs.push(job);
-      }
-      if (character) {
-        creditMap[id].characters.push(character);
-      }
+      const { id, name, job, character, order, profile_path, popularity } = credit;
+      if (!creditMap[id]) { creditMap[id] = { name, jobs: [], characters: [], order, id, profile_path, popularity } }
+      if (job) { creditMap[id].jobs.push(job) }
+      if (character) { creditMap[id].characters.push(character) }
     });
     return creditMap;
   };
 
-  const castCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits?.cast || []), [fetchedMovie]);
-  const crewCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits?.crew || []), [fetchedMovie]);
+  let castCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits?.cast || []), [fetchedMovie]);
+  let crewCreditsMap = useMemo(() => createCreditMap(fetchedMovie?.credits?.crew || []), [fetchedMovie]);
+
+  // Create a fake toggle filter function to pass to the results component
+  const fakeToggleFilter = () => {}
 
   let nextFakeId = 1;
   const assignFakeId = (creditMap) => {
     Object.values(creditMap).forEach((credit) => {
       if (!credit.id) {
-        credit.id = `fakeid${nextFakeId.toString().padStart(8, '0')}`;
+        // credit.id = key of creditMap
+        credit.id = 
         nextFakeId++;
       }
     });
   };
 
   if (castCreditsMap) {
-    assignFakeId(castCreditsMap);
+    castCreditsMap = Object.values(castCreditsMap).sort((a, b) => a.order - b.order);
   }
 
   if (crewCreditsMap) {
-    assignFakeId(crewCreditsMap);
+    crewCreditsMap = Object.values(crewCreditsMap).sort((a, b) => b.popularity - a.popularity);
   }
-
-  const toggleRecommendations = () => {
-    setIsRecommendationsExpanded(!isRecommendationsExpanded);
-  };
 
   const openProviderLink = (link) => {
     console.log(link)
@@ -70,6 +67,10 @@ export default function MovieDetails({ movie, userData }) {
     }
   };
 
+  const toggleRecommendations = () => {
+    // setIsRecommendationsExpanded(!isRecommendationsExpanded)
+  }
+
   return (
     <div className={style.container}>
       {fetchedMovie ? (
@@ -77,6 +78,11 @@ export default function MovieDetails({ movie, userData }) {
           <div className={style.header}>
             <div className={style.title}>
               {fetchedMovie.title}
+              <div className={style.rating}>
+                <div className={style.ratingBox}>
+                  {fetchedMovie.mpaa_certification? fetchedMovie.mpaa_certification : 'unrated'}
+                </div>
+              </div>
               <div className={style.date}>
                 {fetchedMovie.release_date && (
                   `(${(new Date(fetchedMovie.release_date)).getFullYear()}) - ${fetchedMovie.runtime}min`
@@ -220,7 +226,7 @@ export default function MovieDetails({ movie, userData }) {
                   <span className={style.recommendationsIconContainer}>
                     <KeyboardArrowUpIcon
                       className={isRecommendationsExpanded ? style.iconRotated : style.iconNotRotated}
-                      onClick={toggleRecommendations}
+                      onClick={toggleRecommendations()}
                     />
                   </span>
                 </h3>
@@ -233,7 +239,7 @@ export default function MovieDetails({ movie, userData }) {
                     <span className={style.recommendationsIconContainer}>
                       <KeyboardArrowUpIcon
                         className={isRecommendationsExpanded ? style.iconRotated : style.iconNotRotated}
-                        onClick={toggleRecommendations}
+                        onClick={toggleRecommendations()}
                       />
                     </span>
                   </h3>
@@ -243,8 +249,7 @@ export default function MovieDetails({ movie, userData }) {
                     resultsLength={20}
                     resultsRoute={fetchedMovie.id ? `/movies/movie/${fetchedMovie.id}/recommendations/` : '/movies'} // Update the route when fetchedMovie.id is missing
                     toggleFilter={fakeToggleFilter}
-                    userData={userData}
-                  />
+                  /> 
                 </div>
               </div>
             </div>
@@ -253,7 +258,7 @@ export default function MovieDetails({ movie, userData }) {
               <ul className={style.creditsList}>
                 <li className={style.creditsLabel}>Cast</li>
                 {castCreditsMap && Object.values(castCreditsMap).map((cast) => (
-                  <li key={`cast_${cast.id}`}>
+                  <li key={`cast_${cast.order}`}>
                     <div className={style.credit}>
                       <div className={style.creditName}>{cast.name}</div>
                       <div className={style.creditJob}>{cast.characters.join(', ')}</div>

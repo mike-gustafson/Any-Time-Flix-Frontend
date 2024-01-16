@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react';
+
 import style from './MovieDetailsModal.module.css';
+
 import MovieDetails from './MovieDetails';
 
-export default function MovieDetailsModal({ movieId, onClose, toggleFilter, userData }) {
+export default function MovieDetailsModal({ 
+    movieId,            // used here:                           movie id to fetch details
+    handleModalOpen,    // used here and passed to children:    open modal with movie details
+    handleModalClose,   // used here and passed to children:    close modal
+}) {
+
     useEffect(() => {
         // When the modal opens, add a class to the body to prevent scrolling
         document.body.classList.add('modal-open');
@@ -14,17 +21,16 @@ export default function MovieDetailsModal({ movieId, onClose, toggleFilter, user
     }, []);
 
     return (
-        <div className={style.modalOverlay} >
-            <div className={style.modalContent}>
-                <button className={style.closeButton} onClick={() => {
-                    onClose();
-                }}>
-                    <span className={style.closeIcon}>X</span>
-                </button>
-                {movieId && (
-                    <MovieDetails movie={movieId} toggleFilter={toggleFilter} userData={userData}/>
-                )}
-            </div>
+        <div className={style.modalBody}>
+            <button 
+                className={style.closeButton} 
+                onClick={() => {handleModalClose()}}
+            >
+                <span className={style.closeIcon}>
+                    X
+                </span>
+            </button>
+            {movieId && (<MovieDetails movieId={movieId} />)}
         </div>
     );
 }

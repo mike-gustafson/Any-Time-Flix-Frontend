@@ -9,19 +9,23 @@ import HeroCarousel from "./HeroCarousel";
 import MoviePosters from "./MoviePosters";
 
 // utils imports
-import getPopularMovies from "../../utils/server_calls/getPopularMovies";   // takes (number of pages to fetch, starting page number)
-import getTopRatedMovies from "../../utils/server_calls/getTopRatedMovies"; // takes (number of pages to fetch, starting page number)
-import getPopularSearches from "../../utils/server_calls/getPopularSearchs";// takes no arguments
+import getPopularMovies   from "../../utils/server_calls/getPopularMovies";  // takes (number of pages to fetch, starting page number)
+import getTopRatedMovies  from "../../utils/server_calls/getTopRatedMovies"; // takes (number of pages to fetch, starting page number)
+import getPopularSearches from "../../utils/server_calls/getPopularSearchs"; // takes no arguments
 
 // component
-export default function Homepage({ handleModalClose, handleModalOpen, handleSearch }) {
+export default function Homepage({ 
+    handleModalClose, // passed to children:    heroCarousel and moviePosters
+    handleModalOpen,  // passed to children:    heroCarousel and moviePosters
+    handleSearch      // used here:             search for a popular search when popular search is clicked
+}) {
 
     // states to store fetched data
-    const [popularMovies, setPopularMovies] = useState(null);
-    const [topRatedMovies, setTopRatedMovies] = useState(null);
-    const [topSearches, setTopSearches] = useState(null);
+    const [popularSearches, setPopularSearches] = useState(null);
+    const [popularMovies,   setPopularMovies]   = useState(null);
+    const [topRatedMovies,  setTopRatedMovies]  = useState(null);
 
-    // hooks to pass to child components
+    // hooks and props to pass to child components
     const heroCarouselHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen }
     const moviePostersHooks = { handleModalClose: handleModalClose, handleModalOpen: handleModalOpen }
 
@@ -30,9 +34,9 @@ export default function Homepage({ handleModalClose, handleModalOpen, handleSear
         // populates states with fetched data
         const asyncFetchs = async () => {
             try {
-                setPopularMovies(await getPopularMovies(2, 1));
-                setTopRatedMovies(await getTopRatedMovies(2, 1));
-                setTopSearches(await getPopularSearches());
+                setPopularMovies(await getPopularMovies(2, 1));   // takes (number of pages to fetch, starting page number)
+                setTopRatedMovies(await getTopRatedMovies(2, 1)); // takes (number of pages to fetch, starting page number)
+                setPopularSearches(await getPopularSearches());   // takes no arguments
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -40,8 +44,8 @@ export default function Homepage({ handleModalClose, handleModalOpen, handleSear
         asyncFetchs();
     }, []);
 
-    // render functions for each section of the page.  Organized in order of appearance on page
-    // ready for v1
+// render functions for each section of the page.  Organized in order of appearance on page
+    // renders the hero carousel section
     const renderHeroCarousel = () => {
         if (popularMovies) {
             return <HeroCarousel movies={popularMovies} {...heroCarouselHooks} />;
@@ -50,26 +54,32 @@ export default function Homepage({ handleModalClose, handleModalOpen, handleSear
         }
     }
 
-    // ready for v1
-    const renderFetchedMovies = () => {
+    // renders the movie posters section
+    const renderMoviePosters = () => {
         if (popularMovies !== null && topRatedMovies !== null) {
             const movies = [popularMovies, topRatedMovies]
                 .reduce((acc, val) => acc.concat(val), [])
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 64);
-            return <MoviePosters movies={movies} {...moviePostersHooks} />;
+            return <MoviePosters movies={ movies } {...moviePostersHooks} />;
         } else {
             return <p>Loading...</p>;
         }
     };
 
-// ready for v1
-    const renderTopSearches = () => {
-        if (topSearches) {
+    // renders the popular searches section
+    const renderPopularSearches = () => {
+        if (popularSearches) {
             return (
                 <div className={style.topQueries}>
-                    {topSearches.map((search, index) => (
-                        <span className={style.query} key={index} onClick={() => handleSearch(search.query)}>{search.query}</span>
+                    {popularSearches.map((search, index) => (
+                        <span 
+                            className={style.query} 
+                            key={index} 
+                            onClick={() => handleSearch(search.query)}
+                        >
+                            {search.query}
+                        </span>
                     ))}
                 </div>
             )
@@ -78,6 +88,7 @@ export default function Homepage({ handleModalClose, handleModalOpen, handleSear
         }
     }
 
+// return the component
     return (
         <div className={style.container}>
             <div className={style.heroSection}>
@@ -90,15 +101,17 @@ export default function Homepage({ handleModalClose, handleModalOpen, handleSear
                 <p className={style.subheading}>
                     Here&apos;s some of our favorites to help you get started:
                 </p>
-                {renderFetchedMovies()}
+                {renderMoviePosters()}
                 <p className={style.subheading}>
                     Click on a poster to learn more
                 </p>
             </div>
             <hr className={style.divider} />
             <div className={style.topSearches}>
-                <h2 className={style.topSearchTitle}>Popular Searches</h2>
-                {renderTopSearches()}
+                <h2 className={style.topSearchTitle}>
+                    Popular Searches
+                </h2>
+                {renderPopularSearches()}
             </div>
         </div>
     );

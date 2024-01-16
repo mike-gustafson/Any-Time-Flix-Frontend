@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import Profile from './account/Profile';
-import UserList from './account/UserList';
-import ProfileSidebar from './account/ProfileSidebar';
-import style from '../styles/Explore.module.css';
+import Profile from './Profile';
+import UserList from './UserList';
+import Sidebar from './Sidebar';
+import style from './Account.module.css';
 
 export default function Page({ userData, handleUserData }) {
     const [isLoading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function Page({ userData, handleUserData }) {
             );
         } else if (activeView === 'Recent Searches') {
             return (
-                <UserList list={userData.recentSearches} dataProp={userData} listName="recentSearches" onUpdateList={(movieId) => handleUpdateList('recentSearches', movieId)} />
+                <UserList list={userData.recentSearches} userData={userData} listName="recentSearches" onUpdateList={(movieId) => handleUpdateList('recentSearches', movieId)} />
             );
         }
     };
@@ -51,7 +51,7 @@ export default function Page({ userData, handleUserData }) {
     return (
         <div className={style.container}>
             <div className={style.sidebar}>
-                <ProfileSidebar handleMain={setActiveView} dataProp={userData} />
+                <Sidebar handleMain={setActiveView} userData={userData} />
             </div>
             <div className={style.main}>
                 {renderContent()}

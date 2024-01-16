@@ -1,0 +1,26 @@
+.container {
+    background: black;    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1280px;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    padding: 0;
+    box-shadow: inset 0 0 20px 10px rgba(0, 0, 0, 1);
+}
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 3rem);
+        max-height: calc(100vh - 3rem);
+        width: 30%;
+        padding: 20px;
+    }
+    .main {
+        display: flex;
+        position:relative;
+        flex-direction: column;
+        width: stretch;
+        padding: 20px;
+    }

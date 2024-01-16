@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MessageIcon from '@mui/icons-material/Message';
-import style from '../../styles/Explore.module.css';
+import style from './Sidebar.module.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
@@ -18,13 +18,29 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import Divider from '@mui/material/Divider'
 
-export default function ProfileSidebar({ handleMain, dataProp }) {
+export default function Sidebar({ handleMain, userData }) {
     const [activeLink, setActiveLink] = useState(" ");
+
+    const links = ['Watch List', 'Watched', 'Liked', 'Disliked', 'Playlist', 'Recent Searches', 'Profile']
 
     const handleLinkClick = (newValue) => {
         setActiveLink(newValue);
         handleMain(newValue);
     };
+
+    const renderLinks = () => {
+        return links.map((link, index) => {
+            return (
+                <div
+                    key={index}
+                    className={`${style.link} ${activeLink === link ? style.activeLink : ''}`}
+                    onClick={() => handleLinkClick(link)}>
+                    <LocalMoviesIcon className={style.icon} />{link}
+                </div>
+            )
+        })
+    }
+
     return (
         <div className={style.sidebarBody}>
             <div className={style.header}>
@@ -34,10 +50,10 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                         <ListItem disablePadding>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <ListItemIcon>
-                                    <Avatar>{dataProp.firstName[0]}</Avatar>
+                                    <Avatar>{userData.firstName[0]}</Avatar>
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={`${dataProp.firstName} ${dataProp.lastName}`}
+                                    primary={`${userData.firstName} ${userData.lastName}`}
                                     primaryTypographyProps={{ variant: 'h5' }}
                                 />
                             </div>
@@ -46,7 +62,7 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                             <ListItemIcon>
                                 <PersonPinCircleIcon />
                             </ListItemIcon>
-                            <ListItemText primary={`${dataProp.city} ${dataProp.state}`}
+                            <ListItemText primary={`${userData.city} ${userData.state}`}
                                 primaryTypographyProps={{ variant: 'caption' }}
                             />
                         </ListItem>
@@ -79,39 +95,13 @@ export default function ProfileSidebar({ handleMain, dataProp }) {
                     onClick={() => handleLinkClick("Profile")}>
                     <AccountCircleIcon className={style.icon} />Profile
                 </div>
-
-                <h3>Your Theater<LocalMoviesIcon/></h3>
-                <div
-                    className={`${style.link} ${activeLink === 'Watch List' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Watch List")}>
-                    <WatchLaterIcon className={style.icon} />Watch List
+            <div className={style.linkContainer}>
+                <h3 className={style.header}>Your Lists</h3>
+                <div className={style.linkList}>
+                    {renderLinks()}
                 </div>
-                <div
-                    className={`${style.link} ${activeLink === 'Watched' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Watched")}>
-                    <AlarmOnIcon className={style.icon} />Watched
-                </div>
-                <div
-                    className={`${style.link} ${activeLink === 'Liked' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Liked")}>
-                    <EmojiEmotionsIcon className={style.icon} />Liked
-                </div>
-                <div
-                    className={`${style.link} ${activeLink === 'Playlist' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Playlist")}>
-                    <ReplayIcon className={style.icon} />Playlists
-                </div>
-                <div 
-                    className={`${style.link} ${activeLink === 'Recent Searches' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Recent Searches")}>
-                    <ReplayIcon className={style.icon} />Recent Searches
-                </div>
-                <div    
-                    className={`${style.link} ${activeLink === 'Disliked' ? style.activeLink : ''}`}
-                    onClick={() => handleLinkClick("Disliked")}>
-                    <ReplayIcon className={style.icon} />Disliked
-                    </div>
             </div>
         </div >
+        </div>
     )
 }
