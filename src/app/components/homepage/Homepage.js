@@ -88,7 +88,7 @@ export default function Homepage({ handleModalClose, handleModalOpen, handleSear
                     Any Time Flix is your home a finding old and new favorite movies and where to watch them.
                 </h2>
                 <p className={style.subheading}>
-                    Here's some of our favorites to help you get started:
+                    Here&apos;s some of our favorites to help you get started:
                 </p>
                 {renderFetchedMovies()}
                 <p className={style.subheading}>

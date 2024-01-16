@@ -83,7 +83,7 @@ export default function Signup({ setActiveView, handleUserData }) {
         <div className={style.container}>
             <div className={style.header}>
                 <h2>Join Any Time Flix</h2>
-                <p className={style.signupPitch}>Users enjoy the ability to search for movies, add them to their watchlist, see where they're streaming, and more! Sign up today to start enjoying these features!</p>
+                <p className={style.signupPitch}>Users enjoy the ability to search for movies, add them to their watchlist, see where they&apos;re streaming, and more! Sign up today to start enjoying these features!</p>
             </div>
             <div className={style.formContainer}>
                 {error && <p>{error}</p>}
